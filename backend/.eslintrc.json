@@ -10,7 +10,7 @@
    ],
    "plugins": [
   "prettier"
-],
+    ],
     "overrides": [
     ],
     "parserOptions": {

@@ -1,12 +1,21 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import SignIn from "./Pages/Login/SignIn";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SignIn from "./Pages/User/Login/SignIn";
+import Registration from "./Pages/User/SignUp/Registration";
+import UserHome from "./Pages/User/Home/UserHome";
 
 function App() {
   return (
-    <div className="App">
-      <SignIn />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<UserHome />} />
+          <Route path="/login" element={<SignIn />} />
+          <Route path="/signup" element={<Registration />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 export default App;

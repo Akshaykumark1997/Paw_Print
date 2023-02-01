@@ -9,6 +9,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 dbconnect.dbconnect();
 
+// app.use('/', users);
+// app.use('/admin', Admin);
+
 app.listen(process.env.PORTNO, () => {
   console.log("server started listening to port");
 });

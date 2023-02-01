@@ -17,8 +17,8 @@ function SignUp() {
 
                     <div className="form-outline mb-4">
                       <input
-                        type="name"
-                        id="name"
+                        type="username"
+                        id="username"
                         className="form-control form-control-lg"
                       />
                       <label className="form-label" htmlFor="typeEmailX-2">

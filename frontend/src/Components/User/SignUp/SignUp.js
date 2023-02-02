@@ -188,13 +188,13 @@ function SignUp() {
 
                       <hr className="my-4" />
 
-                      <button
+                      {/* <button
                         className="btn btn-lg btn-block"
                         style={{ backgroundColor: "#354b60", color: "#fff" }}
                         type="submit"
                       >
                         Sign up with google
-                      </button>
+                      </button> */}
                     </form>
                   </div>
                 </div>

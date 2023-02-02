@@ -23,7 +23,7 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  varified: {
+  verified: {
     type: Boolean,
     default: false,
   },

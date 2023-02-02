@@ -29,7 +29,7 @@ function Otp() {
     <div>
       <section className="wrapper mt-5">
         <div className="container">
-          <div className="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3 text-center">
+          <div className="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3 text-center rounded bg-white shadow p-5">
             <h3 className="text-dark fw-bolder fs-4 mb-2">
               Email Verification
             </h3>
@@ -124,7 +124,7 @@ function Otp() {
             </form>
             <div className="fw-normal text-muted mb-2">
               Didn t get the code ?{" "}
-              <p href="#" className="text-primary fw-bold text-decoration-none">
+              <p className="text-primary fw-bold text-decoration-none">
                 Resend
               </p>
             </div>

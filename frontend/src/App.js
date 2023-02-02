@@ -7,11 +7,12 @@ import UserHome from "./Pages/User/Home/UserHome";
 import OtpVarification from "./Pages/User/Otp/OtpVarification";
 
 function App() {
+  const user = localStorage.getItem("token");
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route path="/" element={<UserHome />} />
+          {user && <Route path="/" element={<UserHome />} />}
           <Route path="/login" element={<SignIn />} />
           <Route path="/signup" element={<Registration />} />
           <Route path="/otp" element={<OtpVarification />} />

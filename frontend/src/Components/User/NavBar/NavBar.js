@@ -5,6 +5,10 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 function NavBar() {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location = "/login";
+  };
   return (
     <div className="container">
       <Navbar expand="lg">
@@ -44,7 +48,9 @@ function NavBar() {
               className="me-5"
             >
               <NavDropdown.Item href="#action3">Profile</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">Log Out</NavDropdown.Item>
+              <NavDropdown.Item href="#action4" onClick={handleLogout}>
+                Log Out
+              </NavDropdown.Item>
             </NavDropdown>
           </Navbar.Collapse>
         </Container>

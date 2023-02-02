@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignIn from "./Pages/User/Login/SignIn";
 import Registration from "./Pages/User/SignUp/Registration";
 import UserHome from "./Pages/User/Home/UserHome";
+import OtpVarification from "./Pages/User/Otp/OtpVarification";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<UserHome />} />
           <Route path="/login" element={<SignIn />} />
           <Route path="/signup" element={<Registration />} />
+          <Route path="/otp" element={<OtpVarification />} />
         </Routes>
       </div>
     </BrowserRouter>

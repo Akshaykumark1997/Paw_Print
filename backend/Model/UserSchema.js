@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -23,7 +23,11 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  varified: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const User = mongoose.model("users", UserSchema);
+const User = mongoose.model('users', UserSchema);
 module.exports = User;

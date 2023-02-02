@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 
-mongoose.set("strictQuery", false);
+mongoose.set('strictQuery', false);
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ module.exports = {
         useUnifiedTopology: true,
       })
       .then(() => {
-        console.log("database connected successfully");
+        console.log('database connected successfully');
       })
       .catch((error) => {
         console.log(`error occured${error}`);

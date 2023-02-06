@@ -9,7 +9,7 @@ function ViewGrooming() {
           <h1>Grooming Services</h1>
         </div>
         <div className="align-self-center">
-          <NavLink>
+          <NavLink to="/admin/addGrooming">
             <button
               className="btn"
               style={{ backgroundColor: "#354b60", color: "#fff" }}

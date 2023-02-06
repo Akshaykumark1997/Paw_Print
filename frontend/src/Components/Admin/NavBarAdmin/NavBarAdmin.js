@@ -2,7 +2,7 @@ import React from "react";
 import {
   CDBSidebar,
   CDBSidebarContent,
-  CDBSidebarFooter,
+  // CDBSidebarFooter,
   CDBSidebarHeader,
   CDBSidebarMenu,
   CDBSidebarMenuItem,
@@ -14,8 +14,8 @@ function NavBarAdmin() {
     <div
       style={{
         display: "flex",
-        height: "100vh",
-        overflow: "scroll initial",
+        height: "100%",
+        minHeight: "100vh",
       }}
     >
       <CDBSidebar textColor="#fff" backgroundColor="#333">
@@ -34,13 +34,13 @@ function NavBarAdmin() {
             <NavLink to="/login">
               <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/tables">
+            <NavLink to="/admin/grooming">
               <CDBSidebarMenuItem icon="table">Grooming</CDBSidebarMenuItem>
             </NavLink>
             <NavLink to="/profile">
               <CDBSidebarMenuItem icon="user">Appointment</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/analytics">
+            <NavLink to="/admin/employees">
               <CDBSidebarMenuItem icon="chart-line">
                 Employees
               </CDBSidebarMenuItem>
@@ -54,7 +54,7 @@ function NavBarAdmin() {
           </CDBSidebarMenu>
         </CDBSidebarContent>
 
-        <CDBSidebarFooter style={{ textAlign: "center" }}>
+        {/* <CDBSidebarFooter style={{ textAlign: "center" }}>
           <div
             style={{
               padding: "20px 5px",
@@ -62,7 +62,7 @@ function NavBarAdmin() {
           >
             Sidebar Footer
           </div>
-        </CDBSidebarFooter>
+        </CDBSidebarFooter> */}
       </CDBSidebar>
     </div>
   );

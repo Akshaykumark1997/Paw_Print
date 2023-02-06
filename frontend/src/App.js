@@ -7,6 +7,8 @@ import UserHome from "./Pages/User/Home/UserHome";
 import OtpVarification from "./Pages/User/Otp/OtpVarification";
 import Login from "./Components/Admin/Login/Login";
 import Grooming from "./Pages/Admin/Grooming/Grooming";
+import AddService from "./Pages/Admin/AddService/AddService";
+import Employees from "./Pages/Admin/Employees/Employees";
 
 function App() {
   const user = localStorage.getItem("token");
@@ -20,6 +22,8 @@ function App() {
           <Route path="/otp" element={<OtpVarification />} />
           <Route path="/admin" element={<Login />} />
           <Route path="/admin/grooming" element={<Grooming />} />
+          <Route path="/admin/addGrooming" element={<AddService />} />
+          <Route path="/admin/employees" element={<Employees />} />
         </Routes>
       </div>
     </BrowserRouter>

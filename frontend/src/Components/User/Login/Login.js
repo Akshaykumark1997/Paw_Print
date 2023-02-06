@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../Axios/Axios";
 import React, { useState } from "react";
 
 export default function Login() {
@@ -15,17 +15,15 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8000/login", {
+      .post("/login", {
         email: formValues.email,
         password: formValues.password,
       })
       .then((response) => {
-        console.log(response);
         localStorage.setItem("token", response.data.token);
         window.location = "/";
       })
       .catch((error) => {
-        console.log(error.response.data);
         setErrors(error.response.data);
       });
   };

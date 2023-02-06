@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../../Axios/Axios";
 import "./SignUp.css";
 import { useNavigate } from "react-router-dom";
 
@@ -30,7 +30,7 @@ function SignUp() {
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       axios
-        .post("http://localhost:8000/register", {
+        .post("/register", {
           userName: formValues.userName,
           email: formValues.email,
           mobile: formValues.mobile,

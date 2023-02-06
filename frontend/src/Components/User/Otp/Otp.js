@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
+import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 
 function Otp() {
@@ -13,7 +13,7 @@ function Otp() {
     console.log("function called");
     e.preventDefault();
     axios
-      .post("http://localhost:8000/verifyOtp", {
+      .post("/verifyOtp", {
         userId: location.state.userId,
         email: location.state.email,
         otp: otp,

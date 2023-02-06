@@ -45,7 +45,6 @@ module.exports = {
                   expireAt: Date.now() + 3600000,
                 })
                 .then(() => {
-                  console.log('hoooiiiiii');
                   sendOtp.mailTransporter.sendMail(
                     mailDetails,
                     (errs, responses) => {
@@ -78,7 +77,6 @@ module.exports = {
     });
   },
   verifyOtp: (req, res) => {
-    console.log(req.body);
     otp.findOne({ userId: req.body.userId }).then((data) => {
       if (!data) {
         res.json({
@@ -108,7 +106,6 @@ module.exports = {
     });
   },
   login: (req, res) => {
-    console.log(req.body);
     const { errors, isValid } = validateLoginInput(req.body);
     if (!isValid) {
       return res.status(400).json(errors);

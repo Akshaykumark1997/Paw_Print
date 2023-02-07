@@ -46,6 +46,9 @@ function AddEmployee() {
       })
       .then((response) => {
         console.log(response);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
       });
   };
   return (
@@ -59,7 +62,7 @@ function AddEmployee() {
                   <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">
                     Registration Form
                   </h3>
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit} encType="multipart/form-data">
                     <div className="row">
                       <div className="col-md-6 mb-4">
                         <div className="form-outline">

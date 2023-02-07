@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const validateLoginInput = require('../Validation/Login');
+const validateEmployee = require('../Validation/Employee');
 
 dotenv.config();
 
@@ -38,9 +39,12 @@ module.exports = {
       return res.status(400).json(errors);
     }
   },
-  addEmployee: (req) => {
+  addEmployee: (req, res) => {
     console.log(req.body);
-    console.log('hiiiiii');
-    console.log(req.files.image);
+    console.log(req.file);
+    const { errors, isValid } = validateEmployee(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
   },
 };

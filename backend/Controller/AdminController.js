@@ -38,4 +38,9 @@ module.exports = {
       return res.status(400).json(errors);
     }
   },
+  addEmployee: (req) => {
+    console.log(req.body);
+    console.log('hiiiiii');
+    console.log(req.files.image);
+  },
 };

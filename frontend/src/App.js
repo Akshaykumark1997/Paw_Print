@@ -9,6 +9,8 @@ import Login from "./Components/Admin/Login/Login";
 import Grooming from "./Pages/Admin/Grooming/Grooming";
 import AddService from "./Pages/Admin/AddService/AddService";
 import Employees from "./Pages/Admin/Employees/Employees";
+import NewEmployee from "./Pages/Admin/NewEmployee/NewEmployee";
+import Appointment from "./Pages/Admin/Appointments/Appointment";
 
 function App() {
   const user = localStorage.getItem("token");
@@ -24,6 +26,8 @@ function App() {
           <Route path="/admin/grooming" element={<Grooming />} />
           <Route path="/admin/addGrooming" element={<AddService />} />
           <Route path="/admin/employees" element={<Employees />} />
+          <Route path="/admin/addEmployee" element={<NewEmployee />} />
+          <Route path="/admin/appointments" element={<Appointment />} />
         </Routes>
       </div>
     </BrowserRouter>

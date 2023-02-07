@@ -37,7 +37,7 @@ function NavBarAdmin() {
             <NavLink to="/admin/grooming">
               <CDBSidebarMenuItem icon="table">Grooming</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/profile">
+            <NavLink to="/admin/appointments">
               <CDBSidebarMenuItem icon="user">Appointment</CDBSidebarMenuItem>
             </NavLink>
             <NavLink to="/admin/employees">

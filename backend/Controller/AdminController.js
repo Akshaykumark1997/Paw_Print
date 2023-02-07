@@ -65,13 +65,31 @@ module.exports = {
         },
       }).then(() => {
         res.json({
-          status: true,
+          success: true,
           message: 'Employee added successfully',
         });
       });
     } else {
-      res.json({
-        status: false,
+      res.status(400).json({
+        success: false,
+        message: 'invalid token',
+      });
+    }
+  },
+  employees: (req, res) => {
+    const token = req.headers.authorization;
+    const verified = verify.verify(token);
+    console.log(verified);
+    if (verified) {
+      Employee.find({}).then((employees) => {
+        res.json({
+          success: true,
+          employees,
+        });
+      });
+    } else {
+      res.status(400).json({
+        success: false,
         message: 'invalid token',
       });
     }

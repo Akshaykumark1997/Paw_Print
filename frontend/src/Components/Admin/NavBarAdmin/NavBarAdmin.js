@@ -10,6 +10,10 @@ import {
 import { NavLink } from "react-router-dom";
 
 function NavBarAdmin() {
+  const handleLogout = () => {
+    localStorage.removeItem("adminToken");
+    window.location = "/admin";
+  };
   return (
     <div
       style={{
@@ -51,6 +55,12 @@ function NavBarAdmin() {
                 Users
               </CDBSidebarMenuItem>
             </NavLink>
+            <CDBSidebarMenuItem
+              icon="exclamation-circle"
+              onClick={handleLogout}
+            >
+              Logout
+            </CDBSidebarMenuItem>
           </CDBSidebarMenu>
         </CDBSidebarContent>
 

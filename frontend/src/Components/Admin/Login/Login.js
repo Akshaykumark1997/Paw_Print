@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "../../../Axios/Axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
@@ -17,8 +19,8 @@ function Login() {
     axios
       .post("/admin", formValues)
       .then((response) => {
-        console.log(response);
         localStorage.setItem("adminToken", response.data.token);
+        navigate("/admin/employees");
       })
       .catch((error) => {
         setErrors(error.response.data);

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "../../../Axios/Axios";
 import validate from "./Validation";
+import { useNavigate } from "react-router-dom";
 
 function AddEmployee() {
   const token = localStorage.getItem("adminToken");
+  const navigate = useNavigate();
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -29,7 +31,6 @@ function AddEmployee() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData();
-    console.log(formValues);
 
     data.append("firstName", formValues.firstName);
     data.append("lastName", formValues.lastName);
@@ -40,12 +41,9 @@ function AddEmployee() {
     data.append("image", formValues.image);
 
     const errors = validate(formValues);
-    console.log(errors);
     if (Object.keys(errors).length != 0) {
       setErrors(errors);
     } else {
-      console.log(data);
-      console.log(token);
       axios
         .post("/admin/addEmployee", data, {
           headers: {
@@ -53,11 +51,12 @@ function AddEmployee() {
             Authorization: token,
           },
         })
-        .then((response) => {
-          console.log(response);
+        .then(() => {
+          navigate("/admin/employees");
         })
         .catch((err) => {
           console.log(err.response.data);
+          navigate("/admin");
         });
     }
   };

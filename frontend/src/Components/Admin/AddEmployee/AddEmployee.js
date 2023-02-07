@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "../../../Axios/Axios";
+import validate from "./Validation";
 
 function AddEmployee() {
+  const token = localStorage.getItem("adminToken");
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -12,6 +14,7 @@ function AddEmployee() {
     image: null,
   };
   const [formValues, setFormValues] = useState(initialValues);
+  const [error, setErrors] = useState({});
   const handleFileChange = (event) => {
     setFormValues({
       ...formValues,
@@ -36,20 +39,27 @@ function AddEmployee() {
     data.append("mobile", formValues.mobile);
     data.append("image", formValues.image);
 
-    console.log(data);
-
-    axios
-      .post("/admin/addEmployee", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
+    const errors = validate(formValues);
+    console.log(errors);
+    if (Object.keys(errors).length != 0) {
+      setErrors(errors);
+    } else {
+      console.log(data);
+      console.log(token);
+      axios
+        .post("/admin/addEmployee", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    }
   };
   return (
     <div>
@@ -77,6 +87,7 @@ function AddEmployee() {
                           <label className="form-label" htmlFor="firstName">
                             First Name
                           </label>
+                          <p className="error">{error.firstName}</p>
                         </div>
                       </div>
                       <div className="col-md-6 mb-4">
@@ -92,6 +103,7 @@ function AddEmployee() {
                           <label className="form-label" htmlFor="lastName">
                             Last Name
                           </label>
+                          <p className="error">{error.lastName}</p>
                         </div>
                       </div>
                     </div>
@@ -110,6 +122,7 @@ function AddEmployee() {
                           <label htmlFor="birthdayDate" className="form-label">
                             Position
                           </label>
+                          <p className="error">{error.position}</p>
                         </div>
                       </div>
                       <div className="col-md-6 mb-4">
@@ -168,6 +181,7 @@ function AddEmployee() {
                             Other
                           </label>
                         </div>
+                        <p className="error">{error.genter}</p>
                       </div>
                     </div>
 
@@ -185,6 +199,7 @@ function AddEmployee() {
                           <label className="form-label" htmlFor="emailAddress">
                             Email
                           </label>
+                          <p className="error">{error.email}</p>
                         </div>
                       </div>
                       <div className="col-md-6 mb-4 pb-2">
@@ -200,6 +215,7 @@ function AddEmployee() {
                           <label className="form-label" htmlFor="phoneNumber">
                             Phone Number
                           </label>
+                          <p className="error">{error.mobile}</p>
                         </div>
                       </div>
                     </div>

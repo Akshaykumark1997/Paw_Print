@@ -17,5 +17,6 @@ router.post(
 );
 router.get('/employees', adminController.employees);
 router.post('/addService', upload.single('image'), adminController.addService);
+router.get('/services', adminController.services);
 
 module.exports = router;

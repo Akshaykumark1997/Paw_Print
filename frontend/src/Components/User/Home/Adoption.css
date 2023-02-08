@@ -1,0 +1,34 @@
+.hero {
+  background-position: center;
+  background-size: cover;
+  height: 500px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-left {
+  padding: 40px;
+  width: 40%;
+  text-align: left;
+}
+.heading{
+    font-weight: bold;
+    font-size: xxx-large;
+    color:#354B60;
+}
+.content{
+    color:#60605E;
+}
+
+#button{
+    width:100px;
+    background-color:#677F96;
+}
+
+@media (max-width: 767px) {
+  .hero-left {
+    width: 100%;
+    padding: 20px;
+  }
+  
+}

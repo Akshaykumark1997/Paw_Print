@@ -128,4 +128,21 @@ module.exports = {
       });
     }
   },
+  services: (req, res) => {
+    const token = req.headers.authorization;
+    const verified = verify.verify(token);
+    if (verified) {
+      Service.find({}).then((services) => {
+        res.json({
+          success: true,
+          services,
+        });
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: 'invalid token',
+      });
+    }
+  },
 };

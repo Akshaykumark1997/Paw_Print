@@ -57,28 +57,26 @@ function ViewEmployees() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                {employee.map((obj) => {
-                  return (
-                    <>
-                      <td className="text-center">{obj._id}</td>
-                      <td className="text-center">
-                        <img
-                          src={obj.image.path}
-                          alt="image"
-                          style={{ width: "5rem" }}
-                        />
-                      </td>
-                      <td className="text-center">
-                        {obj.firstName + obj.lastName}
-                      </td>
-                      <td className="text-center">{obj.email}</td>
-                      <td className="text-center">{obj.mobile}</td>
-                      <td className="text-center">{obj.position}</td>
-                    </>
-                  );
-                })}
-              </tr>
+              {employee.map((obj) => {
+                return (
+                  <tr key={obj._id}>
+                    <td className="text-center">{obj._id}</td>
+                    <td className="text-center">
+                      <img
+                        src={obj.image.path}
+                        alt="image"
+                        style={{ width: "5rem" }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      {obj.firstName + obj.lastName}
+                    </td>
+                    <td className="text-center">{obj.email}</td>
+                    <td className="text-center">{obj.mobile}</td>
+                    <td className="text-center">{obj.position}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

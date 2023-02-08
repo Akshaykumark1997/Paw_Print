@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import validate from "./Validation";
+import axios from "../../../Axios/Axios";
+import { useNavigate } from "react-router-dom";
 
 function AddGrooming() {
   const initialValues = {
@@ -6,9 +9,12 @@ function AddGrooming() {
     standard: "",
     premium: "",
     description: "",
-    file: null,
+    image: null,
   };
+  const token = localStorage.getItem("adminToken");
   const [formValues, setFormValues] = useState(initialValues);
+  const [error, setError] = useState({});
+  const navigate = useNavigate();
   const onChangeHandle = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
@@ -16,18 +22,37 @@ function AddGrooming() {
   const handleFileChange = (event) => {
     setFormValues({
       ...formValues,
-      file: event.target.files[0],
+      [event.target.name]: event.target.files[0],
     });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData();
-
     data.append("name", formValues.name);
     data.append("standard", formValues.standard);
     data.append("premium", formValues.premium);
     data.append("description", formValues.description);
-    data.append("file", formValues.file);
+    data.append("image", formValues.image);
+
+    const errors = validate(formValues);
+    if (Object.keys(errors).length != 0) {
+      setError(errors);
+    } else {
+      axios
+        .post("/admin/addService", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        })
+        .then(() => {
+          navigate("/admin/grooming");
+        })
+        .catch((err) => {
+          console.log(err.response);
+          // navigate("/admin");
+        });
+    }
   };
   return (
     <div>
@@ -47,10 +72,12 @@ function AddGrooming() {
                         <input
                           type="text"
                           name="name"
+                          value={formValues.name}
                           onChange={onChangeHandle}
                           className="form-control form-control-lg"
                         />
                       </div>
+                      <p className="error">{error.name}</p>
                     </div>
 
                     <hr className="mx-n3" />
@@ -63,10 +90,12 @@ function AddGrooming() {
                         <input
                           type="tel"
                           name="standard"
+                          value={formValues.standard}
                           onChange={onChangeHandle}
                           className="form-control form-control-lg"
                         />
                       </div>
+                      <p className="error">{error.standard}</p>
                     </div>
 
                     <hr className="mx-n3" />
@@ -78,10 +107,12 @@ function AddGrooming() {
                         <input
                           type="tel"
                           name="premium"
+                          value={formValues.premium}
                           onChange={onChangeHandle}
                           className="form-control form-control-lg"
                         />
                       </div>
+                      <p className="error">{error.premium}</p>
                     </div>
 
                     <hr className="mx-n3" />
@@ -94,9 +125,11 @@ function AddGrooming() {
                         <textarea
                           className="form-control"
                           name="description"
+                          value={formValues.description}
                           onChange={onChangeHandle}
                           rows="3"
                         ></textarea>
+                        <p className="error">{error.description}</p>
                       </div>
                     </div>
 
@@ -111,9 +144,11 @@ function AddGrooming() {
                           className="form-control form-control-lg"
                           id="formFileLg"
                           type="file"
+                          name="image"
                           onChange={handleFileChange}
                         />
                       </div>
+                      <p className="error">{error.image}</p>
                     </div>
 
                     <hr className="mx-n3" />

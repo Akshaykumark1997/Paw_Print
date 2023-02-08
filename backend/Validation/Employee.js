@@ -8,7 +8,7 @@ module.exports = function validateEmployee(data) {
   data.lastName = !isEmpty(data.lastName) ? data.lastName : '';
   data.position = !isEmpty(data.position) ? data.position : '';
   data.genter = !isEmpty(data.genter) ? data.genter : '';
-  data.email = !isEmpty(data.genter) ? data.email : '';
+  data.email = !isEmpty(data.email) ? data.email : '';
   data.mobile = !isEmpty(data.mobile) ? data.mobile : '';
 
   if (!Validator.isLength(data.firstName, { min: 2, max: 30 })) {

@@ -3,8 +3,10 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const validateLoginInput = require('../Validation/Login');
 const validateEmployee = require('../Validation/Employee');
+const validateService = require('../Validation/Service');
 const verify = require('../Middleware/AdminVerification');
 const Employee = require('../Model/EmployeeSchema');
+const Service = require('../Model/ServiceSchema');
 
 dotenv.config();
 
@@ -85,6 +87,38 @@ module.exports = {
         res.json({
           success: true,
           employees,
+        });
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: 'invalid token',
+      });
+    }
+  },
+  addService: (req, res) => {
+    console.log(req.body);
+    console.log(req.file);
+    const token = req.headers.authorization;
+    const verified = verify.verify(token);
+    if (verified) {
+      const { errors, isValid } = validateService(req.body);
+      if (!isValid) {
+        return res.status(400).json(errors);
+      }
+      Service.create({
+        name: req.body.name,
+        standardPrice: req.body.standard,
+        premiumPrice: req.body.premium,
+        description: req.body.description,
+        image: {
+          name: req.file.filename,
+          path: req.file.path,
+        },
+      }).then(() => {
+        res.json({
+          success: true,
+          message: 'service added successfully',
         });
       });
     } else {

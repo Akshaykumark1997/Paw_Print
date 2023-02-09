@@ -1,0 +1,51 @@
+#main-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+  .main-form {
+    max-width: 100%;
+  }
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#button{
+    width: 210px;
+    height: 52px;
+    border-radius: 22px;
+    background-color:#677F96;
+}
+.label {
+  margin-top: 20px;
+}
+
+#appointment-date {
+  width: 50%;
+  padding: 10px;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+/* input[type="submit"] {
+  width: 20%;
+  padding: 10px;
+  font-size: 18px;
+  margin-top: 20px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+} */
+
+@media (max-width: 767px) {
+#appointment-date{
+    width: 80%;
+  }
+  
+  /* input[type="submit"] {
+    width: 40%;
+  } */
+}

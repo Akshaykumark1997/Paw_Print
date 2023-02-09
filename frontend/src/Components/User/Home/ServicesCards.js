@@ -5,7 +5,7 @@ function ServicesCards() {
   return (
     <div className="mt-5">
       <div className="card-container">
-        <div className="card">
+        <div className="card-1">
           <img src="../../../../Images/icon1.png" alt="Image1" />
           <div className="card-text">
             <h3>Grooming</h3>
@@ -15,7 +15,7 @@ function ServicesCards() {
             </p>
           </div>
         </div>
-        <div className="card">
+        <div className="card-1">
           <img src="../../../../Images/icon2.png" alt="Image2" />
           <div className="card-text">
             <h3>Clinic</h3>
@@ -25,7 +25,7 @@ function ServicesCards() {
             </p>
           </div>
         </div>
-        <div className="card">
+        <div className="card-1">
           <img src="../../../../Images/icon2.png" alt="Image3" />
           <div className="card-text">
             <h3>Adoption</h3>

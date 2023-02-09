@@ -7,6 +7,8 @@ const validateLoginInput = require('../Validation/Login');
 const User = require('../Model/UserSchema');
 const sendOtp = require('../Middleware/otp');
 const otp = require('../Model/OtpSchema');
+const verify = require('../Middleware/UserVerification');
+const Appointment = require('../Model/AppointmentSchema');
 
 dotenv.config();
 
@@ -149,5 +151,28 @@ module.exports = {
         }
       });
     });
+  },
+  appointment: (req, res) => {
+    console.log(req.body);
+    const token = req.headers.authorization;
+    const verified = verify.verify(token);
+    if (verified) {
+      Appointment.create({
+        name: req.body.name,
+        petName: req.body.petName,
+        email: req.body.email,
+        mobile: req.body.mobile,
+        petDetails: req.body.petDetails,
+        date: req.body.date,
+        time: req.body.time,
+      }).then((response) => {
+        console.log(response);
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: 'invalid token',
+      });
+    }
   },
 };

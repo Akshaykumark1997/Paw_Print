@@ -7,6 +7,7 @@ const validateService = require('../Validation/Service');
 const verify = require('../Middleware/AdminVerification');
 const Employee = require('../Model/EmployeeSchema');
 const Service = require('../Model/ServiceSchema');
+const Appointment = require('../Model/AppointmentSchema');
 
 dotenv.config();
 
@@ -136,6 +137,26 @@ module.exports = {
         res.json({
           success: true,
           services,
+        });
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: 'invalid token',
+      });
+    }
+  },
+  getAppointments: (req, res) => {
+    const token = req.headers.authorization;
+    const verified = verify.verify(token);
+    if (verified) {
+      Appointment.find({}).then((appointments) => {
+        Employee.find({}).then((employees) => {
+          res.json({
+            success: true,
+            appointments,
+            employees,
+          });
         });
       });
     } else {

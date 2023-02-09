@@ -9,14 +9,11 @@ function ViewEmployees() {
     axios
       .get("/admin/employees", {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: token,
         },
       })
       .then((response) => {
-        console.log(response.data.employees);
         setEmployee(response.data.employees);
-        console.log(employee);
       })
       .catch((error) => {
         console.log(error.response.data);

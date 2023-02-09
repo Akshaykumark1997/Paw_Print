@@ -3,7 +3,7 @@
   flex-wrap: wrap;
 }
 
-.card {
+.card-1 {
   width: calc(33.33% - 20px);
   box-sizing: border-box;
   padding: 20px;
@@ -12,7 +12,7 @@
   margin: 10px;
 }
 
-.card img {
+.card-1 img {
   width: 50%;
 }
 
@@ -22,12 +22,12 @@
 }
 
 @media (max-width: 767px) {
-  .card {
+  .card-1 {
     width: 100%;
   }
 }
 @media (min-width: 750px) and (max-width: 1242px) {
-  .card {
+  .card-1 {
     width: 50%;
     align-self:center;
   }

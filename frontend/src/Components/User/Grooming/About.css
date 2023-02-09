@@ -1,0 +1,28 @@
+.responsive-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.responsive-section-left {
+  width: 50%;
+  padding-right: 20px;
+}
+
+.responsive-section-right {
+  width: 50%;
+  text-align: left;
+}
+
+.features-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+@media only screen and (max-width: 767px) {
+  .responsive-section-left, .responsive-section-right {
+    width: 100%;
+    padding-right: 0;
+    margin:20px;
+  }
+}

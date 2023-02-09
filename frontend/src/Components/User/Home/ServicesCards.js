@@ -9,21 +9,31 @@ function ServicesCards() {
           <img src="../../../../Images/icon1.png" alt="Image1" />
           <div className="card-text">
             <h3>Grooming</h3>
-            <p>Content 1</p>
+            <p>
+              Welcome to our where we provide professional and compassionate
+              grooming services for your furry friends.
+            </p>
           </div>
         </div>
         <div className="card">
           <img src="../../../../Images/icon2.png" alt="Image2" />
           <div className="card-text">
             <h3>Clinic</h3>
-            <p>Content 2</p>
+            <p>
+              Welcome to a full-service veterinary clinic dedicated to providing
+              exceptional care for your pets
+            </p>
           </div>
         </div>
         <div className="card">
           <img src="../../../../Images/icon2.png" alt="Image3" />
           <div className="card-text">
             <h3>Adoption</h3>
-            <p>Content 3</p>
+            <p>
+              Our mission is to provide a safe and comfortable environment for
+              pets in need of a loving home, and to support pet owners through
+              the adoption process.
+            </p>
           </div>
         </div>
       </div>

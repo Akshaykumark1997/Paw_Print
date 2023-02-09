@@ -4,7 +4,7 @@ import "./Hero.css";
 function Hero() {
   return (
     <div
-      className="hero-1"
+      className="hero-1 img-fluid"
       style={{ backgroundImage: "url(../../../../../../Images/slide03.jpg)" }}
     >
       <div className="heros-left">

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "../../../Axios/Axios";
+import { useNavigate } from "react-router-dom";
 
 function ViewEmployees() {
   const [employee, setEmployee] = useState([]);
   const token = localStorage.getItem("adminToken");
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get("/admin/employees", {
@@ -17,6 +19,7 @@ function ViewEmployees() {
       })
       .catch((error) => {
         console.log(error.response.data);
+        navigate("/admin");
       });
   }, []);
   return (

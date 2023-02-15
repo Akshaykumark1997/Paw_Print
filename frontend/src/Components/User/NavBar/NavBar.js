@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -18,7 +19,7 @@ function NavBar() {
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav className="me-auto my-2 my-lg-0 mx-5" navbarScroll>
-              <Nav.Link href="#action1" className="mx-4">
+              <Nav.Link href="#" className="mx-4">
                 HOME
               </Nav.Link>
               <Nav.Link href="#action2" className="mx-4">
@@ -30,9 +31,11 @@ function NavBar() {
                   id="navbarScrollingDropdown"
                   className="mx-4"
                 >
-                  <NavDropdown.Item href="#action3">
-                    Pet Grooming
-                  </NavDropdown.Item>
+                  <Link to="/grooming" className="text-decoration-none">
+                    <NavDropdown.Item href="#action3">
+                      Pet Grooming
+                    </NavDropdown.Item>
+                  </Link>
                   <NavDropdown.Item href="#action4">
                     Pet Adoption
                   </NavDropdown.Item>
@@ -57,12 +60,14 @@ function NavBar() {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <button
-                className="btn"
-                style={{ backgroundColor: "#354b60", color: "#fff" }}
-              >
-                Login
-              </button>
+              <Link to="/login">
+                <button
+                  className="btn"
+                  style={{ backgroundColor: "#354b60", color: "#fff" }}
+                >
+                  Login
+                </button>
+              </Link>
             )}
           </Navbar.Collapse>
         </Container>

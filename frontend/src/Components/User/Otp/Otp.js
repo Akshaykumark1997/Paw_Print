@@ -1,30 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 function Otp() {
   const location = useLocation();
   console.log(location.state);
   const [otp, setOtp] = useState("");
+  const [minutes, setMinutes] = useState(1);
+  const [seconds, setSeconds] = useState(30);
+  const [error, setError] = useState({});
   const navigate = useNavigate();
   console.log(otp);
   const otpSubmit = (e) => {
+    const token = localStorage.getItem("otpToken");
     console.log("function called");
     e.preventDefault();
     axios
-      .post("/verifyOtp", {
-        userId: location.state.userId,
-        email: location.state.email,
-        otp: otp,
-      })
-      .then(() => {
-        navigate("/login");
+      .post(
+        "/verifyOtp",
+        {
+          id: location.state.id,
+          email: location.state.email,
+          otp,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        if (response.data.success) {
+          message.success("registered successfully");
+          navigate("/login");
+        } else {
+          setError(response.data);
+        }
       })
       .catch((Error) => {
         console.log(Error);
       });
   };
+  const resendOTP = () => {
+    axios
+      .post("/resendOtp", {
+        userId: location.state.userId,
+        email: location.state.email,
+      })
+      .then((response) => {
+        console.log(response);
+      });
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds(seconds - 1);
+      }
+
+      if (seconds === 0) {
+        if (minutes === 0) {
+          // axios.get(`/deleteOtp/${location.state.userId}`);
+          clearInterval(interval);
+        } else {
+          setSeconds(59);
+          setMinutes(minutes - 1);
+        }
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [seconds]);
   return (
     <div>
       <section className="wrapper mt-5">
@@ -116,17 +166,38 @@ function Otp() {
                     }}
                   />
                 </div>
+                <p className="error">{error.message}</p>
               </div>
 
               <button type="submit" className="btn btn-primary submit_btn my-4">
                 Submit
               </button>
             </form>
-            <div className="fw-normal text-muted mb-2">
+            {/* <div className="fw-normal text-muted mb-2">
               Didn t get the code ?{" "}
               <p className="text-primary fw-bold text-decoration-none">
                 Resend
               </p>
+            </div> */}
+            <div className="countdown-text">
+              {seconds > 0 || minutes > 0 ? (
+                <p>
+                  Time Remaining: {minutes < 10 ? `0${minutes}` : minutes}:
+                  {seconds < 10 ? `0${seconds}` : seconds}
+                </p>
+              ) : (
+                <p>Didn t recieve code?</p>
+              )}
+
+              <button
+                disabled={seconds > 0 || minutes > 0}
+                style={{
+                  color: seconds > 0 || minutes > 0 ? "#DFE3E8" : "#FF5630",
+                }}
+                onClick={resendOTP}
+              >
+                Resend OTP
+              </button>
             </div>
           </div>
         </div>

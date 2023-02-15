@@ -6,8 +6,7 @@ module.exports = {
       return false;
     }
     try {
-      const decoded = jwt.verify(data.split(' ')[1], process.env.SECRET);
-      console.log(decoded);
+      jwt.verify(data.split(' ')[1], process.env.SECRET);
       return true;
     } catch (error) {
       console.error(error);

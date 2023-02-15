@@ -1,0 +1,53 @@
+.container {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.heading {
+  font-size: 36px;
+  margin-bottom: 30px;
+}
+
+.content {
+  font-size: 18px;
+  line-height: 1.5;
+}
+.card-clinic-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card-clinic {
+  width: 300px;
+  margin: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.card-clinic img {
+  width: 100%;
+  height: auto;
+}
+
+.card-clinic-info {
+  padding: 20px;
+}
+
+.card-clinic-info h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.card-clinic-info p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+@media screen and (max-width: 1023px) {
+  .card-clinic {
+    width: calc(100% - 20px);
+  }
+}

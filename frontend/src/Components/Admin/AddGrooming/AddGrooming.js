@@ -50,7 +50,7 @@ function AddGrooming() {
         })
         .catch((err) => {
           console.log(err.response);
-          // navigate("/admin");
+          navigate("/admin");
         });
     }
   };

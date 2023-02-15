@@ -45,8 +45,6 @@ module.exports = {
     }
   },
   addEmployee: (req, res) => {
-    console.log(req.body);
-    console.log(req.file);
     const token = req.headers.authorization;
     const verified = verify.verify(token);
     console.log(verified);
@@ -98,8 +96,6 @@ module.exports = {
     }
   },
   addService: (req, res) => {
-    console.log(req.body);
-    console.log(req.file);
     const token = req.headers.authorization;
     const verified = verify.verify(token);
     if (verified) {

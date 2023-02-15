@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -7,7 +8,6 @@ const validateLoginInput = require('../Validation/Login');
 const User = require('../Model/UserSchema');
 const sendOtp = require('../Middleware/otp');
 const otp = require('../Model/OtpSchema');
-const verify = require('../Middleware/UserVerification');
 const Appointment = require('../Model/AppointmentSchema');
 
 dotenv.config();
@@ -35,18 +35,17 @@ module.exports = {
               to: user.email,
               subject: 'Paw Print  VERIFICATION',
               html: `<p>YOUR OTP FOR REGISTERING IN  Paw Print  IS <h1> ${sendOtp.OTP} <h1> </p> <p> expires in 
-              one hour </p>`,
+              10 minutes </p>`,
             };
             bcrypt.hash(sendOtp.OTP, 10, (err, otpHash) => {
               otp
                 .create({
-                  // eslint-disable-next-line no-underscore-dangle
                   userId: user._id,
                   otp: otpHash,
                   createdAt: Date.now(),
-                  expireAt: Date.now() + 3600000,
+                  expireAt: Date.now() + 600,
                 })
-                .then(() => {
+                .then((otpData) => {
                   sendOtp.mailTransporter.sendMail(
                     mailDetails,
                     (errs, responses) => {
@@ -58,16 +57,35 @@ module.exports = {
                         });
                       } else {
                         console.log(responses);
-                        res.status(200).json({
-                          status: 'Pending',
-                          success: true,
-                          message: 'otp sent successfully',
-                          data: {
-                            // eslint-disable-next-line no-underscore-dangle
-                            userId: user._id,
-                            email: user.email,
+                        const payload = {
+                          id: otpData._id,
+                          email: user.email,
+                        };
+                        jwt.sign(
+                          payload,
+                          process.env.SECRET,
+                          {
+                            expiresIn: 600,
                           },
-                        });
+                          (er, token) => {
+                            if (er)
+                              console.error('There is some error in token', er);
+                            else {
+                              console.log('success');
+                              res.status(200).json({
+                                status: 'Pending',
+                                success: true,
+                                message: 'otp sent successfully',
+                                data: {
+                                  success: true,
+                                  id: otpData._id,
+                                  email: user.email,
+                                  token: `Bearer ${token}`,
+                                },
+                              });
+                            }
+                          }
+                        );
                       }
                     }
                   );
@@ -78,28 +96,89 @@ module.exports = {
       }
     });
   },
+  resendOtp: (req, res) => {
+    const { email } = req.body;
+    const { userId } = req.body;
+    const mailDetails = {
+      from: process.env.GMAIL,
+      to: email,
+      subject: 'Paw Print  VERIFICATION',
+      html: `<p>YOUR OTP FOR REGISTERING IN  Paw Print  IS <h1> ${sendOtp.OTP} <h1> </p> <p> expires in 
+              one hour </p>`,
+    };
+    bcrypt.hash(sendOtp.OTP, 10, (err, otpHash) => {
+      otp
+        .create({
+          userId,
+          otp: otpHash,
+          createdAt: Date.now(),
+          expireAt: Date.now() + 3600000,
+        })
+        .then((otpData) => {
+          sendOtp.mailTransporter.sendMail(mailDetails, (errs, responses) => {
+            if (errs) {
+              console.log('errorr');
+              res.status(400).json({
+                status: 'Failed',
+                message: errs.message,
+              });
+            } else {
+              console.log(responses);
+              const payload = {
+                id: otpData._id,
+                email,
+              };
+              jwt.sign(
+                payload,
+                process.env.SECRET,
+                {
+                  expiresIn: 600,
+                },
+                (er, token) => {
+                  if (er) console.error('There is some error in token', er);
+                  else {
+                    console.log('success');
+                    res.status(200).json({
+                      status: 'Pending',
+                      success: true,
+                      message: 'otp sent successfully',
+                      data: {
+                        success: true,
+                        id: otpData._id,
+                        email,
+                        token: `Bearer ${token}`,
+                      },
+                    });
+                  }
+                }
+              );
+            }
+          });
+        });
+    });
+  },
   verifyOtp: (req, res) => {
-    otp.findOne({ userId: req.body.userId }).then((data) => {
+    console.log(req.body);
+    otp.findOne({ _id: req.body.id }).then((data) => {
+      console.log(data);
       if (!data) {
         res.json({
+          success: false,
           message:
             "Account doesn't exist or already verified . please signUp again",
         });
-      } else if (data.expireAt < Date.now()) {
-        otp.deleteOne({ userId: req.body.userId }).then(() => {
-          res.json({ message: 'otp expired try again' });
-        });
       } else {
         bcrypt.compare(req.body.otp, data.otp).then((valid) => {
+          console.log(valid);
           if (!valid) {
-            res.json({ message: 'entered wrong otp' });
+            res.json({ success: false, message: 'entered wrong otp' });
           } else {
             otp.deleteOne({ userId: req.body.userId }).then(() => {
               User.updateOne(
                 { _id: req.body.userId },
                 { $set: { verified: true } }
               ).then(() => {
-                res.json({ message: 'registerd successfully' });
+                res.json({ success: true, message: 'registerd successfully' });
               });
             });
           }
@@ -138,7 +217,6 @@ module.exports = {
                   success: true,
                   userName: user.userName,
                   email: user.email,
-                  // eslint-disable-next-line no-underscore-dangle
                   id: user._id,
                   token: `Bearer ${token}`,
                 });
@@ -152,27 +230,17 @@ module.exports = {
       });
     });
   },
-  appointment: (req, res) => {
-    console.log(req.body);
-    const token = req.headers.authorization;
-    const verified = verify.verify(token);
-    if (verified) {
-      Appointment.create({
-        name: req.body.name,
-        petName: req.body.petName,
-        email: req.body.email,
-        mobile: req.body.mobile,
-        petDetails: req.body.petDetails,
-        date: req.body.date,
-        time: req.body.time,
-      }).then((response) => {
-        console.log(response);
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        message: 'invalid token',
-      });
-    }
+  appointment: (req) => {
+    Appointment.create({
+      name: req.body.name,
+      petName: req.body.petName,
+      email: req.body.email,
+      mobile: req.body.mobile,
+      petDetails: req.body.petDetails,
+      date: req.body.date,
+      time: req.body.time,
+    }).then((response) => {
+      console.log(response);
+    });
   },
 };

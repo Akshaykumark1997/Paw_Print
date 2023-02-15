@@ -43,10 +43,12 @@ function SignUp() {
           console.log(response.data.data.email);
           if (response.data.success) {
             console.log("registerd");
+            localStorage.setItem("otpToken", response.data.data.token);
             navigate("/otp", {
               state: {
-                userId: response.data.data.userId,
+                id: response.data.data.id,
                 email: response.data.data.email,
+                token: response.data.data.token,
               },
             });
           }

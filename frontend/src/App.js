@@ -13,17 +13,19 @@ import NewEmployee from "./Pages/Admin/NewEmployee/NewEmployee";
 import Appointment from "./Pages/Admin/Appointments/Appointment";
 import GroomingService from "./Pages/User/Grooming/GroomingService";
 import AppointmentBooking from "./Pages/User/Appointment/AppointmentBooking";
+import ViewClinics from "./Pages/User/Clinics/ViewClinics";
 
 function App() {
-  const user = localStorage.getItem("token");
+  // const user = localStorage.getItem("token");
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          {user && <Route path="/" element={<UserHome />} />}
+          <Route path="/" element={<UserHome />} />
           <Route path="/login" element={<SignIn />} />
           <Route path="/signup" element={<Registration />} />
           <Route path="/grooming" element={<GroomingService />} />
+          <Route path="/clinics" element={<ViewClinics />} />
           <Route path="/appointment" element={<AppointmentBooking />} />
           <Route path="/otp" element={<OtpVarification />} />
           <Route path="/admin" element={<Login />} />

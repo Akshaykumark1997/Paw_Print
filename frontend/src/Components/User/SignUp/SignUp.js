@@ -21,9 +21,7 @@ function SignUp() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formValues);
     setFormErrors(validate(formValues));
-    console.log(formErrors);
     setIsSubmit(true);
   };
 
@@ -38,9 +36,6 @@ function SignUp() {
           confirmPassword: formValues.confirmPassword,
         })
         .then(function (response) {
-          console.log(response.data);
-          console.log(response.data.data.userId);
-          console.log(response.data.data.email);
           if (response.data.success) {
             console.log("registerd");
             localStorage.setItem("otpToken", response.data.data.token);
@@ -54,7 +49,6 @@ function SignUp() {
           }
         })
         .catch(function (error) {
-          console.log(error.response.data);
           setFormErrors(error.response.data);
         });
     }

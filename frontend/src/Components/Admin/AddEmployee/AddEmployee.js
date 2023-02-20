@@ -162,24 +162,6 @@ function AddEmployee() {
                             Male
                           </label>
                         </div>
-
-                        <div className="form-check form-check-inline">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            id="otherGender"
-                            value="other"
-                            name="genter"
-                            onChange={onChangeHandle}
-                            checked={formValues === "other"}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="otherGender"
-                          >
-                            Other
-                          </label>
-                        </div>
                         <p className="error">{error.genter}</p>
                       </div>
                     </div>

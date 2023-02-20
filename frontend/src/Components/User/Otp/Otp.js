@@ -6,16 +6,13 @@ import { message } from "antd";
 
 function Otp() {
   const location = useLocation();
-  console.log(location.state);
   const [otp, setOtp] = useState("");
   const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(30);
   const [error, setError] = useState({});
   const navigate = useNavigate();
-  console.log(otp);
   const otpSubmit = (e) => {
     const token = localStorage.getItem("otpToken");
-    console.log("function called");
     e.preventDefault();
     axios
       .post(
@@ -32,7 +29,6 @@ function Otp() {
         }
       )
       .then((response) => {
-        console.log(response);
         if (response.data.success) {
           message.success("registered successfully");
           navigate("/login");
@@ -45,6 +41,8 @@ function Otp() {
       });
   };
   const resendOTP = () => {
+    setMinutes(1);
+    setSeconds(30);
     axios
       .post("/resendOtp", {
         userId: location.state.userId,
@@ -52,6 +50,7 @@ function Otp() {
       })
       .then((response) => {
         console.log(response);
+        localStorage.setItem("otpToken", response.data.data.token);
       });
   };
   useEffect(() => {
@@ -62,7 +61,6 @@ function Otp() {
 
       if (seconds === 0) {
         if (minutes === 0) {
-          // axios.get(`/deleteOtp/${location.state.userId}`);
           clearInterval(interval);
         } else {
           setSeconds(59);
@@ -173,12 +171,6 @@ function Otp() {
                 Submit
               </button>
             </form>
-            {/* <div className="fw-normal text-muted mb-2">
-              Didn t get the code ?{" "}
-              <p className="text-primary fw-bold text-decoration-none">
-                Resend
-              </p>
-            </div> */}
             <div className="countdown-text">
               {seconds > 0 || minutes > 0 ? (
                 <p>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 import "./ViewAppointment.css";
@@ -20,7 +19,8 @@ function ViewAppointments() {
         setAppointment(response.data.appointments);
         setEmployee(response.data.employees);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error.response.data);
         navigate("/admin");
       });
   }, []);
@@ -29,16 +29,6 @@ function ViewAppointments() {
       <div className="d-flex justify-content-between align-item-center">
         <div>
           <h1>Appointments</h1>
-        </div>
-        <div className="align-self-center">
-          <NavLink to="/admin/addGrooming">
-            <button
-              className="btn"
-              style={{ backgroundColor: "#354b60", color: "#fff" }}
-            >
-              Add Services
-            </button>
-          </NavLink>
         </div>
       </div>
 

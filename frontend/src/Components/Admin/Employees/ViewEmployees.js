@@ -52,7 +52,6 @@ function ViewEmployees() {
                 <th className="text-center">Image</th>
                 <th className="text-center">Name</th>
                 <th className="text-center">Email</th>
-                <th className="text-center">Mobile</th>
                 <th className="text-center">Position</th>
               </tr>
             </thead>
@@ -72,7 +71,6 @@ function ViewEmployees() {
                       {obj.firstName + obj.lastName}
                     </td>
                     <td className="text-center">{obj.email}</td>
-                    <td className="text-center">{obj.mobile}</td>
                     <td className="text-center">{obj.position}</td>
                   </tr>
                 );

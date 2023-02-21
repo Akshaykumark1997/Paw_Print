@@ -12,7 +12,7 @@ function AddEmployee() {
     position: "",
     genter: "",
     email: "",
-    mobile: "",
+    password: "",
     image: null,
   };
   const [formValues, setFormValues] = useState(initialValues);
@@ -37,7 +37,7 @@ function AddEmployee() {
     data.append("position", formValues.position);
     data.append("genter", formValues.genter);
     data.append("email", formValues.email);
-    data.append("mobile", formValues.mobile);
+    data.append("password", formValues.password);
     data.append("image", formValues.image);
 
     const errors = validate(formValues);
@@ -186,17 +186,17 @@ function AddEmployee() {
                       <div className="col-md-6 mb-4 pb-2">
                         <div className="form-outline">
                           <input
-                            type="tel"
+                            type="password"
                             id="phoneNumber"
-                            name="mobile"
-                            value={formValues.mobile}
+                            name="password"
+                            value={formValues.password}
                             onChange={onChangeHandle}
                             className="form-control form-control-lg"
                           />
                           <label className="form-label" htmlFor="phoneNumber">
-                            Phone Number
+                            Password
                           </label>
-                          <p className="error">{error.mobile}</p>
+                          <p className="error">{error.password}</p>
                         </div>
                       </div>
                     </div>

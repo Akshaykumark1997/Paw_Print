@@ -23,7 +23,7 @@ const EmployeeSchema = new Schema({
     type: String,
     required: true,
   },
-  mobile: {
+  password: {
     type: String,
     required: true,
   },

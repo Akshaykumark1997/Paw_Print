@@ -19,8 +19,8 @@ const validate = (values) => {
   if (values.genter == "") {
     errors.genter = "genter is required";
   }
-  if (values.mobile == "") {
-    errors.mobile = "mobile number is required";
+  if (values.password == "") {
+    errors.password = "password is required";
   }
   if (values.email == "") {
     errors.email = "email is required";

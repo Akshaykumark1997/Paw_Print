@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 const validateLoginInput = require('../Validation/Login');
 const validateEmployee = require('../Validation/Employee');
@@ -49,22 +50,30 @@ module.exports = {
     if (!isValid) {
       return res.status(400).json(errors);
     }
-    Employee.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      position: req.body.position,
-      genter: req.body.genter,
-      email: req.body.email,
-      mobile: req.body.mobile,
-      image: {
-        name: req.file.filename,
-        path: req.file.path,
-      },
-    }).then(() => {
-      res.json({
-        success: true,
-        message: 'Employee added successfully',
-      });
+    bcrypt.hash(req.body.password, 10, (error, hash) => {
+      Employee.create({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        position: req.body.position,
+        genter: req.body.genter,
+        email: req.body.email,
+        password: hash,
+        image: {
+          name: req.file.filename,
+          path: req.file.path,
+        },
+      })
+        .then(() => {
+          res.json({
+            success: true,
+            message: 'Employee added successfully',
+          });
+        })
+        .catch(() => {
+          res.status(400).json({
+            error,
+          });
+        });
     });
   },
   employees: (req, res) => {

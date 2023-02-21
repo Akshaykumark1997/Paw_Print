@@ -42,13 +42,8 @@ module.exports = function validateEmployee(data) {
   if (Validator.isEmpty(data.email)) {
     errors.email = 'Email is required';
   }
-
-  if (!Validator.isMobilePhone(data.mobile)) {
-    errors.mobile = 'mobile number invalid';
-  }
-
-  if (Validator.isEmpty(data.mobile)) {
-    errors.mobile = 'mobile is required';
+  if (Validator.isEmpty(data.password)) {
+    errors.password = 'password is required';
   }
   return {
     errors,

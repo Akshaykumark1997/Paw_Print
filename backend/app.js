@@ -5,6 +5,7 @@ const cors = require('cors');
 // const fileUpload = require('express-fileupload');
 const users = require('./Routes/User');
 const Admin = require('./Routes/Admin');
+const Employee = require('./Routes/Employee');
 const dbconnect = require('./config/Connections');
 
 const app = express();
@@ -16,6 +17,7 @@ dbconnect.dbconnect();
 
 app.use('/', users);
 app.use('/admin', Admin);
+app.use('/employee', Employee);
 
 app.listen(process.env.PORTNO, () => {
   console.log('server started listening to port');

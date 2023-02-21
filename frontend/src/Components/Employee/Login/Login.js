@@ -6,6 +6,7 @@ function Login() {
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({});
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
@@ -13,9 +14,15 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formValues);
-    axois.post("/employee/login", formValues).then((response) => {
-      console.log(response);
-    });
+    axois
+      .post("/employee/login", formValues)
+      .then((response) => {
+        console.log(response);
+        localStorage.setItem("employeeToken", response.data.token);
+      })
+      .catch((error) => {
+        setErrors(error.response.data);
+      });
   };
   return (
     <section className="vh-100">
@@ -39,6 +46,7 @@ function Login() {
                   onChange={handleChange}
                   className="form-control form-control-lg"
                 />
+                {errors && <p style={{ color: "red" }}>{errors.email}</p>}
                 <label className="form-label" htmlFor="form1Example13">
                   Email address
                 </label>
@@ -53,6 +61,7 @@ function Login() {
                   onChange={handleChange}
                   className="form-control form-control-lg"
                 />
+                {errors && <p style={{ color: "red" }}>{errors.password}</p>}
                 <label className="form-label" htmlFor="form1Example23">
                   Password
                 </label>

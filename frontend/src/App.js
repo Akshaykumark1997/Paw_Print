@@ -16,6 +16,7 @@ import AppointmentBooking from "./Pages/User/Appointment/AppointmentBooking";
 import ViewClinics from "./Pages/User/Clinics/ViewClinics";
 import EditService from "./Pages/Admin/EditService/EditService";
 import EmployeeLogin from "./Pages/Employee/Login/EmployeeLogin";
+import EmployeeHome from "./Pages/Employee/Appointments/EmployeeAppointments";
 
 function App() {
   // const user = localStorage.getItem("token");
@@ -38,6 +39,7 @@ function App() {
           <Route path="/admin/addEmployee" element={<NewEmployee />} />
           <Route path="/admin/appointments" element={<Appointment />} />
           <Route path="/employee/login" element={<EmployeeLogin />} />
+          <Route path="/employee/appointments" element={<EmployeeHome />} />
         </Routes>
       </div>
     </BrowserRouter>

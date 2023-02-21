@@ -28,6 +28,9 @@ const appointmentSchema = new Schema(
       type: String,
       required: true,
     },
+    employee: {
+      type: String,
+    },
   },
   {
     timestamps: true,

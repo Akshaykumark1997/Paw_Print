@@ -8,6 +8,20 @@ function ViewAppointments() {
   const [employee, setEmployee] = useState([]);
   const token = localStorage.getItem("adminToken");
   const navigate = useNavigate();
+
+  const handleEmployee = (e, id) => {
+    console.log(id);
+    console.log(e.target.value);
+    axios
+      .get(`/admin/employeeAssign/${id}/${e.target.value}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      });
+  };
   useEffect(() => {
     axios
       .get("/admin/appointments", {
@@ -59,10 +73,19 @@ function ViewAppointments() {
                   <td className="text-center">{obj.date}</td>
                   <td className="text-center">{obj.time}</td>
                   <td className="text-center">
-                    <select id="select">
+                    <select
+                      id="select"
+                      onChange={(e) => handleEmployee(e, obj._id)}
+                    >
                       {employee.map((employee) => {
                         return (
-                          <option value="option2" key={employee._id}>
+                          <option
+                            selected={
+                              obj.employee == employee._id ? true : false
+                            }
+                            value={employee._id}
+                            key={employee._id}
+                          >
                             {employee.firstName + employee.lastName}
                           </option>
                         );

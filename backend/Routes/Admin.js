@@ -18,6 +18,11 @@ router.post(
   adminController.addEmployee
 );
 router.get('/employees', adminController.employees);
+router.get(
+  '/employeeAssign/:id/:eid',
+  validate.verify,
+  adminController.assignEmployee
+);
 router.post(
   '/addService',
   validate.verify,

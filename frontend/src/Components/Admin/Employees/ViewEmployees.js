@@ -22,6 +22,7 @@ function ViewEmployees() {
         navigate("/admin");
       });
   }, []);
+
   return (
     <div>
       <div className="container mt-5">

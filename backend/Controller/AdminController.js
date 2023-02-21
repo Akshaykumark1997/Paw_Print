@@ -84,6 +84,20 @@ module.exports = {
       });
     });
   },
+  assignEmployee: (req, res) => {
+    console.log(req.params.id);
+    console.log(req.params.eid);
+    Appointment.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          employee: req.params.eid,
+        },
+      }
+    ).then((data) => {
+      console.log(data);
+    });
+  },
   addService: (req, res) => {
     const { errors, isValid } = validateService(req.body);
     if (!isValid) {

@@ -25,6 +25,18 @@ router.post(
   adminController.addService
 );
 router.get('/services', validate.verify, adminController.services);
+router.get('/editService/:id', validate.verify, adminController.editService);
+router.post(
+  '/editService',
+  validate.verify,
+  upload.single('image'),
+  adminController.editServicePost
+);
+router.get(
+  '/deleteService/:id',
+  validate.verify,
+  adminController.deleteService
+);
 router.get('/appointments', validate.verify, adminController.getAppointments);
 
 module.exports = router;

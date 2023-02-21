@@ -20,10 +20,6 @@ const appointmentSchema = new Schema(
       type: String,
       required: true,
     },
-    petDetails: {
-      type: String,
-      requied: true,
-    },
     date: {
       type: String,
       required: true,

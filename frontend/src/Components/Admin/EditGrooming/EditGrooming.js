@@ -1,20 +1,22 @@
-import React, { useState } from "react";
-import validate from "./Validation";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
+import validate from "./Validation";
 
-function AddGrooming() {
-  const initialValues = {
+function EditGrooming() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("adminToken");
+  const [formValues, setFormValues] = useState({
+    id: "",
     name: "",
-    standard: "",
-    premium: "",
+    standardPrice: "",
+    premiumPrice: "",
     description: "",
     image: null,
-  };
-  const token = localStorage.getItem("adminToken");
-  const [formValues, setFormValues] = useState(initialValues);
+  });
   const [error, setError] = useState({});
-  const navigate = useNavigate();
   const onChangeHandle = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
@@ -28,20 +30,18 @@ function AddGrooming() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData();
+    data.append("id", formValues._id);
     data.append("name", formValues.name);
-    data.append("standard", formValues.standard);
-    data.append("premium", formValues.premium);
+    data.append("standardPrice", formValues.standardPrice);
+    data.append("premiumPrice", formValues.premiumPrice);
     data.append("description", formValues.description);
     data.append("image", formValues.image);
-
     const errors = validate(formValues);
     if (Object.keys(errors).length != 0) {
       setError(errors);
-      console.log(error);
     } else {
-      console.log("function called");
       axios
-        .post("/admin/addService", data, {
+        .post("/admin/editService", data, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: token,
@@ -51,18 +51,32 @@ function AddGrooming() {
           navigate("/admin/grooming");
         })
         .catch((err) => {
-          console.log(err.response);
-          navigate("/admin");
+          console.log(err);
         });
     }
   };
+  useEffect(() => {
+    axios
+      .get(`/admin/editService/${location.state.id}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        setFormValues(response.data.service);
+      })
+      .catch((error) => {
+        console.log(error);
+        navigate("/admin");
+      });
+  }, []);
   return (
     <div>
       <section>
         <div className="container mt-5">
           <div className="row d-flex justify-content-center align-items-center">
             <div className="col-xl-9">
-              <h2 className="mb-4">Add Service</h2>
+              <h2 className="mb-4">Edit Service</h2>
               <form onSubmit={handleSubmit}>
                 <div className="card">
                   <div className="card-body">
@@ -91,13 +105,13 @@ function AddGrooming() {
                       <div className="col-md-9 pe-5">
                         <input
                           type="tel"
-                          name="standard"
-                          value={formValues.standard}
+                          name="standardPrice"
+                          value={formValues.standardPrice}
                           onChange={onChangeHandle}
                           className="form-control form-control-lg"
                         />
                       </div>
-                      <p className="error">{error.standard}</p>
+                      <p className="error">{error.standardPrice}</p>
                     </div>
 
                     <hr className="mx-n3" />
@@ -108,13 +122,13 @@ function AddGrooming() {
                       <div className="col-md-9 pe-5">
                         <input
                           type="tel"
-                          name="premium"
-                          value={formValues.premium}
+                          name="premiumPrice"
+                          value={formValues.premiumPrice}
                           onChange={onChangeHandle}
                           className="form-control form-control-lg"
                         />
                       </div>
-                      <p className="error">{error.premium}</p>
+                      <p className="error">{error.premiumPrice}</p>
                     </div>
 
                     <hr className="mx-n3" />
@@ -175,4 +189,4 @@ function AddGrooming() {
   );
 }
 
-export default AddGrooming;
+export default EditGrooming;

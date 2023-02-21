@@ -43,7 +43,6 @@ function ViewAppointments() {
               <th className="text-center">Name</th>
               <th className="text-center">Pet Name</th>
               <th className="text-center">Mobile</th>
-              <th className="text-center">Pet Details</th>
               <th className="text-center">Date</th>
               <th className="text-center">Time</th>
               <th className="text-center">Employee</th>
@@ -57,16 +56,6 @@ function ViewAppointments() {
                   <td className="text-center">{obj.name}</td>
                   <td className="text-center">{obj.petName}</td>
                   <td className="text-center">{obj.mobile}</td>
-                  <td className="text-center" style={{ width: "200px" }}>
-                    <div
-                      style={{
-                        height: "80px",
-                        overflowY: "scroll",
-                      }}
-                    >
-                      {obj.petDetails}
-                    </div>
-                  </td>
                   <td className="text-center">{obj.date}</td>
                   <td className="text-center">{obj.time}</td>
                   <td className="text-center">

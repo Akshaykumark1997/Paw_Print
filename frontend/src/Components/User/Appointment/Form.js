@@ -15,6 +15,7 @@ function Form() {
     time: "",
   };
   const token = localStorage.getItem("token");
+  const minDate = new Date().toISOString().slice(0, 10);
   const [formValues, setFormValues] = useState(initialValues);
   const navigate = useNavigate();
   const [error, setErrors] = useState({});
@@ -126,6 +127,7 @@ function Form() {
             type="date"
             id="appointment-date"
             name="date"
+            min={minDate}
             value={formValues.date}
             onChange={onChangeHandle}
           />

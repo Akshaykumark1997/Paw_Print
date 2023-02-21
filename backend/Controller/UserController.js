@@ -230,17 +230,26 @@ module.exports = {
       });
     });
   },
-  appointment: (req) => {
+  appointment: (req, res) => {
     Appointment.create({
       name: req.body.name,
       petName: req.body.petName,
       email: req.body.email,
       mobile: req.body.mobile,
-      petDetails: req.body.petDetails,
       date: req.body.date,
       time: req.body.time,
-    }).then((response) => {
-      console.log(response);
-    });
+    })
+      .then(() => {
+        res.json({
+          sucess: true,
+          message: 'Appointment created successfully',
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
   },
 };

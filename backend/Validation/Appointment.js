@@ -41,9 +41,6 @@ module.exports = function validateEmployee(data) {
   if (Validator.isEmpty(data.mobile)) {
     errors.mobile = 'mobile is required';
   }
-  if (Validator.isEmpty(data.petDetails)) {
-    errors.petDetails = 'pet details is required';
-  }
   if (Validator.isEmpty(data.date)) {
     errors.date = 'date is required';
   }

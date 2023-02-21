@@ -1,5 +1,6 @@
 import React from "react";
-import Form from "../../../Components/User/Appointment/Form";
+import AppointmentForm from "../../../Components/User/Appointment/AppointmentForm";
+// import Form from "../../../Components/User/Appointment/Form";
 import Footer from "../../../Components/User/Footer/Footer";
 import NavBar from "../../../Components/User/NavBar/NavBar";
 
@@ -7,7 +8,8 @@ function AppointmentBooking() {
   return (
     <div>
       <NavBar />
-      <Form />
+      {/* <Form /> */}
+      <AppointmentForm />
       <Footer />
     </div>
   );

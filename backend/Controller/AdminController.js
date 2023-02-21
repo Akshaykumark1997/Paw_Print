@@ -104,6 +104,89 @@ module.exports = {
       });
     });
   },
+  editService: (req, res) => {
+    Service.findOne({ _id: req.params.id }).then((service) => {
+      res.json({
+        service,
+      });
+    });
+  },
+  editServicePost: (req, res) => {
+    if (!req.file) {
+      Service.find({
+        _id: req.body.id,
+      }).then((service) => {
+        Service.updateOne(
+          { _id: req.body.id },
+          {
+            $set: {
+              name: req.body.name,
+              standardPrice: req.body.standardPrice,
+              premiumPrice: req.body.premiumPrice,
+              description: req.body.description,
+              'image.name': service.name,
+              'image.path': service.path,
+            },
+          }
+        )
+          .then(() => {
+            res.json({
+              sucess: true,
+              message: 'updated successfully',
+            });
+          })
+          .catch((error) => {
+            res.status(400).json({
+              success: false,
+              error,
+            });
+          });
+      });
+    } else {
+      Service.updateOne(
+        { _id: req.body.id },
+        {
+          $set: {
+            name: req.body.name,
+            standardPrice: req.body.standardPrice,
+            premiumPrice: req.body.premiumPrice,
+            description: req.body.description,
+            'image.name': req.file.filename,
+            'image.path': req.file.path,
+          },
+        }
+      )
+        .then(() => {
+          res.json({
+            sucess: true,
+            message: 'updated successfully',
+          });
+        })
+        .catch((error) => {
+          res.status(400).json({
+            success: false,
+            error,
+          });
+        });
+    }
+  },
+  deleteService: (req, res) => {
+    Service.deleteOne({
+      _id: req.params.id,
+    })
+      .then(() => {
+        res.json({
+          success: true,
+          message: 'deleted successfully',
+        });
+      })
+      .catch(() => {
+        res.json({
+          sucess: false,
+          message: 'error occures',
+        });
+      });
+  },
   getAppointments: (req, res) => {
     Appointment.find({}).then((appointments) => {
       Employee.find({}).then((employees) => {

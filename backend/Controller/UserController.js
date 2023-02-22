@@ -252,4 +252,7 @@ module.exports = {
         });
       });
   },
+  donate: (req) => {
+    console.log(req.body);
+  },
 };

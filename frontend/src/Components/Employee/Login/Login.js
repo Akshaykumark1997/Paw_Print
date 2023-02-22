@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axois from "../../../Axios/Axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [formValues, setFormValues] = useState({
@@ -7,6 +8,7 @@ function Login() {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
@@ -19,6 +21,7 @@ function Login() {
       .then((response) => {
         console.log(response);
         localStorage.setItem("employeeToken", response.data.token);
+        navigate("/employee/appointments");
       })
       .catch((error) => {
         setErrors(error.response.data);

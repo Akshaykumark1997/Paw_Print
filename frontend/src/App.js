@@ -38,7 +38,7 @@ function App() {
           <Route path="/admin/employees" element={<Employees />} />
           <Route path="/admin/addEmployee" element={<NewEmployee />} />
           <Route path="/admin/appointments" element={<Appointment />} />
-          <Route path="/employee/login" element={<EmployeeLogin />} />
+          <Route path="/employee" element={<EmployeeLogin />} />
           <Route path="/employee/appointments" element={<EmployeeHome />} />
         </Routes>
       </div>

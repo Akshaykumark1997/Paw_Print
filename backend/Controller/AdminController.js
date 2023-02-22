@@ -94,9 +94,19 @@ module.exports = {
           employee: req.params.eid,
         },
       }
-    ).then((data) => {
-      console.log(data);
-    });
+    )
+      .then(() => {
+        res.json({
+          sucess: true,
+          message: 'employee Assigned successfully',
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
   },
   addService: (req, res) => {
     const { errors, isValid } = validateService(req.body);

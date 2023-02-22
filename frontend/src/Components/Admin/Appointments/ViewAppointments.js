@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 import "./ViewAppointment.css";
+import { message } from "antd";
 
 function ViewAppointments() {
   const [appointment, setAppointment] = useState([]);
@@ -20,6 +21,12 @@ function ViewAppointments() {
       })
       .then((response) => {
         console.log(response);
+        message.success(response.data.message);
+      })
+      .catch((error) => {
+        if (error.response.data.message === "invalid token") {
+          navigate("/admin");
+        }
       });
   };
   useEffect(() => {

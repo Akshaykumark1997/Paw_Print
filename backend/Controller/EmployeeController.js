@@ -6,6 +6,7 @@ const validateLoginInput = require('../Validation/Login');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
+const Appointment = require('../Model/AppointmentSchema');
 
 dotenv.config();
 
@@ -51,6 +52,25 @@ module.exports = {
           return res.status(400).json(errors);
         }
       });
+    });
+  },
+  getAppointments: (req, res) => {
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
+    console.log(decoded.id);
+    Appointment.find({ employee: decoded.id }).then((appointments) => {
+      console.log(appointments);
+      if (!appointments) {
+        res.status(400).json({
+          success: false,
+          message: 'No appointments available',
+        });
+      } else {
+        res.json({
+          success: true,
+          appointments,
+        });
+      }
     });
   },
 };

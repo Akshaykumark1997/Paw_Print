@@ -43,5 +43,6 @@ router.get(
   adminController.deleteService
 );
 router.get('/appointments', validate.verify, adminController.getAppointments);
+router.get('/getAdoption', validate.verify, adminController.getAdoption);
 
 module.exports = router;

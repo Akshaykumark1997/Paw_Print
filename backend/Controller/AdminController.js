@@ -9,6 +9,7 @@ const validateService = require('../Validation/Service');
 const Employee = require('../Model/EmployeeSchema');
 const Service = require('../Model/ServiceSchema');
 const Appointment = require('../Model/AppointmentSchema');
+const Donation = require('../Model/DonationSchema');
 
 dotenv.config();
 
@@ -230,5 +231,20 @@ module.exports = {
         });
       });
     });
+  },
+  getAdoption: (req, res) => {
+    Donation.find({})
+      .then((donations) => {
+        res.json({
+          success: true,
+          donations,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
   },
 };

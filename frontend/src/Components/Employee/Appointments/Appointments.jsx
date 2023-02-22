@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../Axios/Axios";
+import { useNavigate } from "react-router-dom";
 
 function Appointments() {
   const [appointments, setAppointments] = useState([]);
   const token = localStorage.getItem("employeeToken");
+  const navigate = useNavigate();
 
   const handleStatus = (e, id) => {
     console.log(e.target.value);
@@ -16,6 +18,11 @@ function Appointments() {
       })
       .then((response) => {
         console.log(response.data);
+      })
+      .catch((error) => {
+        if (!error.response.data.token) {
+          navigate("/employee");
+        }
       });
   };
   useEffect(() => {
@@ -28,6 +35,11 @@ function Appointments() {
       })
       .then((response) => {
         setAppointments(response.data.appointments);
+      })
+      .catch((error) => {
+        if (!error.response.data.token) {
+          navigate("/employee");
+        }
       });
   }, []);
   return (
@@ -67,6 +79,7 @@ function Appointments() {
                   <td className="text-center">
                     <select
                       id="select"
+                      disabled={obj.employeeStatus === "confirm" ? true : false}
                       onChange={(e) => handleStatus(e, obj._id)}
                     >
                       <option

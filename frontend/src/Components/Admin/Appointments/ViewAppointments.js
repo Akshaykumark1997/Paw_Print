@@ -66,6 +66,7 @@ function ViewAppointments() {
               <th className="text-center">Mobile</th>
               <th className="text-center">Date</th>
               <th className="text-center">Time</th>
+              <th className="text-center">employeeStatus</th>
               <th className="text-center">Employee</th>
             </tr>
           </thead>
@@ -79,9 +80,11 @@ function ViewAppointments() {
                   <td className="text-center">{obj.mobile}</td>
                   <td className="text-center">{obj.date}</td>
                   <td className="text-center">{obj.time}</td>
+                  <td className="text-center">{obj.employeeStatus}</td>
                   <td className="text-center">
                     <select
                       id="select"
+                      disabled={obj.employeeStatus === "confirm" ? true : false}
                       onChange={(e) => handleEmployee(e, obj._id)}
                     >
                       {employee.map((employee) => {

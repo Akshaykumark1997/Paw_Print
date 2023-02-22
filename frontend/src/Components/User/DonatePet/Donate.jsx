@@ -1,63 +1,33 @@
 import React, { useState } from "react";
-import axios from "../../../Axios/Axios";
+import "./Donate.css";
 import validate from "./Validation";
-import { useNavigate } from "react-router-dom";
-
-function AddEmployee() {
-  const token = localStorage.getItem("adminToken");
-  const navigate = useNavigate();
-  const initialValues = {
-    firstName: "",
-    lastName: "",
-    position: "",
-    genter: "",
-    email: "",
-    password: "",
+function Donate() {
+  const [formValues, setFormValues] = useState({
+    petName: "",
+    age: "",
+    breed: "",
+    vaccinated: "",
+    description: "",
     image: null,
+  });
+  const [error, setError] = useState({});
+  const onChangeHandle = (event) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value });
   };
-  const [formValues, setFormValues] = useState(initialValues);
-  const [error, setErrors] = useState({});
   const handleFileChange = (event) => {
     setFormValues({
       ...formValues,
       [event.target.name]: event.target.files[0],
     });
   };
-  const onChangeHandle = (event) => {
-    const { name, value } = event.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData();
-
-    data.append("firstName", formValues.firstName);
-    data.append("lastName", formValues.lastName);
-    data.append("position", formValues.position);
-    data.append("genter", formValues.genter);
-    data.append("email", formValues.email);
-    data.append("password", formValues.password);
-    data.append("image", formValues.image);
-
     const errors = validate(formValues);
     if (Object.keys(errors).length != 0) {
-      setErrors(errors);
+      setError(errors);
     } else {
-      axios
-        .post("/admin/addEmployee", data, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: token,
-          },
-        })
-        .then(() => {
-          navigate("/admin/employees");
-        })
-        .catch((err) => {
-          console.log(err.response.data);
-          navigate("/admin");
-        });
+      console.log("no errors");
     }
   };
   return (
@@ -68,41 +38,39 @@ function AddEmployee() {
             <div className="col-12 col-lg-9 col-xl-7">
               <div className="card shadow-2-strong card-registration">
                 <div className="card-body p-4 p-md-5">
-                  <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">
-                    Registration Form
-                  </h3>
-                  <form onSubmit={handleSubmit} encType="multipart/form-data">
+                  <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">Donate Pet</h3>
+                  <form encType="multipart/form-data" onSubmit={handleSubmit}>
                     <div className="row">
                       <div className="col-md-6 mb-4">
                         <div className="form-outline">
                           <input
                             type="text"
-                            id="firstName"
-                            name="firstName"
-                            value={formValues.firstName}
+                            id="petName"
+                            name="petName"
+                            value={formValues.petName}
                             onChange={onChangeHandle}
                             className="form-control form-control-lg"
                           />
                           <label className="form-label" htmlFor="firstName">
-                            First Name
+                            Pet Name
                           </label>
-                          <p className="error">{error.firstName}</p>
+                          <p className="error">{error.petName}</p>
                         </div>
                       </div>
                       <div className="col-md-6 mb-4">
                         <div className="form-outline">
                           <input
                             type="text"
-                            id="lastName"
-                            name="lastName"
-                            value={formValues.lastName}
+                            id="age"
+                            name="age"
+                            value={formValues.age}
                             onChange={onChangeHandle}
                             className="form-control form-control-lg"
                           />
                           <label className="form-label" htmlFor="lastName">
-                            Last Name
+                            Age
                           </label>
-                          <p className="error">{error.lastName}</p>
+                          <p className="error">{error.age}</p>
                         </div>
                       </div>
                     </div>
@@ -113,35 +81,34 @@ function AddEmployee() {
                           <input
                             type="text"
                             className="form-control form-control-lg"
-                            id="position"
-                            name="position"
-                            value={formValues.position}
+                            id="breed"
+                            name="breed"
+                            value={formValues.breed}
                             onChange={onChangeHandle}
                           />
                           <label htmlFor="birthdayDate" className="form-label">
-                            Position
+                            Breed
                           </label>
-                          <p className="error">{error.position}</p>
+                          <p className="error">{error.breed}</p>
                         </div>
                       </div>
                       <div className="col-md-6 mb-4">
-                        <h6 className="mb-2 pb-1">Gender: </h6>
+                        <h6 className="mb-2 pb-1">Vaccinated: </h6>
 
                         <div className="form-check form-check-inline">
                           <input
                             className="form-check-input"
                             type="radio"
-                            id="femaleGender"
-                            value="female"
-                            name="genter"
+                            value="yes"
+                            name="vaccinated"
                             onChange={onChangeHandle}
-                            checked={formValues === "female"}
+                            checked={formValues === "yes"}
                           />
                           <label
                             className="form-check-label"
                             htmlFor="femaleGender"
                           >
-                            Female
+                            Yes
                           </label>
                         </div>
 
@@ -149,54 +116,38 @@ function AddEmployee() {
                           <input
                             className="form-check-input"
                             type="radio"
-                            id="maleGender"
-                            value="male"
-                            name="genter"
+                            value="no"
+                            name="vaccinated"
                             onChange={onChangeHandle}
-                            checked={formValues === "male"}
+                            checked={formValues === "no"}
                           />
                           <label
                             className="form-check-label"
-                            htmlFor="maleGender"
+                            htmlFor="vaccinated"
                           >
-                            Male
+                            No
                           </label>
                         </div>
-                        <p className="error">{error.genter}</p>
+                        <p className="error">{error.vaccinated}</p>
                       </div>
                     </div>
 
                     <div className="row">
-                      <div className="col-md-6 mb-4 pb-2">
-                        <div className="form-outline">
-                          <input
-                            type="email"
-                            id="emailAddress"
-                            name="email"
-                            value={formValues.email}
+                      <div className="col-md-12 mb-4 pb-2">
+                        <div className="">
+                          <textarea
+                            id="textArea"
+                            name="description"
+                            cols="60"
+                            rows="5"
+                            value={formValues.description}
                             onChange={onChangeHandle}
-                            className="form-control form-control-lg"
-                          />
-                          <label className="form-label" htmlFor="emailAddress">
-                            Email
-                          </label>
-                          <p className="error">{error.email}</p>
-                        </div>
-                      </div>
-                      <div className="col-md-6 mb-4 pb-2">
-                        <div className="form-outline">
-                          <input
-                            type="password"
-                            id="phoneNumber"
-                            name="password"
-                            value={formValues.password}
-                            onChange={onChangeHandle}
-                            className="form-control form-control-lg"
-                          />
+                            style={{}}
+                          ></textarea>
                           <label className="form-label" htmlFor="phoneNumber">
-                            Password
+                            Description
                           </label>
-                          <p className="error">{error.password}</p>
+                          <p className="error">{error.description}</p>
                         </div>
                       </div>
                     </div>
@@ -210,6 +161,7 @@ function AddEmployee() {
                           name="image"
                           onChange={handleFileChange}
                         />
+                        <p className="error">{error.image}</p>
                         <label className="form-label select-label">Image</label>
                       </div>
                     </div>
@@ -232,4 +184,4 @@ function AddEmployee() {
   );
 }
 
-export default AddEmployee;
+export default Donate;

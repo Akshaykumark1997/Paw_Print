@@ -17,6 +17,8 @@ import ViewClinics from "./Pages/User/Clinics/ViewClinics";
 import EditService from "./Pages/Admin/EditService/EditService";
 import EmployeeLogin from "./Pages/Employee/Login/EmployeeLogin";
 import EmployeeHome from "./Pages/Employee/Appointments/EmployeeAppointments";
+import UserProfile from "./Pages/User/Profile/UserProfile";
+import DonatePet from "./Pages/User/Donate/DonatePet";
 
 function App() {
   // const user = localStorage.getItem("token");
@@ -30,6 +32,8 @@ function App() {
           <Route path="/grooming" element={<GroomingService />} />
           <Route path="/clinics" element={<ViewClinics />} />
           <Route path="/appointment" element={<AppointmentBooking />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/donate" element={<DonatePet />} />
           <Route path="/otp" element={<OtpVarification />} />
           <Route path="/admin" element={<Login />} />
           <Route path="/admin/grooming" element={<Grooming />} />

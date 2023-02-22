@@ -1,6 +1,5 @@
 const validate = (values) => {
   const errors = {};
-  console.log(values);
   if (values.name == "") {
     errors.name = "name is required";
   } else if (!/^[A-Za-z\s]*$/.test(values.name)) {

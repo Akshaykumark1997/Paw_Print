@@ -3,6 +3,21 @@ import axios from "../../../Axios/Axios";
 
 function Appointments() {
   const [appointments, setAppointments] = useState([]);
+  const token = localStorage.getItem("employeeToken");
+
+  const handleStatus = (e, id) => {
+    console.log(e.target.value);
+    console.log(id);
+    axios
+      .get(`/employee/changeStatus/${id}/${e.target.value}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+      });
+  };
   useEffect(() => {
     const token = localStorage.getItem("employeeToken");
     axios
@@ -50,14 +65,26 @@ function Appointments() {
                   <td className="text-center">{obj.date}</td>
                   <td className="text-center">{obj.time}</td>
                   <td className="text-center">
-                    <select id="select">
-                      {/* {employee.map((employee) => {
-                        return (
-                          <option value="option2" key={employee._id}>
-                            {employee.firstName + employee.lastName}
-                          </option>
-                        );
-                      })} */}
+                    <select
+                      id="select"
+                      onChange={(e) => handleStatus(e, obj._id)}
+                    >
+                      <option
+                        value="pending"
+                        selected={
+                          obj.employeeStatus === "pending" ? true : false
+                        }
+                      >
+                        Pending
+                      </option>
+                      <option
+                        value="confirm"
+                        selected={
+                          obj.employeeStatus === "confirm" ? true : false
+                        }
+                      >
+                        Confirm
+                      </option>
                     </select>
                   </td>
                 </tr>

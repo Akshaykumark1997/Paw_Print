@@ -31,6 +31,10 @@ const appointmentSchema = new Schema(
     employee: {
       type: String,
     },
+    employeeStatus: {
+      type: String,
+      default: 'pending',
+    },
   },
   {
     timestamps: true,

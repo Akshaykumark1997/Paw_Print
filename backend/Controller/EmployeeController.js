@@ -73,4 +73,28 @@ module.exports = {
       }
     });
   },
+  changeStatus: (req, res) => {
+    console.log(req.params.id);
+    console.log(req.params.value);
+    Appointment.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          employeeStatus: req.params.value,
+        },
+      }
+    )
+      .then(() => {
+        res.json({
+          success: true,
+          message: 'updated successfully',
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
 };

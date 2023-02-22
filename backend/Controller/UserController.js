@@ -5,10 +5,13 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const validateRegisterInput = require('../Validation/Register');
 const validateLoginInput = require('../Validation/Login');
+const validateDonation = require('../Validation/Donation');
+const validateAppointment = require('../Validation/Appointment');
 const User = require('../Model/UserSchema');
 const sendOtp = require('../Middleware/otp');
 const otp = require('../Model/OtpSchema');
 const Appointment = require('../Model/AppointmentSchema');
+const Donation = require('../Model/DonationSchema');
 
 dotenv.config();
 
@@ -231,6 +234,10 @@ module.exports = {
     });
   },
   appointment: (req, res) => {
+    const { errors, isValid } = validateAppointment(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
     Appointment.create({
       name: req.body.name,
       petName: req.body.petName,
@@ -252,7 +259,36 @@ module.exports = {
         });
       });
   },
-  donate: (req) => {
+  donate: (req, res) => {
     console.log(req.body);
+    console.log(req.file);
+    const { errors, isValid } = validateDonation(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    Donation.create({
+      petName: req.body.petName,
+      age: req.body.age,
+      breed: req.body.breed,
+      vaccinated: req.body.vaccinated,
+      description: req.body.description,
+      image: {
+        name: req.file.filename,
+        path: req.file.path,
+      },
+    })
+      .then((donation) => {
+        res.json({
+          success: true,
+          message: 'pet added successfully',
+          donation,
+        });
+      })
+      .catch((error) => {
+        res.json({
+          success: false,
+          error,
+        });
+      });
   },
 };

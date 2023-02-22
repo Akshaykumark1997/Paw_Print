@@ -19,9 +19,6 @@ module.exports = function validateEmployee(data) {
   if (Validator.isEmpty(data.age)) {
     errors.age = 'age field is required';
   }
-  if (Validator.isNumeric(data.age, { no_symbols: false })) {
-    errors.age = 'age should be valid';
-  }
   if (Validator.isEmpty(data.breed)) {
     errors.breed = 'breed field is required';
   }

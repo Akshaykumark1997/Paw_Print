@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "./Donate.css";
 import validate from "./Validation";
+import axios from "../../../Axios/Axios";
+import { useNavigate } from "react-router-dom";
+
 function Donate() {
   const [formValues, setFormValues] = useState({
     petName: "",
@@ -11,6 +14,8 @@ function Donate() {
     image: null,
   });
   const [error, setError] = useState({});
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const onChangeHandle = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
@@ -23,11 +28,31 @@ function Donate() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    const data = new FormData();
+    data.append("petName", formValues.petName);
+    data.append("age", formValues.age);
+    data.append("breed", formValues.breed);
+    data.append("vaccinated", formValues.vaccinated);
+    data.append("description", formValues.description);
+    data.append("image", formValues.image);
     const errors = validate(formValues);
     if (Object.keys(errors).length != 0) {
       setError(errors);
     } else {
-      console.log("no errors");
+      axios
+        .post("/donate", data, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then(() => {
+          navigate("/profile");
+        })
+        .catch((error) => {
+          if (!error.response.data.token) {
+            navigate("/login");
+          }
+        });
     }
   };
   return (

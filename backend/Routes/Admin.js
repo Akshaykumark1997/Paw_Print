@@ -55,5 +55,10 @@ router.post(
   upload.single('image'),
   adminController.editAdoption
 );
+router.get(
+  '/deleteAdoption/:id',
+  validate.verify,
+  adminController.deleteAdoption
+);
 
 module.exports = router;

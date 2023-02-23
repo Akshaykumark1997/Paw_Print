@@ -260,8 +260,9 @@ module.exports = {
       });
   },
   donate: (req, res) => {
-    console.log(req.body);
-    console.log(req.file);
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
+    console.log(decoded);
     const { errors, isValid } = validateDonation(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
@@ -272,6 +273,7 @@ module.exports = {
       breed: req.body.breed,
       vaccinated: req.body.vaccinated,
       description: req.body.description,
+      userId: decoded.id,
       image: {
         name: req.file.filename,
         path: req.file.path,

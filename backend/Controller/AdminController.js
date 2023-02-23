@@ -284,6 +284,7 @@ module.exports = {
                 breed: req.body.breed,
                 vaccinated: req.body.vaccinated,
                 description: req.body.description,
+                userId: req.body.userId,
                 'image.name': donation.image.name,
                 'image.path': donation.image.path,
               },
@@ -318,6 +319,7 @@ module.exports = {
             breed: req.body.breed,
             vaccinated: req.body.vaccinated,
             description: req.body.description,
+            userId: req.body.userId,
             'image.name': req.file.filename,
             'image.path': req.file.path,
           },
@@ -336,5 +338,21 @@ module.exports = {
           });
         });
     }
+  },
+  deleteAdoption: (req, res) => {
+    console.log(req.params.id);
+    Donation.deleteOne({ _id: req.params.id })
+      .then(() => {
+        res.json({
+          success: true,
+          message: 'Deleted Successfully',
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
   },
 };

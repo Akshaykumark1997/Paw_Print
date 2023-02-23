@@ -24,6 +24,10 @@ const DonationSchema = new Schema(
       type: String,
       required: true,
     },
+    userId: {
+      type: String,
+      required: true,
+    },
     image: {
       name: {
         type: String,

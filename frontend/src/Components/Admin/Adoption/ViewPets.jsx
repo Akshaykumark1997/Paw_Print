@@ -2,11 +2,38 @@ import React, { useEffect, useState } from "react";
 import axios from "../../../Axios/Axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function ViewPets() {
   const token = localStorage.getItem("adminToken");
   const [donations, setDonations] = useState([]);
   const navigate = useNavigate();
+  const handleDelete = (id) => {
+    console.log("delete");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .get(`/admin/deleteAdoption/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            // location.reload();
+          });
+      }
+    });
+  };
   useEffect(() => {
     axios
       .get("/admin/getAdoption", {
@@ -23,12 +50,12 @@ function ViewPets() {
           navigate("/admin");
         }
       });
-  }, []);
+  }, [donations]);
   return (
     <div className="container mt-5">
       <div className="d-flex justify-content-between align-item-center">
         <div>
-          <h1>Appointments</h1>
+          <h1>Pets</h1>
         </div>
       </div>
 
@@ -87,7 +114,7 @@ function ViewPets() {
                     </Link>
                     <button
                       className="btn"
-                      //   onClick={() => handleDelete(obj._id)}
+                      onClick={() => handleDelete(obj._id)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

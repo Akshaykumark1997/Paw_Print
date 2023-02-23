@@ -43,6 +43,7 @@ function ViewPets() {
                       <img
                         className="card-img-top"
                         src={obj.image.path}
+                        style={{ height: "192px" }}
                         alt="..."
                       />
                     </a>
@@ -55,14 +56,19 @@ function ViewPets() {
                     </div>
                     <div className="card-body">
                       <div className="text-center">
-                        <h5 className="fw-bolder">{obj.age} </h5>
+                        <p className="fw-bolder">Breed: {obj.breed}</p>
+                      </div>
+                    </div>
+                    <div className="card-body">
+                      <div className="text-center">
+                        <h5 className="fw-bolder">Age: {obj.age} Months</h5>
                       </div>
                     </div>
                     <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                       <div className="text-center">
                         <a href="">
                           <button className="btn btn-outline-dark mt-auto">
-                            view product
+                            view Details
                           </button>
                         </a>
                       </div>

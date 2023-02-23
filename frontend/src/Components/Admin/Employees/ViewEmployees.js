@@ -18,8 +18,9 @@ function ViewEmployees() {
         setEmployee(response.data.employees);
       })
       .catch((error) => {
-        console.log(error.response.data);
-        navigate("/admin");
+        if (!error.response.data.token) {
+          navigate("/admin");
+        }
       });
   }, []);
 

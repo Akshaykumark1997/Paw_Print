@@ -47,8 +47,10 @@ function ViewGrooming() {
       .then((response) => {
         setService(response.data.services);
       })
-      .catch(() => {
-        navigate("/admin");
+      .catch((error) => {
+        if (!error.response.data.token) {
+          navigate("/admin");
+        }
       });
   }, [service]);
   return (

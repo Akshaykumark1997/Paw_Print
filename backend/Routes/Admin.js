@@ -17,7 +17,7 @@ router.post(
   upload.single('image'),
   adminController.addEmployee
 );
-router.get('/employees', adminController.employees);
+router.get('/employees', validate.verify, adminController.employees);
 router.get(
   '/employeeAssign/:id/:eid',
   validate.verify,

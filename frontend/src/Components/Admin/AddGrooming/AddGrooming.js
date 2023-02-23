@@ -50,9 +50,10 @@ function AddGrooming() {
         .then(() => {
           navigate("/admin/grooming");
         })
-        .catch((err) => {
-          console.log(err.response);
-          navigate("/admin");
+        .catch((error) => {
+          if (!error.response.data.token) {
+            navigate("/admin");
+          }
         });
     }
   };

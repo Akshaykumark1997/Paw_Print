@@ -149,33 +149,40 @@ module.exports = {
     if (!req.file) {
       Service.find({
         _id: req.body.id,
-      }).then((service) => {
-        Service.updateOne(
-          { _id: req.body.id },
-          {
-            $set: {
-              name: req.body.name,
-              standardPrice: req.body.standardPrice,
-              premiumPrice: req.body.premiumPrice,
-              description: req.body.description,
-              'image.name': service.name,
-              'image.path': service.path,
-            },
-          }
-        )
-          .then(() => {
-            res.json({
-              sucess: true,
-              message: 'updated successfully',
+      })
+        .then((service) => {
+          Service.updateOne(
+            { _id: req.body.id },
+            {
+              $set: {
+                name: req.body.name,
+                standardPrice: req.body.standardPrice,
+                premiumPrice: req.body.premiumPrice,
+                description: req.body.description,
+                'image.name': service.name,
+                'image.path': service.path,
+              },
+            }
+          )
+            .then(() => {
+              res.json({
+                sucess: true,
+                message: 'updated successfully',
+              });
+            })
+            .catch((error) => {
+              res.status(400).json({
+                success: false,
+                error,
+              });
             });
-          })
-          .catch((error) => {
-            res.status(400).json({
-              success: false,
-              error,
-            });
+        })
+        .catch((error) => {
+          res.status(400).json({
+            success: false,
+            error,
           });
-      });
+        });
     } else {
       Service.updateOne(
         { _id: req.body.id },
@@ -248,7 +255,6 @@ module.exports = {
       });
   },
   getEditAdoption: (req, res) => {
-    console.log(req.params.id);
     Donation.findOne({ _id: req.params.id })
       .then((donation) => {
         res.json({
@@ -262,5 +268,73 @@ module.exports = {
           error,
         });
       });
+  },
+  editAdoption: (req, res) => {
+    console.log(req.body);
+    console.log(req.file);
+    if (!req.file) {
+      Donation.findOne({ _id: req.body.id })
+        .then((donation) => {
+          Donation.updateOne(
+            { _id: req.body.id },
+            {
+              $set: {
+                petName: req.body.petName,
+                age: req.body.age,
+                breed: req.body.breed,
+                vaccinated: req.body.vaccinated,
+                description: req.body.description,
+                'image.name': donation.image.name,
+                'image.path': donation.image.path,
+              },
+            }
+          )
+            .then(() => {
+              res.json({
+                success: true,
+                message: 'Updated successfully',
+              });
+            })
+            .catch((error) => {
+              res.status(400).json({
+                success: false,
+                error,
+              });
+            });
+        })
+        .catch((error) => {
+          res.status(400).json({
+            success: false,
+            error,
+          });
+        });
+    } else {
+      Donation.updateOne(
+        { _id: req.body.id },
+        {
+          $set: {
+            petName: req.body.petName,
+            age: req.body.age,
+            breed: req.body.breed,
+            vaccinated: req.body.vaccinated,
+            description: req.body.description,
+            'image.name': req.file.filename,
+            'image.path': req.file.path,
+          },
+        }
+      )
+        .then(() => {
+          res.json({
+            success: true,
+            message: 'Updated successfully',
+          });
+        })
+        .catch((error) => {
+          res.status(400).json({
+            success: false,
+            error,
+          });
+        });
+    }
   },
 };

@@ -49,5 +49,11 @@ router.get(
   validate.verify,
   adminController.getEditAdoption
 );
+router.post(
+  '/editAdoption',
+  validate.verify,
+  upload.single('image'),
+  adminController.editAdoption
+);
 
 module.exports = router;

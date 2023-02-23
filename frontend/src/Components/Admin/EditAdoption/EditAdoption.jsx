@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 import validate from "./Validation";
+import { message } from "antd";
 
 function EditAdoption() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function EditAdoption() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData();
+    data.append("id", formValues._id);
     data.append("petName", formValues.petName);
     data.append("age", formValues.age);
     data.append("breed", formValues.breed);
@@ -47,10 +49,13 @@ function EditAdoption() {
           },
         })
         .then((response) => {
-          console.log(response);
+          message.success(response.data.message);
+          navigate("/admin/adoption");
         })
         .catch((error) => {
-          console.log(error);
+          if (!error.response.data.token) {
+            navigate("/admin");
+          }
         });
     }
   };
@@ -62,11 +67,9 @@ function EditAdoption() {
         },
       })
       .then((response) => {
-        console.log(response.data);
         setFormValues(response.data.donation);
       })
       .catch((error) => {
-        console.log(error);
         if (!error.response.data.token) {
           navigate("/admin");
         }

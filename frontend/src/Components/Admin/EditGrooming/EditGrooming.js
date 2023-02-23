@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 import validate from "./Validation";
+import { message } from "antd";
 
 function EditGrooming() {
   const location = useLocation();
@@ -47,11 +48,14 @@ function EditGrooming() {
             Authorization: token,
           },
         })
-        .then(() => {
+        .then((response) => {
+          message.success(response.data.message);
           navigate("/admin/grooming");
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          if (!error.response.data.token) {
+            navigate("/admin");
+          }
         });
     }
   };

@@ -1,5 +1,6 @@
 import React from "react";
 import Donate from "../../../Components/User/DonatePet/Donate";
+import Footer from "../../../Components/User/Footer/Footer";
 import NavBar from "../../../Components/User/NavBar/NavBar";
 
 function DonatePet() {
@@ -7,6 +8,7 @@ function DonatePet() {
     <div>
       <NavBar />
       <Donate />
+      <Footer />
     </div>
   );
 }

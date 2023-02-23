@@ -293,4 +293,19 @@ module.exports = {
         });
       });
   },
+  getPets: (req, res) => {
+    Donation.find({})
+      .then((donations) => {
+        res.json({
+          success: true,
+          donations,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
 };

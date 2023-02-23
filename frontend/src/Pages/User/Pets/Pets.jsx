@@ -1,16 +1,16 @@
 import React from "react";
 import Footer from "../../../Components/User/Footer/Footer";
 import NavBar from "../../../Components/User/NavBar/NavBar";
-import Profile from "../../../Components/User/Profile/Profile";
+import ViewPets from "../../../Components/User/ViewPets/ViewPets";
 
-function UserProfile() {
+function Pets() {
   return (
     <div>
       <NavBar />
-      <Profile />
+      <ViewPets />
       <Footer />
     </div>
   );
 }
 
-export default UserProfile;
+export default Pets;

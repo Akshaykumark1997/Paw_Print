@@ -21,6 +21,7 @@ import UserProfile from "./Pages/User/Profile/UserProfile";
 import DonatePet from "./Pages/User/Donate/DonatePet";
 import AdoptionDetails from "./Pages/Admin/Adoption/AdoptionDetails";
 import EditAdoptionDetails from "./Pages/Admin/EditAdoption/EditAdoptionDetails";
+import Pets from "./Pages/User/Pets/Pets";
 
 function App() {
   // const user = localStorage.getItem("token");
@@ -36,6 +37,7 @@ function App() {
           <Route path="/appointment" element={<AppointmentBooking />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/donate" element={<DonatePet />} />
+          <Route path="/pets" element={<Pets />} />
           <Route path="/otp" element={<OtpVarification />} />
           <Route path="/admin" element={<Login />} />
           <Route path="/admin/grooming" element={<Grooming />} />

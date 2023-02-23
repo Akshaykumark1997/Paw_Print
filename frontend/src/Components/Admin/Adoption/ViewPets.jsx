@@ -29,7 +29,6 @@ function ViewPets() {
           .then((response) => {
             console.log(response);
             Swal.fire("Deleted!", "Your file has been deleted.", "success");
-            // location.reload();
           });
       }
     });

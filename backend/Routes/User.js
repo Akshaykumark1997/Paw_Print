@@ -21,4 +21,5 @@ router.post(
   upload.single('image'),
   userController.donate
 );
+router.get('/pets', verify.verify, userController.getPets);
 module.exports = router;

@@ -247,4 +247,20 @@ module.exports = {
         });
       });
   },
+  getEditAdoption: (req, res) => {
+    console.log(req.params.id);
+    Donation.findOne({ _id: req.params.id })
+      .then((donation) => {
+        res.json({
+          success: true,
+          donation,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
 };

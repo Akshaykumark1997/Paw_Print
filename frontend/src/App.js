@@ -20,6 +20,7 @@ import EmployeeHome from "./Pages/Employee/Appointments/EmployeeAppointments";
 import UserProfile from "./Pages/User/Profile/UserProfile";
 import DonatePet from "./Pages/User/Donate/DonatePet";
 import AdoptionDetails from "./Pages/Admin/Adoption/AdoptionDetails";
+import EditAdoptionDetails from "./Pages/Admin/EditAdoption/EditAdoptionDetails";
 
 function App() {
   // const user = localStorage.getItem("token");
@@ -43,6 +44,7 @@ function App() {
           <Route path="/admin/employees" element={<Employees />} />
           <Route path="/admin/addEmployee" element={<NewEmployee />} />
           <Route path="/admin/adoption" element={<AdoptionDetails />} />
+          <Route path="/admin/editAdoption" element={<EditAdoptionDetails />} />
           <Route path="/admin/appointments" element={<Appointment />} />
           <Route path="/employee" element={<EmployeeLogin />} />
           <Route path="/employee/appointments" element={<EmployeeHome />} />

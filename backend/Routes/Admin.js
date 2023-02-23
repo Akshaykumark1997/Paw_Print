@@ -44,5 +44,10 @@ router.get(
 );
 router.get('/appointments', validate.verify, adminController.getAppointments);
 router.get('/getAdoption', validate.verify, adminController.getAdoption);
+router.get(
+  '/editAdoption/:id',
+  validate.verify,
+  adminController.getEditAdoption
+);
 
 module.exports = router;

@@ -56,7 +56,6 @@ function SignUp() {
 
   const validate = (values) => {
     const errors = {};
-
     if (!values.userName) {
       errors.userName = "Username is required";
     } else if (!/^[A-Za-z\s]*$/.test(values.userName)) {

@@ -1,12 +1,15 @@
 const validate = (values) => {
   const errors = {};
   console.log(values);
-  if (values.name == "") {
+  const name = values.name.trim();
+  const petName = values.petName.trim();
+  const petDetails = values.petDetails.trim();
+  if (name == "") {
     errors.name = "name is required";
   } else if (!/^[A-Za-z\s]*$/.test(values.name)) {
     errors.name = "name should only contain alphabets and space";
   }
-  if (values.petName == "") {
+  if (petName == "") {
     errors.petName = "petName is required";
   } else if (!/^[A-Za-z\s]*$/.test(values.petName)) {
     errors.petName = "petName should only contain alphabets and space";
@@ -25,7 +28,7 @@ const validate = (values) => {
   ) {
     errors.email = "Invalid email address";
   }
-  if (values.petDetails == "") {
+  if (petDetails == "") {
     errors.petDetails = "petDetails is required";
   }
   if (values.date == "") {

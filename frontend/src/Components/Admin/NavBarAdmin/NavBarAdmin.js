@@ -29,7 +29,7 @@ function NavBarAdmin() {
             className="text-decoration-none"
             style={{ color: "inherit" }}
           >
-            Sidebar
+            Admin
           </a>
         </CDBSidebarHeader>
 

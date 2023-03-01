@@ -1,5 +1,5 @@
 import "./App.css";
-// import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignIn from "./Pages/User/Login/SignIn";
@@ -28,7 +28,7 @@ import AdminAutorization from "./Components/Authorization/AdminAutorization";
 import EmployeeAuthorization from "./Components/Authorization/EmployeeAuthorization";
 
 function App() {
-  // const user = localStorage.getItem("token");
+  const user = localStorage.getItem("token");
   // const admin = localStorage.getItem("adminToken");
   // const employee = localStorage.getItem("employeeToken");
   return (
@@ -36,9 +36,18 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<UserHome />} />
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/signup" element={<Registration />} />
-          <Route path="/otp" element={<OtpVarification />} />
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/" /> : <SignIn />}
+          />
+          <Route
+            path="/signup"
+            element={user ? <Navigate to="/" /> : <Registration />}
+          />
+          <Route
+            path="/otp"
+            element={user ? <Navigate to="/" /> : <OtpVarification />}
+          />
           <Route element={<UserAuthorization />}>
             <Route path="/grooming" element={<GroomingService />} />
             <Route path="/clinics" element={<ViewClinics />} />

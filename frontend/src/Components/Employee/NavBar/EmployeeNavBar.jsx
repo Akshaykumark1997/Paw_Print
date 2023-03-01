@@ -24,7 +24,7 @@ function EmployeeNavBar() {
             className="text-decoration-none"
             style={{ color: "inherit" }}
           >
-            Sidebar
+            Employee
           </a>
         </CDBSidebarHeader>
 

@@ -28,6 +28,11 @@ const appointmentSchema = new Schema(
       type: String,
       required: true,
     },
+    paymentStatus: {
+      type: String,
+      required: true,
+      default: 'Not Paid',
+    },
     employee: {
       type: String,
     },

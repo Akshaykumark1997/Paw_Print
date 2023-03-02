@@ -1,9 +1,7 @@
 const validate = (values) => {
   const errors = {};
-  console.log(values);
   const name = values.name.trim();
   const petName = values.petName.trim();
-  const petDetails = values.petDetails.trim();
   if (name == "") {
     errors.name = "name is required";
   } else if (!/^[A-Za-z\s]*$/.test(values.name)) {
@@ -28,7 +26,7 @@ const validate = (values) => {
   ) {
     errors.email = "Invalid email address";
   }
-  if (petDetails == "") {
+  if (values.petDetails == "") {
     errors.petDetails = "petDetails is required";
   }
   if (values.date == "") {

@@ -15,6 +15,7 @@ router.post('/verifyOtp', verify.verify, userController.verifyOtp);
 // router.get('/deleteOtp/:id', userController.deleteOtp);
 router.post('/resendOtp', userController.resendOtp);
 router.post('/appointment', verify.verify, userController.appointment);
+router.post('/verifyPayment', verify.verify, userController.verifyPayment);
 router.post(
   '/donate',
   verify.verify,

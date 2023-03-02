@@ -3,8 +3,11 @@ import "./Appointment.css";
 import validate from "./Validation";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
+import useRazorpay from "react-razorpay";
+import { message } from "antd";
 
 function AppointmentForm() {
+  const Razorpay = useRazorpay();
   const initialValues = {
     name: "",
     petName: "",
@@ -24,7 +27,6 @@ function AppointmentForm() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formValues);
     const errors = validate(formValues);
     if (Object.keys(errors).length != 0) {
       setErrors(errors);
@@ -35,15 +37,96 @@ function AppointmentForm() {
             Authorization: token,
           },
         })
-        .then((response) => {
-          console.log(response.data);
-          location.reload();
+        .then((res) => {
+          console.log(res.data);
+          // payment(response);
+          const options = {
+            key: "rzp_test_WekI0c4CjhtNac", // Enter the Key ID generated from the Dashboard
+            amount: "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            currency: "INR",
+            name: "Acme Corp",
+            description: "Test Transaction",
+            image: "https://example.com/your_logo",
+            order_id: res.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of createOrder().
+            handler: function (response) {
+              // alert(response.razorpay_payment_id);
+              // alert(response.razorpay_order_id);
+              // alert(response.razorpay_signature);
+              verifyPayment(response, res.data);
+            },
+            prefill: {
+              name: "Paw Print",
+              email: "pawprint@gmail.com",
+              contact: "9999999999",
+            },
+            notes: {
+              address: "Razorpay Corporate Office",
+            },
+            theme: {
+              color: "#3399cc",
+            },
+          };
+          const rzp1 = new Razorpay(options);
+
+          rzp1.on("payment.failed", function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+          });
+
+          rzp1.open();
         })
         .catch((err) => {
-          console.log(err.response.data);
-          navigate("/login");
+          console.log(err);
+          // localStorage.removeItem("token");
+          if (!error.response.data.token) {
+            navigate("/admin");
+          }
         });
     }
+  };
+  const verifyPayment = (payment, details) => {
+    console.log(payment);
+    console.log(details);
+    axios
+      .post(
+        "/verifyPayment",
+        { payment, details },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data.message);
+        message.success("payment completed successfully");
+        setFormValues({
+          name: "",
+          petName: "",
+          email: "",
+          mobile: "",
+          date: "",
+          time: "",
+        });
+        navigate("/appointment");
+      })
+      .catch(() => {
+        message.error("Payment failed");
+        setFormValues({
+          name: "",
+          petName: "",
+          email: "",
+          mobile: "",
+          date: "",
+          time: "",
+        });
+        navigate("/appointment");
+      });
   };
   return (
     <div>

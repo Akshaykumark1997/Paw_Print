@@ -1,8 +1,10 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const crypto = require('crypto');
 const validateRegisterInput = require('../Validation/Register');
 const validateLoginInput = require('../Validation/Login');
 const validateDonation = require('../Validation/Donation');
@@ -12,6 +14,7 @@ const sendOtp = require('../Middleware/otp');
 const otp = require('../Model/OtpSchema');
 const Appointment = require('../Model/AppointmentSchema');
 const Donation = require('../Model/DonationSchema');
+const instance = require('../Middleware/Razorpay.js');
 
 dotenv.config();
 
@@ -246,10 +249,23 @@ module.exports = {
       date: req.body.date,
       time: req.body.time,
     })
-      .then(() => {
-        res.json({
-          sucess: true,
-          message: 'Appointment created successfully',
+      .then((data) => {
+        const options = {
+          amount: 300000,
+          currency: 'INR',
+          // eslint-disable-next-line prefer-template
+          receipt: '' + data._id,
+        };
+        instance.orders.create(options, (err, order) => {
+          if (err) {
+            console.log(err);
+            res.status(400).json({
+              success: false,
+              err,
+            });
+          } else {
+            res.json(order);
+          }
         });
       })
       .catch((error) => {
@@ -258,6 +274,41 @@ module.exports = {
           error,
         });
       });
+  },
+  verifyPayment: (req, res) => {
+    console.log(req.body);
+    let hmac = crypto.createHmac('sha256', process.env.KETSECRET);
+    hmac.update(
+      `${req.body.payment.razorpay_order_id}|${req.body.payment.razorpay_payment_id}`
+    );
+    hmac = hmac.digest('hex');
+    if (hmac === req.body.payment.razorpay_signature) {
+      Appointment.updateOne(
+        { _id: req.body.details.receipt },
+        {
+          $set: {
+            paymentStatus: 'Paid',
+          },
+        }
+      )
+        .then(() => {
+          res.json({
+            success: true,
+            message: 'Payment completed successfully',
+          });
+        })
+        .catch((error) => {
+          res.status(400).json({
+            success: false,
+            error,
+          });
+        });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: 'Payment failed',
+      });
+    }
   },
   donate: (req, res) => {
     const token = req.headers.authorization;

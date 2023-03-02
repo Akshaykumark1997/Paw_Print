@@ -5,6 +5,7 @@ import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 import useRazorpay from "react-razorpay";
 import { message } from "antd";
+import { razorpayId } from "../../../Constance/Constance";
 
 function AppointmentForm() {
   const Razorpay = useRazorpay();
@@ -41,10 +42,10 @@ function AppointmentForm() {
           console.log(res.data);
           // payment(response);
           const options = {
-            key: "rzp_test_WekI0c4CjhtNac", // Enter the Key ID generated from the Dashboard
+            key: razorpayId, // Enter the Key ID generated from the Dashboard
             amount: "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
             currency: "INR",
-            name: "Acme Corp",
+            name: "Paw Print",
             description: "Test Transaction",
             image: "https://example.com/your_logo",
             order_id: res.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of createOrder().
@@ -68,14 +69,24 @@ function AppointmentForm() {
           };
           const rzp1 = new Razorpay(options);
 
-          rzp1.on("payment.failed", function (response) {
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
+          rzp1.on("payment.failed", function () {
+            // alert(response.error.code);
+            // alert(response.error.description);
+            // alert(response.error.source);
+            // alert(response.error.step);
+            // alert(response.error.reason);
+            // alert(response.error.metadata.order_id);
+            // alert(response.error.metadata.payment_id);
+            message.error("payment failed");
+            setFormValues({
+              name: "",
+              petName: "",
+              email: "",
+              mobile: "",
+              date: "",
+              time: "",
+            });
+            navigate("/appointment");
           });
 
           rzp1.open();
@@ -90,8 +101,6 @@ function AppointmentForm() {
     }
   };
   const verifyPayment = (payment, details) => {
-    console.log(payment);
-    console.log(details);
     axios
       .post(
         "/verifyPayment",

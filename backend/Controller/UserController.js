@@ -15,6 +15,7 @@ const otp = require('../Model/OtpSchema');
 const Appointment = require('../Model/AppointmentSchema');
 const Donation = require('../Model/DonationSchema');
 const instance = require('../Middleware/Razorpay.js');
+const Service = require('../Model/ServiceSchema');
 
 dotenv.config();
 
@@ -365,6 +366,36 @@ module.exports = {
         res.json({
           success: true,
           petDetails,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
+  services: (req, res) => {
+    Service.find({})
+      .then((services) => {
+        res.json({
+          success: true,
+          services,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
+  serviceDetails: (req, res) => {
+    Service.findOne({ _id: req.params.id })
+      .then((service) => {
+        res.json({
+          success: true,
+          service,
         });
       })
       .catch((error) => {

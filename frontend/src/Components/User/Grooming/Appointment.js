@@ -1,6 +1,5 @@
 import React from "react";
 import "./Appointment.css";
-import { Link } from "react-router-dom";
 
 function Appointment() {
   return (
@@ -20,11 +19,10 @@ function Appointment() {
             information on a specific breed, tips on training, or the best
             products for your pet, you ll find it all here.
           </p>
-          <Link to="/appointment">
-            <button className="btn btn-primary" id="button">
-              Make Appointment
-            </button>
-          </Link>
+
+          <button className="btn btn-primary" id="button">
+            Contact Us
+          </button>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Appointment.css";
 import validate from "./Validation";
 import axios from "../../../Axios/Axios";
@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import useRazorpay from "react-razorpay";
 import { message } from "antd";
 import { razorpayId } from "../../../Constance/Constance";
+import { useLocation } from "react-router-dom";
 
 function AppointmentForm() {
+  const location = useLocation();
   const Razorpay = useRazorpay();
   const initialValues = {
     name: "",
@@ -20,6 +22,8 @@ function AppointmentForm() {
   const token = localStorage.getItem("token");
   const minDate = new Date().toISOString().slice(0, 10);
   const [formValues, setFormValues] = useState(initialValues);
+  const [service, setService] = useState({});
+  const [image, setImage] = useState("");
   const navigate = useNavigate();
   const [error, setErrors] = useState({});
   const onChangeHandle = (event) => {
@@ -125,6 +129,25 @@ function AppointmentForm() {
         navigate("/appointment");
       });
   };
+  useEffect(() => {
+    console.log(location.state.id);
+    axios
+      .get(`/serviceDetails/${location.state.id}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        console.log(response.data.service);
+        setService(response.data.service);
+        setImage(response.data.service.image.path);
+      })
+      .catch((error) => {
+        if (!error.response.data.token) {
+          navigate("/admin");
+        }
+      });
+  }, []);
   return (
     <div>
       <div
@@ -134,7 +157,7 @@ function AppointmentForm() {
         <div className="container">
           <div className="row">
             <div className="col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
-              <h1 className="text-white">My Main Heading</h1>
+              <h1 className="text-white">{service.name}</h1>
             </div>
           </div>
         </div>
@@ -143,15 +166,11 @@ function AppointmentForm() {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-md-6">
-              <img
-                src="../../../../Images/b-2.jpg"
-                alt="Left Image"
-                className="img-fluid"
-              />
+              <img src={image} alt="Left Image" className="img-fluid" />
             </div>
             <div className="col-md-6">
               <div className="row">
-                <h2 className="text-center mb-4">My Form Heading</h2>
+                <h2 className="text-center mb-4">Make Appointment</h2>
                 <div className="col-lg-8 offset-lg-2">
                   <form onSubmit={handleSubmit}>
                     <div className="form-group mb-3">
@@ -248,15 +267,8 @@ function AppointmentForm() {
         </div>
       </section>
       <div className="col-lg-10 offset-lg-1  my-5">
-        <p className="lead text-center">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget leo
-          vel ipsum consectetur malesuada at eget turpis. Phasellus sit amet
-          neque sapien. Vivamus tincidunt lectus mauris, ut facilisis justo
-          tincidunt id. Etiam vitae consectetur ipsum. Aenean dignissim lacinia
-          odio, non hendrerit quam ullamcorper in. Donec sit amet mi sapien.
-          Nulla vitae felis lacus. Nam eget ligula nec odio eleifend
-          consectetur.
-        </p>
+        <h1>About</h1>
+        <p className="lead text-center">{service.description}</p>
       </div>
     </div>
   );

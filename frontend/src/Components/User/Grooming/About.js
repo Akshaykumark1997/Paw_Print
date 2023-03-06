@@ -4,7 +4,7 @@ import "./About.css";
 function ServiceSection() {
   return (
     <div className="container">
-      <h1 className="center-heading mt-5">Pet Adoption Process</h1>
+      <h1 className="center-heading mt-5">About</h1>
       <section className="responsive-section mt-5">
         <div className="responsive-section-left">
           <img src="../../../../Images/HERO2.jpg" alt="your-image-alt-text" />

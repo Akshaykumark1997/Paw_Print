@@ -1,0 +1,13 @@
+.lispetDetailsListt{
+    text-align: start;
+}
+#petDetailsButton{
+    width: 100px;
+    color:white;
+    background-color: #677F96;
+}
+/* @media only screen and (max-width: 600px){
+  #petDetailsButton{
+    align-self: center !important;
+  }
+} */

@@ -359,4 +359,19 @@ module.exports = {
         });
       });
   },
+  petDetails: (req, res) => {
+    Donation.findOne({ _id: req.params.id })
+      .then((petDetails) => {
+        res.json({
+          success: true,
+          petDetails,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
 };

@@ -1,5 +1,5 @@
 import "./App.css";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignIn from "./Pages/User/Login/SignIn";
@@ -26,35 +26,28 @@ import Pets from "./Pages/User/Pets/Pets";
 import UserAuthorization from "./Components/Authorization/UserAuthorization";
 import AdminAutorization from "./Components/Authorization/AdminAutorization";
 import EmployeeAuthorization from "./Components/Authorization/EmployeeAuthorization";
+import DonatePetDetails from "./Pages/User/PetDetails/DonatePetDetails";
 
 function App() {
-  const user = localStorage.getItem("token");
+  // const user = localStorage.getItem("token");
   // const admin = localStorage.getItem("adminToken");
   // const employee = localStorage.getItem("employeeToken");
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route path="/" element={<UserHome />} />
-          <Route
-            path="/login"
-            element={user ? <Navigate to="/" /> : <SignIn />}
-          />
-          <Route
-            path="/signup"
-            element={user ? <Navigate to="/" /> : <Registration />}
-          />
-          <Route
-            path="/otp"
-            element={user ? <Navigate to="/" /> : <OtpVarification />}
-          />
+          <Route path="/login" element={<SignIn />} />
+          <Route path="/signup" element={<Registration />} />
+          <Route path="/otp" element={<OtpVarification />} />
           <Route element={<UserAuthorization />}>
+            <Route path="/" element={<UserHome />} />
             <Route path="/grooming" element={<GroomingService />} />
             <Route path="/clinics" element={<ViewClinics />} />
             <Route path="/appointment" element={<AppointmentBooking />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/donate" element={<DonatePet />} />
             <Route path="/pets" element={<Pets />} />
+            <Route path="/petDetails" element={<DonatePetDetails />} />
           </Route>
           <Route path="/admin" element={<Login />} />
           <Route path="/admin" element={<AdminAutorization />}>

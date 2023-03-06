@@ -23,4 +23,5 @@ router.post(
   userController.donate
 );
 router.get('/pets', verify.verify, userController.getPets);
+router.get('/petDetails/:id', verify.verify, userController.petDetails);
 module.exports = router;

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../Axios/Axios";
+import { Link, useNavigate } from "react-router-dom";
 
 function ViewPets() {
   const token = localStorage.getItem("token");
   const [pets, setPets] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get("/pets", {
@@ -15,7 +17,9 @@ function ViewPets() {
         setPets(response.data.donations);
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (!error.response.data.token) {
+          navigate("/login");
+        }
       });
   }, []);
   return (
@@ -66,11 +70,11 @@ function ViewPets() {
                     </div>
                     <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                       <div className="text-center">
-                        <a href="">
+                        <Link to="/petDetails" state={{ id: obj._id }}>
                           <button className="btn btn-outline-dark mt-auto">
                             view Details
                           </button>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>

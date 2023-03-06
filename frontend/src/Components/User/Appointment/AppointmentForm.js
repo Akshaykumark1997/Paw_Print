@@ -40,19 +40,15 @@ function AppointmentForm() {
         })
         .then((res) => {
           console.log(res.data);
-          // payment(response);
           const options = {
-            key: razorpayId, // Enter the Key ID generated from the Dashboard
-            amount: "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            key: razorpayId,
+            amount: "50000",
             currency: "INR",
             name: "Paw Print",
             description: "Test Transaction",
             image: "https://example.com/your_logo",
-            order_id: res.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of createOrder().
+            order_id: res.data.id,
             handler: function (response) {
-              // alert(response.razorpay_payment_id);
-              // alert(response.razorpay_order_id);
-              // alert(response.razorpay_signature);
               verifyPayment(response, res.data);
             },
             prefill: {
@@ -70,13 +66,6 @@ function AppointmentForm() {
           const rzp1 = new Razorpay(options);
 
           rzp1.on("payment.failed", function () {
-            // alert(response.error.code);
-            // alert(response.error.description);
-            // alert(response.error.source);
-            // alert(response.error.step);
-            // alert(response.error.reason);
-            // alert(response.error.metadata.order_id);
-            // alert(response.error.metadata.payment_id);
             message.error("payment failed");
             setFormValues({
               name: "",
@@ -93,7 +82,6 @@ function AppointmentForm() {
         })
         .catch((err) => {
           console.log(err);
-          // localStorage.removeItem("token");
           if (!error.response.data.token) {
             navigate("/admin");
           }

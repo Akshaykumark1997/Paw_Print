@@ -6,6 +6,7 @@ import axios from "../../../Axios/Axios";
 export default function PetDetails() {
   const token = localStorage.getItem("token");
   const [petDetails, setPetDetails] = useState({});
+  const [image, setImage] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
@@ -19,6 +20,7 @@ export default function PetDetails() {
       .then((response) => {
         console.log(response.data.petDetails);
         setPetDetails(response.data.petDetails);
+        setImage(response.data.petDetails.image.path);
       })
       .catch((error) => {
         if (!error.response.data.token) {
@@ -35,7 +37,7 @@ export default function PetDetails() {
         <div className="container">
           <div className="row">
             <div className="col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
-              <h1 className="text-white">My Main Heading</h1>
+              <h1 className="text-white">Pet Details</h1>
             </div>
           </div>
         </div>
@@ -44,23 +46,22 @@ export default function PetDetails() {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-md-6">
-              <img
-                src="../../../../Images/b-2.jpg"
-                alt="Left Image"
-                className="img-fluid"
-              />
+              <img src={image} alt="Left Image" className="img-fluid" />
             </div>
             <div className="col-md-6 align-self-center">
               <div className="row">
                 <h2 className="text-center mb-4 mt-3">{petDetails.petName}</h2>
-                <div className="col-lg-8 offset-lg-2 d-flex justify-content-between">
-                  <ul className="petDetailsList">
-                    <li>Name</li>
-                    <li>Age</li>
+                <div
+                  className="col-lg-8 offset-lg-2 d-flex justify-content-between"
+                  id="petDetailsList"
+                >
+                  <ul>
+                    <li>{petDetails.petName}</li>
+                    <li>{petDetails.age}</li>
                   </ul>
-                  <ul className="petDetailsList">
-                    <li>Breed</li>
-                    <li>Vaccinated</li>
+                  <ul>
+                    <li>{petDetails.breed}</li>
+                    <li>{petDetails.vaccinated}</li>
                   </ul>
                 </div>
                 <div className="contanier">
@@ -89,15 +90,7 @@ export default function PetDetails() {
       </section>
       <div className="col-lg-10 offset-lg-1  my-5">
         <h1>About</h1>
-        <p className="lead text-center">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget leo
-          vel ipsum consectetur malesuada at eget turpis. Phasellus sit amet
-          neque sapien. Vivamus tincidunt lectus mauris, ut facilisis justo
-          tincidunt id. Etiam vitae consectetur ipsum. Aenean dignissim lacinia
-          odio, non hendrerit quam ullamcorper in. Donec sit amet mi sapien.
-          Nulla vitae felis lacus. Nam eget ligula nec odio eleifend
-          consectetur.
-        </p>
+        <p className="lead text-center">{petDetails.description}</p>
       </div>
     </div>
   );

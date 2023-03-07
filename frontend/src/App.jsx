@@ -27,6 +27,7 @@ import UserAuthorization from "./Components/Authorization/UserAuthorization";
 import AdminAutorization from "./Components/Authorization/AdminAutorization";
 import EmployeeAuthorization from "./Components/Authorization/EmployeeAuthorization";
 import DonatePetDetails from "./Pages/User/PetDetails/DonatePetDetails";
+import ApplyForm from "./Pages/User/Adoption/ApplyForm";
 
 function App() {
   // const user = localStorage.getItem("token");
@@ -48,6 +49,7 @@ function App() {
             <Route path="/donate" element={<DonatePet />} />
             <Route path="/pets" element={<Pets />} />
             <Route path="/petDetails" element={<DonatePetDetails />} />
+            <Route path="/adoption" element={<ApplyForm />} />
           </Route>
           <Route path="/admin" element={<Login />} />
           <Route path="/admin" element={<AdminAutorization />}>

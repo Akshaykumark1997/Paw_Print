@@ -1,7 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import "./AdoptionFrom.css";
+import Validate from "./Validation";
 
 function AdoptionFrom() {
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    mobile: "",
+    email: "",
+    houseName: "",
+    streetName: "",
+    city: "",
+    state: "",
+    country: "",
+    pincode: "",
+    petName: "",
+    pet: "",
+    breed: "",
+    description: "",
+  });
+  const [error, setError] = useState({});
+  const onChangeHandle = (event) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const errors = Validate(formValues);
+    if (Object.keys(errors).length != 0) {
+      setError(errors);
+    }
+  };
   return (
     <div>
       <section className="gradient-custom">
@@ -13,7 +42,7 @@ function AdoptionFrom() {
                   <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">
                     Registration Form
                   </h3>
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <p id="adoptionHeadings">Perspective Pet Parent</p>
                     <div className="row">
                       <div className="col-md-6 mb-4">
@@ -22,8 +51,11 @@ function AdoptionFrom() {
                             type="text"
                             id="firstName"
                             name="firstName"
+                            value={formValues.firstName}
+                            onChange={onChangeHandle}
                             className="form-control form-control-lg"
                           />
+                          <p className="error">{error.firstName}</p>
                           <label className="form-label" htmlFor="firstName">
                             First Name
                           </label>
@@ -35,8 +67,11 @@ function AdoptionFrom() {
                             type="text"
                             id="lastName"
                             name="lastName"
+                            value={formValues.lastName}
+                            onChange={onChangeHandle}
                             className="form-control form-control-lg"
                           />
+                          <p className="error">{error.lastName}</p>
                           <label className="form-label" htmlFor="lastName">
                             Last Name
                           </label>
@@ -51,8 +86,11 @@ function AdoptionFrom() {
                             type="mobile"
                             id="mobile"
                             name="mobile"
+                            value={formValues.mobile}
+                            onChange={onChangeHandle}
                             className="form-control form-control-lg"
                           />
+                          <p className="error">{error.mobile}</p>
                           <label className="form-label" htmlFor="emailAddress">
                             Mobile
                           </label>
@@ -61,11 +99,14 @@ function AdoptionFrom() {
                       <div className="col-md-6 mb-4">
                         <div className="form-outline datepicker w-100">
                           <input
-                            type="text"
+                            type="email"
                             className="form-control form-control-lg"
                             id="email"
                             name="email"
+                            value={formValues.email}
+                            onChange={onChangeHandle}
                           />
+                          <p className="error">{error.email}</p>
                           <label htmlFor="birthdayDate" className="form-label">
                             Email
                           </label>
@@ -80,8 +121,11 @@ function AdoptionFrom() {
                             type="houseName"
                             id="houseName"
                             name="houseName"
+                            value={formValues.houseName}
+                            onChange={onChangeHandle}
                             className="form-control form-control-lg"
                           />
+                          <p className="error">{error.houseName}</p>
                           <label className="form-label" htmlFor="emailAddress">
                             House Name
                           </label>
@@ -94,7 +138,10 @@ function AdoptionFrom() {
                             className="form-control form-control-lg"
                             id="streetName"
                             name="streetName"
+                            value={formValues.streetName}
+                            onChange={onChangeHandle}
                           />
+                          <p className="error">{error.streetName}</p>
                           <label htmlFor="birthdayDate" className="form-label">
                             Street Name
                           </label>
@@ -108,8 +155,11 @@ function AdoptionFrom() {
                             type="city"
                             id="city"
                             name="city"
+                            value={formValues.city}
+                            onChange={onChangeHandle}
                             className="form-control form-control-lg"
                           />
+                          <p className="error">{error.city}</p>
                           <label className="form-label" htmlFor="emailAddress">
                             City
                           </label>
@@ -122,7 +172,10 @@ function AdoptionFrom() {
                             className="form-control form-control-lg"
                             id="state"
                             name="state"
+                            value={formValues.state}
+                            onChange={onChangeHandle}
                           />
+                          <p className="error">{error.state}</p>
                           <label htmlFor="birthdayDate" className="form-label">
                             State
                           </label>
@@ -136,8 +189,11 @@ function AdoptionFrom() {
                             type="country"
                             id="country"
                             name="country"
+                            value={formValues.country}
+                            onChange={onChangeHandle}
                             className="form-control form-control-lg"
                           />
+                          <p className="error">{error.country}</p>
                           <label className="form-label" htmlFor="emailAddress">
                             Country
                           </label>
@@ -150,7 +206,10 @@ function AdoptionFrom() {
                             className="form-control form-control-lg"
                             id="pincode"
                             name="pincode"
+                            value={formValues.pincode}
+                            onChange={onChangeHandle}
                           />
+                          <p className="error">{error.pincode}</p>
                           <label htmlFor="birthdayDate" className="form-label">
                             Pincode
                           </label>
@@ -164,9 +223,12 @@ function AdoptionFrom() {
                           <input
                             type="text"
                             className="form-control form-control-lg"
-                            id="description"
-                            name="description"
+                            id="petName"
+                            name="petName"
+                            value={formValues.petName}
+                            onChange={onChangeHandle}
                           />
+                          <p className="error">{error.petName}</p>
                         </div>
                       </div>
                     </div>
@@ -175,11 +237,14 @@ function AdoptionFrom() {
                       <div className="col-md-6 mb-4 pb-2">
                         <div className="form-outline">
                           <input
-                            type="petName"
-                            id="petName"
-                            name="petName"
+                            type="pet"
+                            id="pet"
+                            name="pet"
+                            value={formValues.pet}
+                            onChange={onChangeHandle}
                             className="form-control form-control-lg"
                           />
+                          <p className="error">{error.pet}</p>
                           <label className="form-label" htmlFor="emailAddress">
                             Pet Name
                           </label>
@@ -192,13 +257,19 @@ function AdoptionFrom() {
                             className="form-control form-control-lg"
                             id="breed"
                             name="breed"
+                            value={formValues.breed}
+                            onChange={onChangeHandle}
                           />
+                          <p className="error">{error.breed}</p>
                           <label htmlFor="birthdayDate" className="form-label">
                             Breed
                           </label>
                         </div>
                       </div>
                     </div>
+                    <p id="adoptionHeadings">
+                      Pets Behaviour towards other pets
+                    </p>
                     <div className="row">
                       <div className="col-md-12 mb-4 pb-2">
                         <div className="">
@@ -207,10 +278,10 @@ function AdoptionFrom() {
                             className="form-control form-control-lg"
                             id="description"
                             name="description"
+                            value={formValues.description}
+                            onChange={onChangeHandle}
                           />
-                          <label htmlFor="birthdayDate" className="form-label">
-                            Pets Behaviour towards other pets
-                          </label>
+                          <p className="error">{error.description}</p>
                         </div>
                       </div>
                     </div>

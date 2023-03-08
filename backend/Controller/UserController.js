@@ -9,6 +9,7 @@ const validateRegisterInput = require('../Validation/Register');
 const validateLoginInput = require('../Validation/Login');
 const validateDonation = require('../Validation/Donation');
 const validateAppointment = require('../Validation/Appointment');
+const validateAdoption = require('../Validation/Adoption');
 const User = require('../Model/UserSchema');
 const sendOtp = require('../Middleware/otp');
 const otp = require('../Model/OtpSchema');
@@ -16,6 +17,7 @@ const Appointment = require('../Model/AppointmentSchema');
 const Donation = require('../Model/DonationSchema');
 const instance = require('../Middleware/Razorpay.js');
 const Service = require('../Model/ServiceSchema');
+const Adoption = require('../Model/AdoptionSchema');
 
 dotenv.config();
 
@@ -396,6 +398,43 @@ module.exports = {
         res.json({
           success: true,
           service,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
+  adoption: (req, res) => {
+    console.log(req.body);
+    const { errors, isValid } = validateAdoption(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    Adoption.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      mobile: req.body.mobile,
+      email: req.body.email,
+      houseName: req.body.houseName,
+      streetName: req.body.streetName,
+      city: req.body.city,
+      state: req.body.state,
+      country: req.body.country,
+      pincode: req.body.pincode,
+      petName: req.body.petName,
+      pet: req.body.pet,
+      breed: req.body.breed,
+      description: req.body.description,
+      petId: req.body.petId,
+      userId: req.body.userId,
+    })
+      .then(() => {
+        res.json({
+          success: true,
+          message: 'Application sent successfully',
         });
       })
       .catch((error) => {

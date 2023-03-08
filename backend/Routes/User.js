@@ -26,4 +26,5 @@ router.get('/pets', verify.verify, userController.getPets);
 router.get('/petDetails/:id', verify.verify, userController.petDetails);
 router.get('/services', verify.verify, userController.services);
 router.get('/serviceDetails/:id', verify.verify, userController.serviceDetails);
+router.post('/adoption', verify.verify, userController.adoption);
 module.exports = router;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./PetDetails.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "../../../Axios/Axios";
 
 export default function PetDetails() {
@@ -79,9 +79,14 @@ export default function PetDetails() {
                 </div>
 
                 <div className="d-flex justify-content-start mx-3 mt-3">
-                  <button className="btn" id="petDetailsButton">
-                    Apply
-                  </button>
+                  <Link
+                    to="/adoption"
+                    state={{ id: petDetails._id, userId: petDetails.userId }}
+                  >
+                    <button className="btn" id="petDetailsButton">
+                      Apply
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

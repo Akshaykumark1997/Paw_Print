@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import "./AdoptionFrom.css";
 import Validate from "./Validation";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "../../../Axios/Axios";
 
 function AdoptionFrom() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -18,6 +23,8 @@ function AdoptionFrom() {
     pet: "",
     breed: "",
     description: "",
+    petId: location.state.id,
+    userId: location.state.userId,
   });
   const [error, setError] = useState({});
   const onChangeHandle = (event) => {
@@ -29,6 +36,21 @@ function AdoptionFrom() {
     const errors = Validate(formValues);
     if (Object.keys(errors).length != 0) {
       setError(errors);
+    } else {
+      axios
+        .post("/adoption", formValues, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then(() => {
+          location.reload();
+        })
+        .catch((error) => {
+          if (!error.response.data.token) {
+            navigate("/login");
+          }
+        });
     }
   };
   return (

@@ -1,0 +1,9 @@
+
+@media screen and (max-width: 600px) {
+#userProfile {
+        margin-left: 10px !important;
+    }
+    #userDetails{
+        margin-top: 20px !important;
+    }
+}

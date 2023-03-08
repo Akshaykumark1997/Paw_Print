@@ -1,73 +1,154 @@
-import React from "react";
-import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import "./Profile.css";
+import axios from "../../../Axios/Axios";
+import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 function Profile() {
+  const [disabled, setDisabled] = useState(false);
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const [formValues, setFormValues] = useState({
+    userName: "",
+    email: "",
+    mobile: "",
+  });
+
+  const handleDisable = () => {
+    setDisabled(true);
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("/editUser", formValues, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        message.success(response.data.message);
+        setDisabled(false);
+      })
+      .catch((error) => {
+        if (!error.response.data.token) {
+          navigate("/login");
+        }
+      });
+  };
+  useEffect(() => {
+    axios
+      .get("/userDetails", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        setFormValues(response.data.user);
+      })
+      .catch((error) => {
+        if (!error.response.data.token) {
+          navigate("/login");
+        }
+      });
+  }, []);
   return (
-    <div>
-      <div
-        className="container-fluid py-3"
-        style={{ backgroundColor: "#354b60" }}
-      >
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
-              <h1 className="text-white">My Main Heading</h1>
+    <div className="container mt-5 mb-5" id="userProfile">
+      <div className="main-body">
+        <div className="row">
+          <div className="col-lg-4">
+            <div className="card">
+              <div className="card-body">
+                <ul className="list-group list-group-flush align-items-center">
+                  <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 className="mb-0">Donate Pets</h6>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 className="mb-0">View Donted Pets</h6>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 className="mb-0">Applications</h6>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 className="mb-0">Change Password</h6>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="container-lg mt-4">
-        <div className="row justify-content-center">
-          <div className="col-sm-12 col-md-8 col-lg-6">
-            <Card className="h-100">
-              <Card.Header>
-                <h4>User Profile</h4>
-              </Card.Header>
-              <Card.Body>
-                <div className="row">
-                  <div className="col-sm-12 col-md-4">
-                    <ListGroup>
-                      <ListGroupItem action>Donate Pet</ListGroupItem>
-                      <ListGroupItem action>View Donated Pet</ListGroupItem>
-                      <ListGroupItem action>Edit Profile</ListGroupItem>
-                      <ListGroupItem action>Change Password</ListGroupItem>
-                    </ListGroup>
+          <div className="col-lg-8" id="userDetails">
+            <div className="card">
+              <div className="card-body">
+                <div className="row mb-3">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">User Name</h6>
                   </div>
-                  <div className="col-sm-12 col-md-8">
-                    <div className="form-group">
-                      <label htmlFor="name">Name:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="name"
-                        name="name"
-                        readOnly
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="email">Email:</label>
-                      <input
-                        type="email"
-                        className="form-control"
-                        id="email"
-                        name="email"
-                        readOnly
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="mobile">Mobile:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="mobile"
-                        name="mobile"
-                        readOnly
-                      />
-                    </div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      disabled={disabled ? false : true}
+                      type="text"
+                      name="userName"
+                      className="form-control"
+                      value={formValues.userName}
+                      onChange={handleChange}
+                    />
                   </div>
                 </div>
-              </Card.Body>
-            </Card>
+                <div className="row mb-3">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Email</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      disabled={disabled ? false : true}
+                      type="text"
+                      name="email"
+                      className="form-control"
+                      value={formValues.email}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div className="row mb-3">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Mobile</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      type="text"
+                      name="mobile"
+                      disabled={disabled ? false : true}
+                      className="form-control"
+                      value={formValues.mobile}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-3"></div>
+                  <div className="col-sm-9 text-secondary">
+                    {disabled ? (
+                      <input
+                        type="button"
+                        className="btn btn-primary px-4"
+                        value="submit"
+                        onClick={handleSubmit}
+                      />
+                    ) : (
+                      <input
+                        type="button"
+                        className="btn btn-primary px-4"
+                        value="Edit Profile"
+                        onClick={handleDisable}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

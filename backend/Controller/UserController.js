@@ -444,4 +444,45 @@ module.exports = {
         });
       });
   },
+  userDetails: (req, res) => {
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
+    User.findOne({ _id: decoded.id })
+      .then((user) => {
+        res.json({
+          success: true,
+          user,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
+  editUser: (req, res) => {
+    User.updateOne(
+      { _id: req.body._id },
+      {
+        $set: {
+          userName: req.body.userName,
+          email: req.body.email,
+          mobile: req.body.mobile,
+        },
+      }
+    )
+      .then(() => {
+        res.json({
+          success: true,
+          message: 'updated successfully',
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
 };

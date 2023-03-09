@@ -36,8 +36,11 @@ function EmployeeNavBar() {
             <NavLink to="">
               <CDBSidebarMenuItem icon="table">Schedule</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="">
+            <NavLink to="/employee/appointments">
               <CDBSidebarMenuItem icon="user">Appointment</CDBSidebarMenuItem>
+            </NavLink>
+            <NavLink to="/employee/consultation">
+              <CDBSidebarMenuItem icon="user">Consultation</CDBSidebarMenuItem>
             </NavLink>
             <NavLink to="">
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>

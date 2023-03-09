@@ -12,13 +12,11 @@ dotenv.config();
 
 module.exports = {
   login: (req, res) => {
-    console.log(req.body);
     const { errors, isValid } = validateLoginInput(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
     }
     Employee.findOne({ email: req.body.email }).then((employee) => {
-      console.log(employee);
       if (!employee) {
         errors.email = 'user not found';
         return res.status(400).json(errors);
@@ -74,8 +72,6 @@ module.exports = {
     });
   },
   changeStatus: (req, res) => {
-    console.log(req.params.id);
-    console.log(req.params.value);
     Appointment.updateOne(
       { _id: req.params.id },
       {

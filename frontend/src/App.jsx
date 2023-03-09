@@ -28,6 +28,7 @@ import AdminAutorization from "./Components/Authorization/AdminAutorization";
 import EmployeeAuthorization from "./Components/Authorization/EmployeeAuthorization";
 import DonatePetDetails from "./Pages/User/PetDetails/DonatePetDetails";
 import ApplyForm from "./Pages/User/Adoption/ApplyForm";
+import OnlineConsultation from "./Pages/Employee/VideoCall/OnlineConsultation";
 
 function App() {
   // const user = localStorage.getItem("token");
@@ -68,6 +69,10 @@ function App() {
           <Route path="/employee" element={<EmployeeLogin />} />
           <Route path="/employee" element={<EmployeeAuthorization />}>
             <Route path="/employee/appointments" element={<EmployeeHome />} />
+            <Route
+              path="/employee/consultation"
+              element={<OnlineConsultation />}
+            />
           </Route>
         </Routes>
       </div>

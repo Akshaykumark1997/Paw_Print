@@ -29,6 +29,7 @@ import EmployeeAuthorization from "./Components/Authorization/EmployeeAuthorizat
 import DonatePetDetails from "./Pages/User/PetDetails/DonatePetDetails";
 import ApplyForm from "./Pages/User/Adoption/ApplyForm";
 import OnlineConsultation from "./Pages/Employee/VideoCall/OnlineConsultation";
+import VideoCall from "./Components/Employee/VideoCall/VideoCall";
 
 function App() {
   // const user = localStorage.getItem("token");
@@ -74,6 +75,7 @@ function App() {
               element={<OnlineConsultation />}
             />
           </Route>
+          <Route path="/room/:roomId" element={<VideoCall />} />
         </Routes>
       </div>
     </BrowserRouter>

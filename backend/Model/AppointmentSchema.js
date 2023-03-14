@@ -49,7 +49,7 @@ const appointmentSchema = new Schema(
     },
     employeeStatus: {
       type: String,
-      default: 'pending',
+      default: 'Pending',
     },
   },
   {

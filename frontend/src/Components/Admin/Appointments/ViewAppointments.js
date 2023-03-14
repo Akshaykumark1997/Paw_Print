@@ -11,8 +11,6 @@ function ViewAppointments() {
   const navigate = useNavigate();
 
   const handleEmployee = (e, id) => {
-    console.log(id);
-    console.log(e.target.value);
     axios
       .get(`/admin/employeeAssign/${id}/${e.target.value}`, {
         headers: {
@@ -20,7 +18,6 @@ function ViewAppointments() {
         },
       })
       .then((response) => {
-        console.log(response);
         message.success(response.data.message);
       })
       .catch((error) => {
@@ -85,7 +82,12 @@ function ViewAppointments() {
                   <td className="text-center">
                     <select
                       id="select"
-                      disabled={obj.employeeStatus === "confirm" ? true : false}
+                      disabled={
+                        obj.employeeStatus === "Confirm" ||
+                        obj.employeeStatus === "Cancelled"
+                          ? true
+                          : false
+                      }
                       onChange={(e) => handleEmployee(e, obj._id)}
                     >
                       {employee.map((employee) => {

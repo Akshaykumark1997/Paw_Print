@@ -1,33 +1,61 @@
 import React, { useEffect, useState } from "react";
+import Validation from "./Validation";
 import axios from "../../../Axios/Axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { message } from "antd";
 
 export default function AppointmentDetails() {
   const token = localStorage.getItem("token");
   const [appointments, setAppointments] = useState([]);
+  const [error, setError] = useState({});
+  const [formValues, setFormValues] = useState({
+    name: "",
+    bank: "",
+    accountNumber: "",
+    rrepeatAccountNumber: "",
+    ifscCode: "",
+  });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+  const [id, setId] = useState("");
   const [show, setShow] = useState(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (id) => {
+    setId(id);
+    setShow(true);
+  };
   const handleClose = () => setShow(false);
-  const handleCancel = (id) => {
-    axios
-      .post(
-        "/cancelAppointment",
-        { id: id },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        setShow(false);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
+  const handleCancel = () => {
+    console.log(id);
+    const errors = Validation(formValues);
+    console.log(errors);
+    if (Object.keys(errors).length != 0) {
+      setError(errors);
+    } else {
+      axios
+        .post(
+          "/cancelAppointment",
+          { id: id },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          setShow(false);
+          message.success(response.data.message);
+        })
+        .catch((error) => {
+          console.log(error.response.data.err);
+          setShow(false);
+          message.error(error.response.data.err.error.description);
+        });
+    }
   };
   useEffect(() => {
     axios
@@ -55,31 +83,38 @@ export default function AppointmentDetails() {
             <div className="row">
               <div className="col-md-3 justify-content-center d-flex flex-column align-item-center">
                 <div>
-                  <b>Order Id: </b>
+                  <b>Appointment Id: </b>
                   <br />#{obj._id}
                 </div>
               </div>
               <div className="col-md-3 d-flex flex-column">
-                <b>Payment:</b>&nbsp;{obj.paymentStatus}
+                <b>Payment Status:</b>&nbsp;{obj.paymentStatus}
                 <br />
                 <b>Service:</b>
                 {obj.service}
               </div>
               <div className="col-md-3 d-flex flex-column">
-                <strong>Order Status: </strong>
-                <small className="text-warning">{obj.employeeStatus}</small>
-                {/* <br />
-            <small className="text-danger">gh</small>
-            <br />
-            <small className="text-success">bb</small>
-            <br /> */}
-                <b>delivery expected: </b>
-                {obj.date}
+                <strong>Appointment Status: </strong>
+                {obj.employeeStatus === "Pending" && (
+                  <small className="text-warning">{obj.employeeStatus}</small>
+                )}
+                {obj.employeeStatus === "Cancelled" && (
+                  <small className="text-danger">{obj.employeeStatus}</small>
+                )}
+                {obj.employeeStatus === "Confirm" && (
+                  <small className="text-success">{obj.employeeStatus}</small>
+                )}
+                <b>Date and Time: </b>
+                {obj.date} {obj.time}
               </div>
               <div className="col-md-3 justify-content-center d-flex flex-row align-items-center">
-                <Button variant="danger" onClick={handleShow}>
-                  Cancel
-                </Button>
+                {obj.paymentStatus !== "Refund" ? (
+                  <Button variant="danger" onClick={() => handleShow(obj._id)}>
+                    Cancel
+                  </Button>
+                ) : (
+                  ""
+                )}
 
                 <Modal show={show} onHide={handleClose}>
                   <Modal.Header closeButton>
@@ -92,36 +127,62 @@ export default function AppointmentDetails() {
                         controlId="exampleForm.ControlInput1"
                       >
                         <Form.Label>Account Holder Name</Form.Label>
-                        <Form.Control type="name" autoFocus name="name" />
+                        <Form.Control
+                          type="name"
+                          autoFocus
+                          name="name"
+                          onChange={handleChange}
+                        />
                       </Form.Group>
+                      <p className="error">{error.name}</p>
                       <Form.Group
                         className="mb-3"
                         controlId="exampleForm.ControlInput1"
                       >
                         <Form.Label>Bank Name</Form.Label>
-                        <Form.Control type="num" name="bank" />
+                        <Form.Control
+                          type="num"
+                          name="bank"
+                          onChange={handleChange}
+                        />
                       </Form.Group>
+                      <p className="error">{error.bank}</p>
                       <Form.Group
                         className="mb-3"
                         controlId="exampleForm.ControlInput1"
                       >
                         <Form.Label>Account Number</Form.Label>
-                        <Form.Control type="num" name="accountNumber" />
+                        <Form.Control
+                          type="num"
+                          name="accountNumber"
+                          onChange={handleChange}
+                        />
                       </Form.Group>
+                      <p className="error">{error.accountNumber}</p>
                       <Form.Group
                         className="mb-3"
                         controlId="exampleForm.ControlInput1"
                       >
                         <Form.Label>Repeat Account Number</Form.Label>
-                        <Form.Control type="num" name="accountNumber" />
+                        <Form.Control
+                          type="num"
+                          name="repeatAccountNumber"
+                          onChange={handleChange}
+                        />
                       </Form.Group>
+                      <p className="error">{error.repeatAccountNumber}</p>
                       <Form.Group
                         className="mb-3"
                         controlId="exampleForm.ControlInput1"
                       >
                         <Form.Label>IFSC Code</Form.Label>
-                        <Form.Control type="num" name="ifscCode" />
+                        <Form.Control
+                          type="num"
+                          name="ifscCode"
+                          onChange={handleChange}
+                        />
                       </Form.Group>
+                      <p className="error">{error.ifscCode}</p>
                     </Form>
                   </Modal.Body>
                   <Modal.Footer>
@@ -130,7 +191,8 @@ export default function AppointmentDetails() {
                     </Button>
                     <Button
                       variant="primary"
-                      onClick={() => handleCancel(obj._id)}
+                      type="submit"
+                      onClick={handleCancel}
                     >
                       Save Changes
                     </Button>

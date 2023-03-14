@@ -79,21 +79,21 @@ function Appointments() {
                   <td className="text-center">
                     <select
                       id="select"
-                      disabled={obj.employeeStatus === "confirm" ? true : false}
+                      disabled={obj.employeeStatus === "Confirm" ? true : false}
                       onChange={(e) => handleStatus(e, obj._id)}
                     >
                       <option
-                        value="pending"
+                        value="Pending"
                         selected={
-                          obj.employeeStatus === "pending" ? true : false
+                          obj.employeeStatus === "Pending" ? true : false
                         }
                       >
                         Pending
                       </option>
                       <option
-                        value="confirm"
+                        value="Confirm"
                         selected={
-                          obj.employeeStatus === "confirm" ? true : false
+                          obj.employeeStatus === "Confirm" ? true : false
                         }
                       >
                         Confirm

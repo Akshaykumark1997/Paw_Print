@@ -517,11 +517,27 @@ module.exports = {
             receipt: `${req.body.id}`,
           })
           .then(() => {
-            res.json({
-              success: true,
-              message:
-                'Refund initiated and Amount will created to your account in 3 bussiness days',
-            });
+            Appointment.updateOne(
+              { _id: req.body.id },
+              {
+                $set: {
+                  paymentStatus: 'Refund',
+                },
+              }
+            )
+              .then(() => {
+                res.json({
+                  success: true,
+                  message:
+                    'Refund initiated and Amount will created to your account in 3 bussiness days',
+                });
+              })
+              .catch((error) => {
+                res.status(400).json({
+                  success: false,
+                  error,
+                });
+              });
           })
           .catch((err) => {
             res.status(400).json({

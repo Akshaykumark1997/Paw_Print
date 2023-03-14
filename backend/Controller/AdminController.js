@@ -86,8 +86,6 @@ module.exports = {
     });
   },
   assignEmployee: (req, res) => {
-    console.log(req.params.id);
-    console.log(req.params.eid);
     Appointment.updateOne(
       { _id: req.params.id },
       {

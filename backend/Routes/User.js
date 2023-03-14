@@ -34,4 +34,9 @@ router.get(
   verify.verify,
   userController.appoitmentDetails
 );
+router.post(
+  '/cancelAppointment',
+  verify.verify,
+  userController.cancelAppointment
+);
 module.exports = router;

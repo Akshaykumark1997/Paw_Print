@@ -79,6 +79,7 @@ function AppointmentForm() {
               mobile: "",
               date: "",
               time: "",
+              service: "",
             });
             navigate("/appointment");
           });
@@ -114,6 +115,7 @@ function AppointmentForm() {
           mobile: "",
           date: "",
           time: "",
+          service: "",
         });
         navigate("/appointment");
       })
@@ -126,6 +128,7 @@ function AppointmentForm() {
           mobile: "",
           date: "",
           time: "",
+          service: "",
         });
         navigate("/appointment");
       });

@@ -1,9 +1,34 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../Axios/Axios";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 
 export default function AppointmentDetails() {
   const token = localStorage.getItem("token");
   const [appointments, setAppointments] = useState([]);
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const handleCancel = (id) => {
+    axios
+      .post(
+        "/cancelAppointment",
+        { id: id },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setShow(false);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
   useEffect(() => {
     axios
       .get("/appointmentDetails", {
@@ -52,14 +77,65 @@ export default function AppointmentDetails() {
                 {obj.date}
               </div>
               <div className="col-md-3 justify-content-center d-flex flex-row align-items-center">
-                <button
-                  type="button"
-                  className="btn btn-danger btn-sm mx-2"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                >
+                <Button variant="danger" onClick={handleShow}>
                   Cancel
-                </button>
+                </Button>
+
+                <Modal show={show} onHide={handleClose}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Account Details</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Form>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label>Account Holder Name</Form.Label>
+                        <Form.Control type="name" autoFocus name="name" />
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label>Bank Name</Form.Label>
+                        <Form.Control type="num" name="bank" />
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label>Account Number</Form.Label>
+                        <Form.Control type="num" name="accountNumber" />
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label>Repeat Account Number</Form.Label>
+                        <Form.Control type="num" name="accountNumber" />
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label>IFSC Code</Form.Label>
+                        <Form.Control type="num" name="ifscCode" />
+                      </Form.Group>
+                    </Form>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                      Close
+                    </Button>
+                    <Button
+                      variant="primary"
+                      onClick={() => handleCancel(obj._id)}
+                    >
+                      Save Changes
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               </div>
             </div>
           </div>

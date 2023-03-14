@@ -55,21 +55,22 @@ module.exports = {
   getAppointments: (req, res) => {
     const token = req.headers.authorization;
     const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
-    console.log(decoded.id);
-    Appointment.find({ employee: decoded.id }).then((appointments) => {
-      console.log(appointments);
-      if (!appointments) {
-        res.status(400).json({
-          success: false,
-          message: 'No appointments available',
-        });
-      } else {
-        res.json({
-          success: true,
-          appointments,
-        });
-      }
-    });
+    Appointment.find({ employee: decoded.id })
+      .sort({ _id: -1 })
+      .then((appointments) => {
+        console.log(appointments);
+        if (!appointments) {
+          res.status(400).json({
+            success: false,
+            message: 'No appointments available',
+          });
+        } else {
+          res.json({
+            success: true,
+            appointments,
+          });
+        }
+      });
   },
   changeStatus: (req, res) => {
     Appointment.updateOne(

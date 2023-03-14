@@ -229,18 +229,21 @@ module.exports = {
       });
   },
   getAppointments: (req, res) => {
-    Appointment.find({}).then((appointments) => {
-      Employee.find({}).then((employees) => {
-        res.json({
-          success: true,
-          appointments,
-          employees,
+    Appointment.find({})
+      .sort({ _id: -1 })
+      .then((appointments) => {
+        Employee.find({}).then((employees) => {
+          res.json({
+            success: true,
+            appointments,
+            employees,
+          });
         });
       });
-    });
   },
   getAdoption: (req, res) => {
     Donation.find({})
+      .sort({ _id: -1 })
       .then((donations) => {
         res.json({
           success: true,

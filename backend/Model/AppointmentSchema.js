@@ -41,6 +41,9 @@ const appointmentSchema = new Schema(
       type: String,
       required: true,
     },
+    paymentId: {
+      type: String,
+    },
     employee: {
       type: String,
     },

@@ -294,6 +294,7 @@ module.exports = {
         {
           $set: {
             paymentStatus: 'Paid',
+            paymentId: req.body.payment.razorpay_payment_id,
           },
         }
       )
@@ -502,6 +503,35 @@ module.exports = {
           success: false,
           error,
         });
+      });
+  },
+  cancelAppointment: (req, res) => {
+    console.log(req.body);
+    Appointment.findOne({ _id: req.body.id })
+      .then((appointment) => {
+        console.log(appointment.paymentId);
+        instance.payments
+          .refund(appointment.paymentId, {
+            amount: '100',
+            speed: 'optimum',
+            receipt: `${req.body.id}`,
+          })
+          .then(() => {
+            res.json({
+              success: true,
+              message:
+                'Refund initiated and Amount will created to your account in 3 bussiness days',
+            });
+          })
+          .catch((err) => {
+            res.status(400).json({
+              success: false,
+              err,
+            });
+          });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   },
 };

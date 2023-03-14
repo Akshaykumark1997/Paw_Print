@@ -15,7 +15,7 @@ function About() {
       </div>
       <div className="card-clinic-container">
         <div className="card-clinic">
-          <img src="image1.jpg" alt="Image 1" />
+          <img src="../../../../Images/doctor-3552.png" alt="Image 1" />
           <div className="card-clinic-info">
             <h2>Heading 1</h2>
             <p>Content goes here...</p>
@@ -23,7 +23,7 @@ function About() {
         </div>
 
         <div className="card-clinic">
-          <img src="image2.jpg" alt="Image 2" />
+          <img src="../../../../Images/24-7-support-10894.png" alt="Image 2" />
           <div className="card-clinic-info">
             <h2>Heading 2</h2>
             <p>Content goes here...</p>
@@ -31,10 +31,10 @@ function About() {
         </div>
 
         <div className="card-clinic">
-          <img src="image3.jpg" alt="Image 3" />
+          <h2>Online Consultation</h2>
           <div className="card-clinic-info">
-            <h2>Heading 3</h2>
             <p>Content goes here...</p>
+            <button>Read More</button>
           </div>
         </div>
       </div>

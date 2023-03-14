@@ -33,6 +33,10 @@ const appointmentSchema = new Schema(
       required: true,
       default: 'Not Paid',
     },
+    userId: {
+      type: String,
+      required: true,
+    },
     employee: {
       type: String,
     },

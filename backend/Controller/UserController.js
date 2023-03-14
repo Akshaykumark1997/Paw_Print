@@ -244,6 +244,8 @@ module.exports = {
     if (!isValid) {
       return res.status(400).json(errors);
     }
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
     Appointment.create({
       name: req.body.name,
       petName: req.body.petName,
@@ -251,6 +253,7 @@ module.exports = {
       mobile: req.body.mobile,
       date: req.body.date,
       time: req.body.time,
+      userId: decoded.id,
     })
       .then((data) => {
         const options = {
@@ -476,6 +479,24 @@ module.exports = {
         res.json({
           success: true,
           message: 'updated successfully',
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
+  appoitmentDetails: (req, res) => {
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
+    Appointment.find({ userId: decoded.id })
+      .sort({ _id: -1 })
+      .then((appointments) => {
+        res.json({
+          success: true,
+          appointments,
         });
       })
       .catch((error) => {

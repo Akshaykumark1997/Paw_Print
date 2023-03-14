@@ -73,7 +73,7 @@ function Profile() {
                     <h6 className="mb-0">Applications</h6>
                   </li>
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 className="mb-0">Change Password</h6>
+                    <h6 className="mb-0">Appointments</h6>
                   </li>
                 </ul>
               </div>

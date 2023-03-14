@@ -29,4 +29,9 @@ router.get('/serviceDetails/:id', verify.verify, userController.serviceDetails);
 router.post('/adoption', verify.verify, userController.adoption);
 router.get('/userDetails', verify.verify, userController.userDetails);
 router.post('/editUser', verify.verify, userController.editUser);
+router.get(
+  '/appointmentDetails',
+  verify.verify,
+  userController.appoitmentDetails
+);
 module.exports = router;

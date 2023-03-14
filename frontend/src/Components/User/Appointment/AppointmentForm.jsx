@@ -11,6 +11,12 @@ import { useLocation } from "react-router-dom";
 function AppointmentForm() {
   const location = useLocation();
   const Razorpay = useRazorpay();
+  const token = localStorage.getItem("token");
+  const minDate = new Date().toISOString().slice(0, 10);
+  const [service, setService] = useState({});
+  const [image, setImage] = useState("");
+  const navigate = useNavigate();
+  const [error, setErrors] = useState({});
   const initialValues = {
     name: "",
     petName: "",
@@ -18,14 +24,9 @@ function AppointmentForm() {
     mobile: "",
     date: "",
     time: "",
+    service: "",
   };
-  const token = localStorage.getItem("token");
-  const minDate = new Date().toISOString().slice(0, 10);
   const [formValues, setFormValues] = useState(initialValues);
-  const [service, setService] = useState({});
-  const [image, setImage] = useState("");
-  const navigate = useNavigate();
-  const [error, setErrors] = useState({});
   const onChangeHandle = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
@@ -138,7 +139,6 @@ function AppointmentForm() {
         },
       })
       .then((response) => {
-        console.log(response.data.service);
         setService(response.data.service);
         setImage(response.data.service.image.path);
       })
@@ -196,6 +196,18 @@ function AppointmentForm() {
                         onChange={onChangeHandle}
                       />
                       <p className="error">{error.petName}</p>
+                    </div>
+                    <div className="form-group mb-3">
+                      <label htmlFor="name">Service</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="name"
+                        name="service"
+                        value={formValues.service}
+                        onChange={onChangeHandle}
+                      />
+                      <p className="error">{error.name}</p>
                     </div>
                     <div className="form-group mb-3">
                       <label htmlFor="email">Email</label>

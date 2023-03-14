@@ -37,6 +37,10 @@ const appointmentSchema = new Schema(
       type: String,
       required: true,
     },
+    service: {
+      type: String,
+      required: true,
+    },
     employee: {
       type: String,
     },

@@ -254,6 +254,7 @@ module.exports = {
       date: req.body.date,
       time: req.body.time,
       userId: decoded.id,
+      service: req.body.service,
     })
       .then((data) => {
         const options = {
@@ -282,7 +283,6 @@ module.exports = {
       });
   },
   verifyPayment: (req, res) => {
-    console.log(req.body);
     let hmac = crypto.createHmac('sha256', process.env.KETSECRET);
     hmac.update(
       `${req.body.payment.razorpay_order_id}|${req.body.payment.razorpay_payment_id}`
@@ -319,7 +319,6 @@ module.exports = {
   donate: (req, res) => {
     const token = req.headers.authorization;
     const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
-    console.log(decoded);
     const { errors, isValid } = validateDonation(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
@@ -411,7 +410,6 @@ module.exports = {
       });
   },
   adoption: (req, res) => {
-    console.log(req.body);
     const { errors, isValid } = validateAdoption(req.body);
     if (!isValid) {
       return res.status(400).json(errors);

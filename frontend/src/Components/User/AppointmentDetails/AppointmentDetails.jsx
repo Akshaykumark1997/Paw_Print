@@ -12,7 +12,6 @@ export default function AppointmentDetails() {
         },
       })
       .then((response) => {
-        console.log(response.data.appointments);
         setAppointments(response.data.appointments);
       })
       .catch((error) => {
@@ -39,7 +38,7 @@ export default function AppointmentDetails() {
                 <b>Payment:</b>&nbsp;{obj.paymentStatus}
                 <br />
                 <b>Service:</b>
-                {obj.petName}
+                {obj.service}
               </div>
               <div className="col-md-3 d-flex flex-column">
                 <strong>Order Status: </strong>

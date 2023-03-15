@@ -39,4 +39,5 @@ router.post(
   verify.verify,
   userController.cancelAppointment
 );
+router.get('/donatedPets', verify.verify, userController.donatedPets);
 module.exports = router;

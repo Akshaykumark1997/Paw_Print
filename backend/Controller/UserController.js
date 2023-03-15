@@ -547,7 +547,27 @@ module.exports = {
           });
       })
       .catch((error) => {
-        console.log(error);
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
+  donatedPets: (req, res) => {
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
+    Donation.find({ userId: decoded.id })
+      .then((donatedPets) => {
+        res.json({
+          success: true,
+          donatedPets,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
       });
   },
 };

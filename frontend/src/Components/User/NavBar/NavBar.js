@@ -19,7 +19,7 @@ function NavBar() {
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav className="me-auto my-2 my-lg-0 mx-5" navbarScroll>
-              <Nav.Link href="#" className="mx-4">
+              <Nav.Link href="/" className="mx-4">
                 HOME
               </Nav.Link>
               <Nav.Link href="#action2" className="mx-4">
@@ -36,12 +36,8 @@ function NavBar() {
                       Pet Grooming
                     </NavDropdown.Item>
                   </Link>
-                  <NavDropdown.Item href="#action4">
-                    Pet Adoption
-                  </NavDropdown.Item>
-                  <NavDropdown.Item href="#action5">
-                    Pet Insurance
-                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/pets">Pet Adoption</NavDropdown.Item>
+                  <NavDropdown.Item href="/clinics">Clinic</NavDropdown.Item>
                 </NavDropdown>
               )}
               <Nav.Link href="#" className="mx-4">
@@ -54,7 +50,7 @@ function NavBar() {
                 id="navbarScrollingDropdown"
                 className="me-5"
               >
-                <NavDropdown.Item href="#action3">Profile</NavDropdown.Item>
+                <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                 <NavDropdown.Item href="#action4" onClick={handleLogout}>
                   Log Out
                 </NavDropdown.Item>

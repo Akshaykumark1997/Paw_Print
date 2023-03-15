@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Profile.css";
 import axios from "../../../Axios/Axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { message } from "antd";
 
 function Profile() {
@@ -64,16 +64,25 @@ function Profile() {
               <div className="card-body">
                 <ul className="list-group list-group-flush align-items-center">
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 className="mb-0">Donate Pets</h6>
+                    <Link to="/donate" className="text-decoration-none">
+                      <h6 className="mb-0">Donate Pets</h6>
+                    </Link>
                   </li>
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 className="mb-0">View Donted Pets</h6>
+                    <Link to="/donatedPets" className="text-decoration-none">
+                      <h6 className="mb-0">View Donted Pets</h6>
+                    </Link>
                   </li>
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <h6 className="mb-0">Applications</h6>
                   </li>
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 className="mb-0">Appointments</h6>
+                    <Link
+                      to="/appointmentDetails"
+                      className="text-decoration-none"
+                    >
+                      <h6 className="mb-0">Appointments</h6>
+                    </Link>
                   </li>
                 </ul>
               </div>

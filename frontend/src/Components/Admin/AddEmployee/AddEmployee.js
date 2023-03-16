@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./AddEmployee.css";
 import axios from "../../../Axios/Axios";
 import validate from "./Validation";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +31,7 @@ function AddEmployee() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formValues);
     const data = new FormData();
 
     data.append("firstName", formValues.firstName);
@@ -110,7 +112,7 @@ function AddEmployee() {
                     <div className="row">
                       <div className="col-md-6 mb-4 d-flex align-items-center">
                         <div className="form-outline datepicker w-100">
-                          <input
+                          {/* <input
                             type="text"
                             className="form-control form-control-lg"
                             id="position"
@@ -119,8 +121,16 @@ function AddEmployee() {
                             onChange={onChangeHandle}
                           />
                           <label htmlFor="birthdayDate" className="form-label">
-                            Position
-                          </label>
+                            Role
+                          </label> */}
+                          <select
+                            name="position"
+                            id="addEmployeeSelection"
+                            onChange={onChangeHandle}
+                          >
+                            <option value="Doctor">Doctor</option>
+                            <option value="Clinic Staff">Clinic Staff</option>
+                          </select>
                           <p className="error">{error.position}</p>
                         </div>
                       </div>

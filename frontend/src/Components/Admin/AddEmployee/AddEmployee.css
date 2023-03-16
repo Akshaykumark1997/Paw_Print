@@ -1,0 +1,8 @@
+#addEmployeeSelection{
+    width: 256px;
+    height: 42px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #ced4da;
+    color: #212529;
+}

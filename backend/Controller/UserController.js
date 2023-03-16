@@ -570,4 +570,23 @@ module.exports = {
         });
       });
   },
+  applications: (req, res) => {
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
+    console.log(decoded);
+    Adoption.find({ userId: { $ne: decoded.id } })
+      .then((applications) => {
+        console.log(applications);
+        res.json({
+          success: true,
+          applications,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
 };

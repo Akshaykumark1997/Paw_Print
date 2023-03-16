@@ -145,17 +145,25 @@ function Profile() {
                   <div className="col-sm-3"></div>
                   <div className="col-sm-9 text-secondary">
                     {disabled ? (
-                      <input
-                        type="button"
+                      <button
+                        type="submit"
                         className="btn btn-primary px-4"
-                        value="submit"
+                        style={{
+                          backgroundColor: "#354b60",
+                          color: "#fff",
+                        }}
                         onClick={handleSubmit}
-                      />
+                      >
+                        Edit Profile
+                      </button>
                     ) : (
                       <input
-                        type="button"
+                        type="submit"
                         className="btn btn-primary px-4"
-                        value="Edit Profile"
+                        style={{
+                          backgroundColor: "#354b60",
+                          color: "#fff",
+                        }}
                         onClick={handleDisable}
                       />
                     )}

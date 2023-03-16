@@ -74,7 +74,12 @@ function Profile() {
                     </Link>
                   </li>
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 className="mb-0">Applications</h6>
+                    <Link to="/applications" className="text-decoration-none">
+                      <h6 className="mb-0">Applications</h6>
+                    </Link>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 className="mb-0">Application Status</h6>
                   </li>
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <Link

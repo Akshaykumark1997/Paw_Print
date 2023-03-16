@@ -32,6 +32,10 @@ function DonatedPets() {
                       <div className="text-center p-4">
                         <img id="main-image" src={obj.image.path} width="250" />
                       </div>
+                      <div className="thumbnail text-left">
+                        <p>Breed: {obj.breed}</p>
+                        <p>Age: {obj.age}</p>
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -47,8 +51,11 @@ function DonatedPets() {
                       </div>
                       <p className="about">{obj.description}</p>
                       <div className="cart mt-4 align-items-center">
-                        <button className="btn btn-danger text-uppercase mr-2 px-4">
-                          Add to cart
+                        <button
+                          className="btn text-uppercase mr-2 px-4"
+                          style={{ backgroundColor: "#354b60", color: "#fff" }}
+                        >
+                          Edit
                         </button>
                       </div>
                     </div>

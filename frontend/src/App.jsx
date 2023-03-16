@@ -32,6 +32,7 @@ import OnlineConsultation from "./Pages/Employee/VideoCall/OnlineConsultation";
 import VideoCall from "./Components/Employee/VideoCall/VideoCall";
 import Appointments from "./Pages/User/AppointmentDetails/Appointments";
 import DonatedPetDetails from "./Pages/User/DonatedPets/DonatedPetDetails";
+import ViewApplications from "./Pages/User/Applications/ViewApplications";
 
 function App() {
   // const user = localStorage.getItem("token");
@@ -56,6 +57,7 @@ function App() {
             <Route path="/adoption" element={<ApplyForm />} />
             <Route path="/appointmentDetails" element={<Appointments />} />
             <Route path="/donatedPets" element={<DonatedPetDetails />} />
+            <Route path="/applications" element={<ViewApplications />} />
           </Route>
           <Route path="/admin" element={<Login />} />
           <Route path="/admin" element={<AdminAutorization />}>

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "../../../Axios/Axios";
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -9,6 +10,27 @@ import {
 import { NavLink } from "react-router-dom";
 
 function EmployeeNavBar() {
+  const token = localStorage.getItem("employeeToken");
+  const [employee, setEmployee] = useState("");
+  const handleLogout = () => {
+    localStorage.removeItem("employeeToken");
+    window.location = "/employee";
+  };
+  useEffect(() => {
+    axios
+      .get("/employee/getEmployee", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        console.log(response.data.employee.position);
+        setEmployee(response.data.employee.position);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }, []);
   return (
     <div
       style={{
@@ -39,15 +61,21 @@ function EmployeeNavBar() {
             <NavLink to="/employee/appointments">
               <CDBSidebarMenuItem icon="user">Appointment</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/employee/consultation">
-              <CDBSidebarMenuItem icon="user">Consultation</CDBSidebarMenuItem>
-            </NavLink>
+            {employee === "Doctor" ? (
+              <NavLink to="/employee/consultation">
+                <CDBSidebarMenuItem icon="user">
+                  Consultation
+                </CDBSidebarMenuItem>
+              </NavLink>
+            ) : (
+              <NavLink to="" />
+            )}
             <NavLink to="">
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
             </NavLink>
             <CDBSidebarMenuItem
               icon="exclamation-circle"
-              //   onClick={handleLogout}
+              onClick={handleLogout}
             >
               Logout
             </CDBSidebarMenuItem>

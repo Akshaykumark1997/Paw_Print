@@ -11,5 +11,6 @@ router.get(
   verify.verify,
   EmployeeController.changeStatus
 );
+router.get('/getEmployee', verify.verify, EmployeeController.getEmployee);
 
 module.exports = router;

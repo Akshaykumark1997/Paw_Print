@@ -94,4 +94,21 @@ module.exports = {
         });
       });
   },
+  getEmployee: (req, res) => {
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
+    Employee.findOne({ _id: decoded.id })
+      .then((employee) => {
+        res.json({
+          success: true,
+          employee,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
 };

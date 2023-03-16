@@ -63,6 +63,7 @@ function Appointments() {
               <th className="text-center">Email</th>
               <th className="text-center">Date</th>
               <th className="text-center">Time</th>
+              <th className="text-center">Service</th>
               <th className="text-center">Action</th>
             </tr>
           </thead>
@@ -76,6 +77,7 @@ function Appointments() {
                   <td className="text-center">{obj.email}</td>
                   <td className="text-center">{obj.date}</td>
                   <td className="text-center">{obj.time}</td>
+                  <td className="text-center">{obj.service}</td>
                   <td className="text-center">
                     <select
                       id="select"

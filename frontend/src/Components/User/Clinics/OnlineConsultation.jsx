@@ -212,15 +212,16 @@ function OnlineConsultation() {
                 </div>
                 <div className="form-group mb-3">
                   <label htmlFor="name">Service</label>
-                  <input
-                    type="text"
+                  <select
                     className="form-control"
-                    id="name"
+                    id="appointmentTime"
                     name="service"
-                    value={formValues.service}
                     onChange={onChangeHandle}
-                  />
-                  <p className="error">{error.name}</p>
+                  >
+                    <option></option>
+                    <option>Online Consultation</option>
+                  </select>
+                  <p className="error">{error.service}</p>
                 </div>
                 <div className="form-group mb-3">
                   <label htmlFor="email">Email</label>

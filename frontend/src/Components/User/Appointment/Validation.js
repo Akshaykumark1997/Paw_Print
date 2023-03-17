@@ -15,6 +15,9 @@ const validate = (values) => {
   if (values.mobile == "") {
     errors.mobile = "mobile number is required";
   }
+  if (values.service == "") {
+    errors.service = "service is required";
+  }
   if (values.email == "") {
     errors.email = "email is required";
   } else if (

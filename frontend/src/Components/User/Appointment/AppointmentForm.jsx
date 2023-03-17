@@ -17,6 +17,7 @@ function AppointmentForm() {
   const [image, setImage] = useState("");
   const navigate = useNavigate();
   const [error, setErrors] = useState({});
+  const [allService, setAllService] = useState([]);
   const initialValues = {
     name: "",
     petName: "",
@@ -151,6 +152,24 @@ function AppointmentForm() {
         }
       });
   }, []);
+  useEffect(() => {
+    if (service.name) {
+      axios
+        .get("/services", {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          setAllService(response.data.services);
+        })
+        .catch((error) => {
+          if (!error.response.data.token) {
+            navigate("/login");
+          }
+        });
+    }
+  }, [service]);
   return (
     <div>
       <div
@@ -202,14 +221,16 @@ function AppointmentForm() {
                     </div>
                     <div className="form-group mb-3">
                       <label htmlFor="name">Service</label>
-                      <input
-                        type="text"
+                      <select
                         className="form-control"
-                        id="name"
+                        id="appointmentTime"
                         name="service"
-                        value={formValues.service}
                         onChange={onChangeHandle}
-                      />
+                      >
+                        {allService.map((obj) => {
+                          return <option key={obj._id}>{obj.name}</option>;
+                        })}
+                      </select>
                       <p className="error">{error.name}</p>
                     </div>
                     <div className="form-group mb-3">

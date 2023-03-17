@@ -539,10 +539,10 @@ module.exports = {
                 });
               });
           })
-          .catch((err) => {
+          .catch((error) => {
             res.status(400).json({
               success: false,
-              err,
+              error,
             });
           });
       })

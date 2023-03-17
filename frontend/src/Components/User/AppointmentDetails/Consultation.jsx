@@ -18,7 +18,7 @@ export default function Consultation() {
       </div>
       <div>
         <input
-          type="text"
+          type="hidden"
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />

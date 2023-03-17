@@ -5,9 +5,11 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export default function AppointmentDetails() {
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
   const [error, setError] = useState({});
   const [formValues, setFormValues] = useState({
@@ -26,6 +28,9 @@ export default function AppointmentDetails() {
   const handleShow = (id) => {
     setId(id);
     setShow(true);
+  };
+  const joinRoom = () => {
+    navigate("/consultation");
   };
   const handleClose = () => setShow(false);
   const handleCancel = () => {
@@ -46,14 +51,15 @@ export default function AppointmentDetails() {
           }
         )
         .then((response) => {
-          console.log(response.data);
           setShow(false);
           message.success(response.data.message);
         })
         .catch((error) => {
-          console.log(error.response.data.err);
           setShow(false);
           message.error(error.response.data.err.error.description);
+          if (!error.response.data.error.success) {
+            message.error("!Oops something went wrong");
+          }
         });
     }
   };
@@ -198,6 +204,17 @@ export default function AppointmentDetails() {
                     </Button>
                   </Modal.Footer>
                 </Modal>
+                {obj.service === "Online Consultation" ? (
+                  <Button
+                    className="mx-2"
+                    style={{ backgroundColor: "#354b60", color: "#fff" }}
+                    onClick={joinRoom}
+                  >
+                    View Details
+                  </Button>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>

@@ -89,7 +89,7 @@ function AppointmentForm() {
         .catch((err) => {
           console.log(err);
           if (!error.response.data.token) {
-            navigate("/admin");
+            navigate("/login");
           }
         });
     }

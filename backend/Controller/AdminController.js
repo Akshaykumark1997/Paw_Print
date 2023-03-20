@@ -10,6 +10,7 @@ const Employee = require('../Model/EmployeeSchema');
 const Service = require('../Model/ServiceSchema');
 const Appointment = require('../Model/AppointmentSchema');
 const Donation = require('../Model/DonationSchema');
+const User = require('../Model/UserSchema');
 
 dotenv.config();
 
@@ -347,6 +348,65 @@ module.exports = {
         res.json({
           success: true,
           message: 'Deleted Successfully',
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
+  users: (req, res) => {
+    User.find({})
+      .then((users) => {
+        res.json({
+          success: true,
+          users,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
+  block: (req, res) => {
+    User.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          blocked: true,
+        },
+      }
+    )
+      .then(() => {
+        res.json({
+          success: true,
+          message: 'Blocked successfully',
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
+  unBlock: (req, res) => {
+    User.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          blocked: false,
+        },
+      }
+    )
+      .then(() => {
+        res.json({
+          success: true,
+          message: 'Unblocked successfully',
         });
       })
       .catch((error) => {

@@ -60,5 +60,8 @@ router.get(
   validate.verify,
   adminController.deleteAdoption
 );
+router.get('/users', validate.verify, adminController.users);
+router.get('/block/:id', validate.verify, adminController.block);
+router.get('/unBlock/:id', validate.verify, adminController.unBlock);
 
 module.exports = router;

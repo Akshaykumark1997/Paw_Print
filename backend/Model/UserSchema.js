@@ -27,6 +27,10 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  blocked: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = mongoose.model('users', UserSchema);

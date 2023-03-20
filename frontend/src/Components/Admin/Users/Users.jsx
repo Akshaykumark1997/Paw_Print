@@ -55,7 +55,9 @@ function Users() {
             message.success(response.data.message);
           })
           .catch((error) => {
-            console.log(error.response);
+            if (!error.response.data.token) {
+              navigate("/admin");
+            }
           });
       }
     });

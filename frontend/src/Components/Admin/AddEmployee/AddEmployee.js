@@ -56,9 +56,10 @@ function AddEmployee() {
         .then(() => {
           navigate("/admin/employees");
         })
-        .catch((err) => {
-          console.log(err.response.data);
-          navigate("/admin");
+        .catch((error) => {
+          if (!error.response.data.token) {
+            navigate("/admin");
+          }
         });
     }
   };

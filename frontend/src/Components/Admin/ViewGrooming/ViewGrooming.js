@@ -11,7 +11,6 @@ function ViewGrooming() {
   const token = localStorage.getItem("adminToken");
   const navigate = useNavigate();
   const handleDelete = (id) => {
-    console.log("delete");
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",

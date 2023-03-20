@@ -2,40 +2,63 @@ import React, { useState, useEffect } from "react";
 import axios from "../../../Axios/Axios";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Users() {
   const token = localStorage.getItem("adminToken");
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const handleBlock = (id) => {
-    axios
-      .get(`/admin/block/${id}`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((response) => {
-        navigate("/admin/users");
-        message.success(response.data.message);
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Block!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .get(`/admin/block/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            navigate("/admin/users");
+            message.success(response.data.message);
+          })
+          .catch((error) => {
+            console.log(error.response);
+          });
+      }
+    });
   };
   const handleUnBlock = (id) => {
-    axios
-      .get(`/admin/unBlock/${id}`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((response) => {
-        navigate("/admin/users");
-        message.success(response.data.message);
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Unblock!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .get(`/admin/unBlock/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            navigate("/admin/users");
+            message.success(response.data.message);
+          })
+          .catch((error) => {
+            console.log(error.response);
+          });
+      }
+    });
   };
   useEffect(() => {
     axios

@@ -56,6 +56,9 @@ export default function AppointmentDetails() {
         })
         .catch((error) => {
           setShow(false);
+          if (!error.response.data.token) {
+            navigate("/login");
+          }
           message.error(error.response.data.err.error.description);
           if (!error.response.data.error.success) {
             message.error("!Oops something went wrong");
@@ -74,7 +77,9 @@ export default function AppointmentDetails() {
         setAppointments(response.data.appointments);
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (!error.response.data.token) {
+          navigate("/login");
+        }
       });
   }, []);
   return (

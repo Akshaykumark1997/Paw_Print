@@ -53,7 +53,7 @@ function NavBarAdmin() {
               </CDBSidebarMenuItem>
             </NavLink>
 
-            <NavLink to="/hero404" target="_blank">
+            <NavLink to="/admin/users">
               <CDBSidebarMenuItem icon="exclamation-circle">
                 Users
               </CDBSidebarMenuItem>
@@ -66,16 +66,6 @@ function NavBarAdmin() {
             </CDBSidebarMenuItem>
           </CDBSidebarMenu>
         </CDBSidebarContent>
-
-        {/* <CDBSidebarFooter style={{ textAlign: "center" }}>
-          <div
-            style={{
-              padding: "20px 5px",
-            }}
-          >
-            Sidebar Footer
-          </div>
-        </CDBSidebarFooter> */}
       </CDBSidebar>
     </div>
   );

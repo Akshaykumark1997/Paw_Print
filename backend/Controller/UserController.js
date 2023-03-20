@@ -207,6 +207,10 @@ module.exports = {
         errors.email = 'user not found';
         return res.status(400).json(errors);
       }
+      if (user.blocked) {
+        errors.blocked = 'blocked user';
+        return res.status(400).json(errors);
+      }
       bcrypt.compare(password, user.password).then((isMatch) => {
         if (isMatch) {
           const payload = {

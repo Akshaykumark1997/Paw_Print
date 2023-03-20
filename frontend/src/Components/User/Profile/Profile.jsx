@@ -50,7 +50,10 @@ function Profile() {
         setFormValues(response.data.user);
       })
       .catch((error) => {
-        if (!error.response.data.token) {
+        if (error.response.blocked) {
+          navigate("/login");
+          message.error("You have been Blocked");
+        } else if (!error.response.data.token) {
           navigate("/login");
         }
       });

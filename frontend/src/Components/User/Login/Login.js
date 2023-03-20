@@ -79,7 +79,11 @@ export default function Login() {
                     >
                       Login
                     </button>
-
+                    {errors && (
+                      <p className="mt-2" style={{ color: "red" }}>
+                        {errors.blocked}
+                      </p>
+                    )}
                     <hr className="my-4" />
 
                     {/* <button

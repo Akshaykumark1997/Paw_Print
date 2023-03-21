@@ -92,19 +92,33 @@ function ViewAppointments() {
                       }
                       onChange={(e) => handleEmployee(e, obj._id)}
                     >
-                      {employee.map((employee) => {
-                        return (
-                          <option
-                            selected={
-                              obj.employee == employee._id ? true : false
-                            }
-                            value={employee._id}
-                            key={employee._id}
-                          >
-                            {employee.firstName + employee.lastName}
-                          </option>
-                        );
-                      })}
+                      {obj.service === "Online Consultation"
+                        ? employee
+                            .filter((ele) => ele.position === "Doctor")
+                            .map((ele) => (
+                              <option
+                                selected={
+                                  obj.employee == ele._id ? true : false
+                                }
+                                value={ele._id}
+                                key={ele._id}
+                              >
+                                {ele.firstName + ele.lastName}
+                              </option>
+                            ))
+                        : employee
+                            .filter((ele) => ele.position !== "Doctor")
+                            .map((ele) => (
+                              <option
+                                selected={
+                                  obj.employee == ele._id ? true : false
+                                }
+                                value={ele._id}
+                                key={ele._id}
+                              >
+                                {ele.firstName + ele.lastName}
+                              </option>
+                            ))}
                     </select>
                   </td>
                 </tr>

@@ -231,7 +231,7 @@ module.exports = {
     Appointment.find({})
       .sort({ _id: -1 })
       .then((appointments) => {
-        Employee.find({ position: 'Clinic Staff' }).then((employees) => {
+        Employee.find({}).then((employees) => {
           res.json({
             success: true,
             appointments,

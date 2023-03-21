@@ -1,6 +1,6 @@
 const express = require('express');
 const EmployeeController = require('../Controller/EmployeeController');
-const verify = require('../Middleware/UserVerification');
+const verify = require('../Middleware/EmployeeVerification');
 
 const router = express.Router();
 

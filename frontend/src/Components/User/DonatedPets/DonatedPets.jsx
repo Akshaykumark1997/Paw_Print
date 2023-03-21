@@ -41,12 +41,6 @@ function DonatedPets() {
                   </div>
                   <div className="col-md-6">
                     <div className="product p-4">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="d-flex align-items-center">
-                          <i className="fa fa-long-arrow-left"></i>
-                          <span className="ml-1">Back</span>
-                        </div>
-                      </div>
                       <div className="mt-4 mb-3">
                         <h5 className="text-uppercase">{obj.petName}</h5>
                       </div>

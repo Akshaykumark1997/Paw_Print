@@ -41,4 +41,10 @@ router.post(
 );
 router.get('/donatedPets', verify.verify, userController.donatedPets);
 router.get('/applications', verify.verify, userController.applications);
+router.get(
+  '/editDonatedPet/:id',
+  verify.verify,
+  userController.editDonatedPetDetails
+);
+router.post('/editDonatedPet', verify.verify, userController.editDonatedPet);
 module.exports = router;

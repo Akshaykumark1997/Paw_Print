@@ -593,4 +593,22 @@ module.exports = {
         });
       });
   },
+  editDonatedPetDetails: (req, res) => {
+    Donation.findOne({ _id: req.params.id })
+      .then((donation) => {
+        res.json({
+          success: true,
+          donation,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
+  editDonatedPet: (req) => {
+    console.log(req.body);
+  },
 };

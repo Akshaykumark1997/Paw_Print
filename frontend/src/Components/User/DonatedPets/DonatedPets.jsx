@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./DonatedPets.css";
 import axios from "../../../Axios/Axios";
+import { Link } from "react-router-dom";
 
 function DonatedPets() {
   const token = localStorage.getItem("token");
@@ -51,12 +52,17 @@ function DonatedPets() {
                       </div>
                       <p className="about">{obj.description}</p>
                       <div className="cart mt-4 align-items-center">
-                        <button
-                          className="btn text-uppercase mr-2 px-4"
-                          style={{ backgroundColor: "#354b60", color: "#fff" }}
-                        >
-                          Edit
-                        </button>
+                        <Link to="/editDonatedPets" state={{ id: obj._id }}>
+                          <button
+                            className="btn text-uppercase mr-2 px-4"
+                            style={{
+                              backgroundColor: "#354b60",
+                              color: "#fff",
+                            }}
+                          >
+                            Edit
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   </div>

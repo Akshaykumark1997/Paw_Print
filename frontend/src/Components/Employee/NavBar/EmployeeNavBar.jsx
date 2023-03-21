@@ -52,12 +52,12 @@ function EmployeeNavBar() {
 
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
-            <NavLink to="">
+            {/* <NavLink to="">
               <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink to="">
+            </NavLink> */}
+            {/* <NavLink to="">
               <CDBSidebarMenuItem icon="table">Schedule</CDBSidebarMenuItem>
-            </NavLink>
+            </NavLink> */}
             <NavLink to="/employee/appointments">
               <CDBSidebarMenuItem icon="user">Appointment</CDBSidebarMenuItem>
             </NavLink>
@@ -70,9 +70,9 @@ function EmployeeNavBar() {
             ) : (
               <NavLink to="" />
             )}
-            <NavLink to="">
+            {/* <NavLink to="">
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
-            </NavLink>
+            </NavLink> */}
             <CDBSidebarMenuItem
               icon="exclamation-circle"
               onClick={handleLogout}

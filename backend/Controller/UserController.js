@@ -221,7 +221,7 @@ module.exports = {
             payload,
             process.env.SECRET,
             {
-              expiresIn: 3600,
+              expiresIn: 360000,
             },
             (err, token) => {
               if (err) console.error('There is some error in token', err);

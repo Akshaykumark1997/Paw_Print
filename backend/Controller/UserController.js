@@ -608,7 +608,72 @@ module.exports = {
         });
       });
   },
-  editDonatedPet: (req) => {
-    console.log(req.body);
+  editDonatedPet: (req, res) => {
+    if (!req.file) {
+      Donation.findOne({ _id: req.body.id })
+        .then((donation) => {
+          Donation.updateOne(
+            { _id: req.body.id },
+            {
+              $set: {
+                petName: req.body.petName,
+                age: req.body.age,
+                breed: req.body.breed,
+                vaccinated: req.body.vaccinated,
+                description: req.body.description,
+                userId: req.body.userId,
+                'image.name': donation.image.name,
+                'image.path': donation.image.path,
+              },
+            }
+          )
+            .then(() => {
+              res.json({
+                success: true,
+                message: 'Updated successfully',
+              });
+            })
+            .catch((error) => {
+              res.status(400).json({
+                success: false,
+                error,
+              });
+            });
+        })
+        .catch((error) => {
+          res.status(400).json({
+            success: false,
+            error,
+          });
+        });
+    } else {
+      Donation.updateOne(
+        { _id: req.body.id },
+        {
+          $set: {
+            petName: req.body.petName,
+            age: req.body.age,
+            breed: req.body.breed,
+            vaccinated: req.body.vaccinated,
+            description: req.body.description,
+            userId: req.body.userId,
+            'image.name': req.file.filename,
+            'image.path': req.file.path,
+          },
+        }
+      )
+        .then(() => {
+          res.json({
+            success: true,
+            message: 'Updated successfully',
+          });
+        })
+        .catch((error) => {
+          res.status(400).json({
+            success: false,
+            error,
+          });
+        });
+    }
   },
 };

@@ -46,5 +46,10 @@ router.get(
   verify.verify,
   userController.editDonatedPetDetails
 );
-router.post('/editDonatedPet', verify.verify, userController.editDonatedPet);
+router.post(
+  '/editDonatedPet',
+  verify.verify,
+  upload.single('image'),
+  userController.editDonatedPet
+);
 module.exports = router;

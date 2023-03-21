@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import validate from "./Validation";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../../../Axios/Axios";
+import { message } from "antd";
 
 function EditDonatedPets() {
   const location = useLocation();
@@ -28,7 +29,9 @@ function EditDonatedPets() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formValues);
     const data = new FormData();
+    data.append("id", formValues._id);
     data.append("petName", formValues.petName);
     data.append("age", formValues.age);
     data.append("breed", formValues.breed);
@@ -46,11 +49,14 @@ function EditDonatedPets() {
           },
         })
         .then((response) => {
-          console.log(response);
-          //   navigate("/profile");
+          message.success(response.data.message);
+          navigate("/profile");
         })
         .catch((error) => {
-          if (!error.response.data.token) {
+          if (error.response.blocked) {
+            navigate("/login");
+            message.error("You have been Blocked");
+          } else if (!error.response.data.token) {
             navigate("/login");
           }
         });
@@ -64,11 +70,13 @@ function EditDonatedPets() {
         },
       })
       .then((response) => {
-        console.log(response.data);
         setFormValues(response.data.donation);
       })
       .catch((error) => {
-        if (!error.response.data.token) {
+        if (error.response.blocked) {
+          navigate("/login");
+          message.error("You have been Blocked");
+        } else if (!error.response.data.token) {
           navigate("/login");
         }
       });

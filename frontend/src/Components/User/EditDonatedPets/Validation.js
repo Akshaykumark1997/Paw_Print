@@ -3,8 +3,8 @@ const validate = (values) => {
   const petName = values.petName.trim();
   const breed = values.breed.trim();
   const description = values.description.trim();
-  const fileType = values.image.type;
-  const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+  // const fileType = values.image.type;
+  // const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
   if (petName == "") {
     errors.petName = "Pet name is required";
   } else if (!/^[A-Za-z\s]*$/.test(values.petName)) {
@@ -30,9 +30,10 @@ const validate = (values) => {
   }
   if (values.image == null) {
     errors.image = "image is required";
-  } else if (!validImageTypes.includes(fileType)) {
-    errors.image = "upload an image";
   }
+  // else if (!validImageTypes.includes(fileType)) {
+  //   errors.image = "upload an image";
+  // }
   return errors;
 };
 export default validate;

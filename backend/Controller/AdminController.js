@@ -272,8 +272,6 @@ module.exports = {
       });
   },
   editAdoption: (req, res) => {
-    console.log(req.body);
-    console.log(req.file);
     if (!req.file) {
       Donation.findOne({ _id: req.body.id })
         .then((donation) => {

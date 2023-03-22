@@ -5,7 +5,7 @@ import NavBar from "../../../Components/User/NavBar/NavBar";
 import Footer from "../../../Components/User/Footer/Footer";
 
 function JoinConsultation() {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("akshay@123");
   const navigate = useNavigate();
 
   const handleJoinRoom = useCallback(() => {

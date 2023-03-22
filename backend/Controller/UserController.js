@@ -80,7 +80,6 @@ module.exports = {
                             if (er)
                               console.error('There is some error in token', er);
                             else {
-                              console.log('success');
                               res.status(200).json({
                                 status: 'Pending',
                                 success: true,
@@ -146,7 +145,6 @@ module.exports = {
                 (er, token) => {
                   if (er) console.error('There is some error in token', er);
                   else {
-                    console.log('success');
                     res.status(200).json({
                       status: 'Pending',
                       success: true,
@@ -167,9 +165,7 @@ module.exports = {
     });
   },
   verifyOtp: (req, res) => {
-    console.log(req.body);
     otp.findOne({ _id: req.body.id }).then((data) => {
-      console.log(data);
       if (!data) {
         res.json({
           success: false,
@@ -177,20 +173,24 @@ module.exports = {
             "Account doesn't exist or already verified . please signUp again",
         });
       } else {
-        bcrypt.compare(req.body.otp, data.otp).then((valid) => {
-          console.log(valid);
-          if (!valid) {
-            res.json({ success: false, message: 'entered wrong otp' });
-          } else {
-            otp.deleteOne({ userId: req.body.userId }).then(() => {
-              User.updateOne(
-                { _id: req.body.userId },
-                { $set: { verified: true } }
-              ).then(() => {
-                res.json({ success: true, message: 'registerd successfully' });
+        otp.findOne({ _id: req.body.id }).then((otpDetails) => {
+          bcrypt.compare(req.body.otp, data.otp).then((valid) => {
+            if (!valid) {
+              res.json({ success: false, message: 'entered wrong otp' });
+            } else {
+              otp.deleteOne({ userId: req.body.userId }).then(() => {
+                User.updateOne(
+                  { _id: otpDetails.userId },
+                  { $set: { verified: true, email: req.body.email } }
+                ).then(() => {
+                  res.json({
+                    success: true,
+                    message: 'registerd successfully',
+                  });
+                });
               });
-            });
-          }
+            }
+          });
         });
       }
     });
@@ -468,28 +468,102 @@ module.exports = {
       });
   },
   editUser: (req, res) => {
-    User.updateOne(
-      { _id: req.body._id },
-      {
-        $set: {
-          userName: req.body.userName,
-          email: req.body.email,
-          mobile: req.body.mobile,
-        },
+    User.findOne({ _id: req.body._id }).then((user) => {
+      console.log(user);
+      if (user.email === req.body.email) {
+        User.updateOne(
+          { _id: req.body._id },
+          {
+            $set: {
+              userName: req.body.userName,
+              email: req.body.email,
+              mobile: req.body.mobile,
+            },
+          }
+        )
+          .then(() => {
+            res.json({
+              success: true,
+              message: 'updated successfully',
+            });
+          })
+          .catch((error) => {
+            res.status(400).json({
+              success: false,
+              error,
+            });
+          });
+      } else {
+        User.findOne({ email: req.body.email }).then((exist) => {
+          if (exist) {
+            res.status(400).json({ email: 'email already exist' });
+          } else {
+            const mailDetails = {
+              from: process.env.GMAIL,
+              to: req.body.email,
+              subject: 'Paw Print  VERIFICATION',
+              html: `<p>YOUR OTP FOR REGISTERING IN  Paw Print  IS <h1> ${sendOtp.OTP} <h1> </p> <p> expires in 
+              10 minutes </p>`,
+            };
+            bcrypt.hash(sendOtp.OTP, 10, (err, otpHash) => {
+              otp
+                .create({
+                  userId: user._id,
+                  otp: otpHash,
+                  createdAt: Date.now(),
+                  expireAt: Date.now() + 600,
+                })
+                .then((otpData) => {
+                  sendOtp.mailTransporter.sendMail(
+                    mailDetails,
+                    (errs, responses) => {
+                      if (errs) {
+                        console.log('errorr');
+                        res.status(400).json({
+                          status: 'Failed',
+                          message: errs.message,
+                        });
+                      } else {
+                        console.log(responses);
+                        const payload = {
+                          id: otpData._id,
+                          email: req.body.email,
+                        };
+                        jwt.sign(
+                          payload,
+                          process.env.SECRET,
+                          {
+                            expiresIn: 600,
+                          },
+                          (er, token) => {
+                            if (er)
+                              console.error('There is some error in token', er);
+                            else {
+                              console.log('success');
+                              res.status(200).json({
+                                status: 'Pending',
+                                success: true,
+                                otp: true,
+                                message: 'otp sent successfully',
+                                data: {
+                                  success: true,
+                                  id: otpData._id,
+                                  email: req.body.email,
+                                  token: `Bearer ${token}`,
+                                },
+                              });
+                            }
+                          }
+                        );
+                      }
+                    }
+                  );
+                });
+            });
+          }
+        });
       }
-    )
-      .then(() => {
-        res.json({
-          success: true,
-          message: 'updated successfully',
-        });
-      })
-      .catch((error) => {
-        res.status(400).json({
-          success: false,
-          error,
-        });
-      });
+    });
   },
   appoitmentDetails: (req, res) => {
     const token = req.headers.authorization;

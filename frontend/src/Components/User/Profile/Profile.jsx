@@ -30,8 +30,17 @@ function Profile() {
         },
       })
       .then((response) => {
+        console.log(response.data);
         message.success(response.data.message);
         setDisabled(false);
+        localStorage.setItem("otpToken", response.data.data.token);
+        navigate("/otp", {
+          state: {
+            id: response.data.data.id,
+            email: response.data.data.email,
+            token: response.data.data.token,
+          },
+        });
       })
       .catch((error) => {
         if (!error.response.data.token) {

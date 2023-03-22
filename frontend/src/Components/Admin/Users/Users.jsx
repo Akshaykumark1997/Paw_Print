@@ -128,6 +128,13 @@ function Users() {
             })}
           </tbody>
         </table>
+        {users.length <= 0 && (
+          <>
+            <div className="d-flex justify-content-center mt-4">
+              <h5 className="text-center">No data to show</h5>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -36,8 +36,15 @@ function Otp() {
           setError(response.data);
         }
       })
-      .catch((Error) => {
-        console.log(Error);
+      .catch((error) => {
+        if (error.response.blocked) {
+          navigate("/login");
+          message.error("You have been Blocked");
+        } else if (!error.response.data.token) {
+          navigate("/login");
+        } else if (!error.response.data.success) {
+          message.error("!Ooops something went wrong");
+        }
       });
   };
   const resendOTP = () => {
@@ -51,6 +58,16 @@ function Otp() {
       .then((response) => {
         console.log(response);
         localStorage.setItem("otpToken", response.data.data.token);
+      })
+      .catch((error) => {
+        if (error.response.blocked) {
+          navigate("/login");
+          message.error("You have been Blocked");
+        } else if (!error.response.data.token) {
+          navigate("/login");
+        } else if (!error.response.data.success) {
+          message.error("!Ooops something went wrong");
+        }
       });
   };
   useEffect(() => {

@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./DonatedPets.css";
 import axios from "../../../Axios/Axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 function DonatedPets() {
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const [donations, setDonations] = useState([]);
   useEffect(() => {
     axios
@@ -17,7 +20,14 @@ function DonatedPets() {
         setDonations(response.data.donatedPets);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.blocked) {
+          navigate("/login");
+          message.error("You have been Blocked");
+        } else if (!error.response.data.token) {
+          navigate("/login");
+        } else if (!error.response.data.success) {
+          message.error("!Ooops something went wrong");
+        }
       });
   }, []);
   return (

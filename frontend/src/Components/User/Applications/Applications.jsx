@@ -37,10 +37,12 @@ function Applications() {
         message.success(response.data.message);
       })
       .catch((error) => {
-        if (!error.response.data.token) {
+        if (error.response.blocked) {
           navigate("/login");
-        }
-        if (!error.response.data.success) {
+          message.error("You have been Blocked");
+        } else if (!error.response.data.token) {
+          navigate("/login");
+        } else if (!error.response.data.success) {
           message.error("!Ooops something went wrong");
         }
       });

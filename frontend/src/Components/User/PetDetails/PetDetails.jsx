@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./PetDetails.css";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "../../../Axios/Axios";
+import { message } from "antd";
 
 export default function PetDetails() {
   const token = localStorage.getItem("token");
@@ -23,8 +24,13 @@ export default function PetDetails() {
         setImage(response.data.petDetails.image.path);
       })
       .catch((error) => {
-        if (!error.response.data.token) {
+        if (error.response.blocked) {
           navigate("/login");
+          message.error("You have been Blocked");
+        } else if (!error.response.data.token) {
+          navigate("/login");
+        } else if (!error.response.data.success) {
+          message.error("!Ooops something went wrong");
         }
       });
   }, []);

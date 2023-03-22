@@ -87,10 +87,14 @@ function AppointmentForm() {
 
           rzp1.open();
         })
-        .catch((err) => {
-          console.log(err);
-          if (!error.response.data.token) {
+        .catch((error) => {
+          if (error.response.blocked) {
             navigate("/login");
+            message.error("You have been Blocked");
+          } else if (!error.response.data.token) {
+            navigate("/login");
+          } else if (!error.response.data.success) {
+            message.error("!Ooops something went wrong");
           }
         });
     }
@@ -147,8 +151,13 @@ function AppointmentForm() {
         setImage(response.data.service.image.path);
       })
       .catch((error) => {
-        if (!error.response.data.token) {
+        if (error.response.blocked) {
           navigate("/login");
+          message.error("You have been Blocked");
+        } else if (!error.response.data.token) {
+          navigate("/login");
+        } else if (!error.response.data.success) {
+          message.error("!Ooops something went wrong");
         }
       });
   }, []);
@@ -164,8 +173,13 @@ function AppointmentForm() {
           setAllService(response.data.services);
         })
         .catch((error) => {
-          if (!error.response.data.token) {
+          if (error.response.blocked) {
             navigate("/login");
+            message.error("You have been Blocked");
+          } else if (!error.response.data.token) {
+            navigate("/login");
+          } else if (!error.response.data.success) {
+            message.error("!Ooops something went wrong");
           }
         });
     }

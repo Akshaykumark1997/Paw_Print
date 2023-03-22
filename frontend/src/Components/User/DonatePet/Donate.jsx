@@ -3,6 +3,7 @@ import "./Donate.css";
 import validate from "./Validation";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 function Donate() {
   const [formValues, setFormValues] = useState({
@@ -49,8 +50,13 @@ function Donate() {
           navigate("/profile");
         })
         .catch((error) => {
-          if (!error.response.data.token) {
+          if (error.response.blocked) {
             navigate("/login");
+            message.error("You have been Blocked");
+          } else if (!error.response.data.token) {
+            navigate("/login");
+          } else if (!error.response.data.success) {
+            message.error("!Ooops something went wrong");
           }
         });
     }

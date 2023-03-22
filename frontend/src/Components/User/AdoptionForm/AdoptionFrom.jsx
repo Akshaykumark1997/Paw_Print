@@ -3,6 +3,7 @@ import "./AdoptionFrom.css";
 import Validate from "./Validation";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../../Axios/Axios";
+import { message } from "antd";
 
 function AdoptionFrom() {
   const location = useLocation();
@@ -47,8 +48,13 @@ function AdoptionFrom() {
           navigate("/pets");
         })
         .catch((error) => {
-          if (!error.response.data.token) {
+          if (error.response.blocked) {
             navigate("/login");
+            message.error("You have been Blocked");
+          } else if (!error.response.data.token) {
+            navigate("/login");
+          } else if (!error.response.data.success) {
+            message.error("!Ooops something went wrong");
           }
         });
     }

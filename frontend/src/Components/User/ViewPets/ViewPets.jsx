@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../Axios/Axios";
 import { Link, useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 function ViewPets() {
   const token = localStorage.getItem("token");
@@ -17,8 +18,13 @@ function ViewPets() {
         setPets(response.data.donations);
       })
       .catch((error) => {
-        if (!error.response.data.token) {
+        if (error.response.blocked) {
           navigate("/login");
+          message.error("You have been Blocked");
+        } else if (!error.response.data.token) {
+          navigate("/login");
+        } else if (!error.response.data.success) {
+          message.error("!Ooops something went wrong");
         }
       });
   }, []);

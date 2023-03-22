@@ -44,7 +44,7 @@ function AdoptionFrom() {
           },
         })
         .then(() => {
-          location.reload();
+          navigate("/pets");
         })
         .catch((error) => {
           if (!error.response.data.token) {

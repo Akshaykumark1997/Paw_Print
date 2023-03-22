@@ -419,6 +419,8 @@ module.exports = {
     if (!isValid) {
       return res.status(400).json(errors);
     }
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
     Adoption.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -435,7 +437,8 @@ module.exports = {
       breed: req.body.breed,
       description: req.body.description,
       petId: req.body.petId,
-      userId: req.body.userId,
+      donatedUserId: req.body.userId,
+      accepterUserId: decoded.id,
     })
       .then(() => {
         res.json({
@@ -652,9 +655,8 @@ module.exports = {
     const token = req.headers.authorization;
     const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
     console.log(decoded);
-    Adoption.find({ userId: { $ne: decoded.id } })
+    Adoption.find({ donatedUserId: decoded.id })
       .then((applications) => {
-        console.log(applications);
         res.json({
           success: true,
           applications,

@@ -37,6 +37,7 @@ import Consultation from "./Components/User/AppointmentDetails/Consultation";
 import JoinConsultation from "./Components/User/AppointmentDetails/JoinConsultation";
 import ViewUsers from "./Pages/Admin/Users/ViewUsers";
 import EditDonatedPetDetails from "./Pages/User/EditDonatedPets/EditDonatedPetDetails";
+import ViewStatus from "./Pages/User/ApplicationStatus/ViewStatus";
 
 function App() {
   // const user = localStorage.getItem("token");
@@ -68,6 +69,7 @@ function App() {
             <Route path="/applications" element={<ViewApplications />} />
             <Route path="/consultation" element={<JoinConsultation />} />
             <Route path="/joinRoom" element={<Consultation />} />
+            <Route path="/applicationStatus" element={<ViewStatus />} />
           </Route>
           <Route path="/admin" element={<Login />} />
           <Route path="/admin" element={<AdminAutorization />}>

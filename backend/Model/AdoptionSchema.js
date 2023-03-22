@@ -51,9 +51,13 @@ const AdoptionShcema = new Schema(
     pet: { type: String },
     breed: { type: String },
     description: { type: String },
-    userId: {
+    donatedUserId: {
       type: String,
       required: true,
+    },
+    accepterUserId: {
+      type: String,
+      requied: true,
     },
     petId: {
       type: String,

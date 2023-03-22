@@ -63,6 +63,10 @@ const AdoptionShcema = new Schema(
       type: String,
       required: true,
     },
+    adoptionStatus: {
+      type: String,
+      default: 'Pending',
+    },
   },
   {
     timestamps: true,

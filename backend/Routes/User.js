@@ -57,4 +57,9 @@ router.get(
   verify.verify,
   userController.applicationStatus
 );
+router.get(
+  '/changeAdoptionStatus/:id',
+  verify.verify,
+  userController.changeAdoptionStatus
+);
 module.exports = router;

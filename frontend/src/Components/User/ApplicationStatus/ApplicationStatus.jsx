@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import axios from "../../../Axios/Axios";
 import { useNavigate, Link } from "react-router-dom";
-import { message } from "antd";
+import { message, Modal } from "antd";
 
 function ApplicationStatus() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
   const [applications, setApplications] = useState([]);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   useEffect(() => {
     axios
       .get("/applicationStatus", {
@@ -122,58 +131,66 @@ function ApplicationStatus() {
                                 backgroundColor: "#354b60",
                                 color: "#fff",
                               }}
-                              onClick={handleShow}
+                              onClick={showModal}
                             >
                               Current Pet Details
                             </Button>
 
-                            <Modal show={show} onHide={handleClose}>
-                              <Modal.Header closeButton>
-                                <Modal.Title>Current Pet Details</Modal.Title>
-                              </Modal.Header>
-                              <Modal.Body>
-                                <div className="d-flex flex-row">
-                                  <div>
-                                    <p>
-                                      <b>Name:</b> {obj.pet}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="d-flex flex-row">
-                                  <div>
-                                    <p>
-                                      <b>Breed:</b> {obj.breed}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="d-flex flex-row">
-                                  <div>
-                                    <p>
-                                      <b>Description:</b>
-                                      {obj.description}
-                                    </p>
-                                  </div>
-                                </div>
-                              </Modal.Body>
-                              <Modal.Footer>
-                                <Button
-                                  variant="secondary"
-                                  onClick={handleClose}
-                                >
-                                  Close
-                                </Button>
-                                {/* <Button variant="primary" onClick={handleClose}>
-                            Save Changes
-                          </Button> */}
-                              </Modal.Footer>
-                            </Modal>
-                            <button
-                              className="btn btn-sm mt-2"
-                              id="applicationButton"
-                              type="button"
+                            <Modal
+                              title="Pet Details"
+                              open={isModalOpen}
+                              onOk={handleOk}
+                              onCancel={handleCancel}
                             >
-                              Proceed
-                            </button>
+                              <div className="d-flex flex-row">
+                                <div>
+                                  <p>
+                                    <b>Name:</b> {obj.pet}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="d-flex flex-row">
+                                <div>
+                                  <p>
+                                    <b>Breed:</b> {obj.breed}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="d-flex flex-row">
+                                <div>
+                                  <p>
+                                    <b>Description:</b>
+                                    {obj.description}
+                                  </p>
+                                </div>
+                              </div>
+                            </Modal>
+                            {obj.adoptionStatus == "Pending" ? (
+                              <button
+                                className="btn btn-danger mt-2"
+                                id="applicationStatusButton"
+                                type="button"
+                              >
+                                Pending
+                              </button>
+                            ) : (
+                              <>
+                                <button
+                                  className="btn btn-success mt-2"
+                                  id="applicationStatusButton"
+                                  type="button"
+                                >
+                                  Confirmed
+                                </button>
+                                <button
+                                  className="btn btn-primary mt-2"
+                                  id="applicationStatusButton"
+                                  type="button"
+                                >
+                                  Contact
+                                </button>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>

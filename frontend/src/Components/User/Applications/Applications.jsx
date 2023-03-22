@@ -2,17 +2,46 @@ import React, { useEffect, useState } from "react";
 import "./Application.css";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import axios from "../../../Axios/Axios";
-import { message } from "antd";
+import { message, Modal } from "antd";
 
 function Applications() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
   const [applications, setApplications] = useState([]);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const handleProceed = (id) => {
+    axios
+      .get(`/changeAdoptionStatus/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        navigate("/profile");
+        message.success(response.data.message);
+      })
+      .catch((error) => {
+        if (!error.response.data.token) {
+          navigate("/login");
+        }
+        if (!error.response.data.success) {
+          message.error("!Ooops something went wrong");
+        }
+      });
+  };
   useEffect(() => {
     axios
       .get("/applications", {
@@ -123,58 +152,56 @@ function Applications() {
                                 backgroundColor: "#354b60",
                                 color: "#fff",
                               }}
-                              onClick={handleShow}
+                              onClick={showModal}
                             >
                               Current Pet Details
                             </Button>
-
-                            <Modal show={show} onHide={handleClose}>
-                              <Modal.Header closeButton>
-                                <Modal.Title>Current Pet Details</Modal.Title>
-                              </Modal.Header>
-                              <Modal.Body>
-                                <div className="d-flex flex-row">
-                                  <div>
-                                    <p>
-                                      <b>Name:</b> {obj.pet}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="d-flex flex-row">
-                                  <div>
-                                    <p>
-                                      <b>Breed:</b> {obj.breed}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="d-flex flex-row">
-                                  <div>
-                                    <p>
-                                      <b>Description:</b>
-                                      {obj.description}
-                                    </p>
-                                  </div>
-                                </div>
-                              </Modal.Body>
-                              <Modal.Footer>
-                                <Button
-                                  variant="secondary"
-                                  onClick={handleClose}
-                                >
-                                  Close
-                                </Button>
-                                {/* <Button variant="primary" onClick={handleClose}>
-                            Save Changes
-                          </Button> */}
-                              </Modal.Footer>
-                            </Modal>
-                            <button
-                              className="btn btn-sm mt-2"
-                              id="applicationButton"
-                              type="button"
+                            <Modal
+                              title="Pet Details"
+                              open={isModalOpen}
+                              onOk={handleOk}
+                              onCancel={handleCancel}
                             >
-                              Proceed
-                            </button>
+                              <div className="d-flex flex-row">
+                                <div>
+                                  <p>
+                                    <b>Name:</b> {obj.pet}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="d-flex flex-row">
+                                <div>
+                                  <p>
+                                    <b>Breed:</b> {obj.breed}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="d-flex flex-row">
+                                <div>
+                                  <p>
+                                    <b>Description:</b>
+                                    {obj.description}
+                                  </p>
+                                </div>
+                              </div>
+                            </Modal>
+                            {obj.adoptionStatus === "Pending" ? (
+                              <button
+                                className="btn btn-sm mt-2"
+                                id="applicationButton"
+                                type="button"
+                                onClick={() => handleProceed(obj._id)}
+                              >
+                                Proceed
+                              </button>
+                            ) : (
+                              <button
+                                className="btn btn-success mt-2"
+                                type="button"
+                              >
+                                Confirmed
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>

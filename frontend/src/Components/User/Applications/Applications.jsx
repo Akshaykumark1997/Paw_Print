@@ -10,15 +10,18 @@ function Applications() {
   const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [proceedModal, setProceedModal] = useState(false);
+
+  const showProceedModal = () => {
+    setProceedModal(true);
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
   };
-
   const handleOk = () => {
     setIsModalOpen(false);
   };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -186,14 +189,24 @@ function Applications() {
                               </div>
                             </Modal>
                             {obj.adoptionStatus === "Pending" ? (
-                              <button
-                                className="btn btn-sm mt-2"
-                                id="applicationButton"
-                                type="button"
-                                onClick={() => handleProceed(obj._id)}
-                              >
-                                Proceed
-                              </button>
+                              <>
+                                <button
+                                  className="btn btn-sm mt-2"
+                                  id="applicationButton"
+                                  type="button"
+                                  onClick={showProceedModal}
+                                >
+                                  Proceed
+                                </button>
+                                <Modal
+                                  title="Confirmation"
+                                  open={proceedModal}
+                                  onOk={() => handleProceed(obj._id)}
+                                  onCancel={() => setProceedModal(false)}
+                                >
+                                  <p>Are you sure?</p>
+                                </Modal>
+                              </>
                             ) : (
                               <button
                                 className="btn btn-success mt-2"

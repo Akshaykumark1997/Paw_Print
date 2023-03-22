@@ -62,4 +62,5 @@ router.get(
   verify.verify,
   userController.changeAdoptionStatus
 );
+router.get('/donatedUser/:id', verify.verify, userController.donatedUser);
 module.exports = router;

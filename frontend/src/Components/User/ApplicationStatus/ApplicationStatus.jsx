@@ -8,18 +8,37 @@ function ApplicationStatus() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
+  const [donatedUser, setDonatedUser] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [contactModal, setContactModal] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
-
   const handleOk = () => {
     setIsModalOpen(false);
   };
-
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+  const handleContact = (id) => {
+    axios
+      .get(`/donatedUser/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        setDonatedUser(response.data.user);
+        setContactModal(true);
+      })
+      .catch((error) => {
+        if (!error.response.data.token) {
+          navigate("/login");
+        }
+        if (!error.response.data.success) {
+          message.error("!Ooops something went wrong");
+        }
+      });
   };
   useEffect(() => {
     axios
@@ -186,9 +205,22 @@ function ApplicationStatus() {
                                   className="btn btn-primary mt-2"
                                   id="applicationStatusButton"
                                   type="button"
+                                  onClick={() =>
+                                    handleContact(obj.donatedUserId)
+                                  }
                                 >
                                   Contact
                                 </button>
+                                <Modal
+                                  title="Contact Details"
+                                  open={contactModal}
+                                  onOk={() => setContactModal(false)}
+                                  onCancel={() => setContactModal(false)}
+                                >
+                                  <p>{donatedUser.userName}</p>
+                                  <p>{donatedUser.email}</p>
+                                  <p>{donatedUser.mobile}</p>
+                                </Modal>
                               </>
                             )}
                           </div>

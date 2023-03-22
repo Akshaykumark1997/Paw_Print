@@ -790,4 +790,19 @@ module.exports = {
         });
       });
   },
+  donatedUser: (req, res) => {
+    User.findOne({ _id: req.params.id })
+      .then((user) => {
+        res.json({
+          success: true,
+          user,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
 };

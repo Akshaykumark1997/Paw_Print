@@ -75,6 +75,25 @@ function DonatedPets() {
             </div>
           );
         })}
+        {donations.length <= 0 && (
+          <div className="d-flex align-items-center justify-content-center">
+            <div className="text-center mt-5">
+              <h6 className="display-6 fw-bold">No Data to Show</h6>
+              <p className="lead">You didnt donated any pets.</p>
+              <Link to="/profile">
+                <button
+                  className="btn btn-primary mb-5"
+                  style={{
+                    backgroundColor: "#354b60",
+                    color: "#fff",
+                  }}
+                >
+                  Go Back
+                </button>
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

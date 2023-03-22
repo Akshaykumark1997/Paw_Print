@@ -46,6 +46,7 @@ function AdoptionFrom() {
         })
         .then(() => {
           navigate("/pets");
+          message.success("Adoption form submitted successfully");
         })
         .catch((error) => {
           if (error.response.blocked) {

@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { message } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function AppointmentDetails() {
   const token = localStorage.getItem("token");
@@ -230,6 +230,28 @@ export default function AppointmentDetails() {
           </div>
         );
       })}
+      {appointments.length <= 0 && (
+        <div className="d-flex align-items-center justify-content-center">
+          <div className="text-center mt-5">
+            <h6 className="display-6 fw-bold">No Data to Show</h6>
+            <p className="lead">
+              You dont have any appointment details. Once you created one it
+              will show here.
+            </p>
+            <Link to="/profile">
+              <button
+                className="btn btn-primary mb-5"
+                style={{
+                  backgroundColor: "#354b60",
+                  color: "#fff",
+                }}
+              >
+                Go Back
+              </button>
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

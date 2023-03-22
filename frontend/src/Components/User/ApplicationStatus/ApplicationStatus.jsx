@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import axios from "../../../Axios/Axios";
+import { useNavigate, Link } from "react-router-dom";
+import { message } from "antd";
 
 function ApplicationStatus() {
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [applications, setApplications] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   useEffect(() => {
@@ -16,156 +20,170 @@ function ApplicationStatus() {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        setApplications(response.data.applications);
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (!error.response.data.token) {
+          navigate("/login");
+        }
+        if (!error.response.data.success) {
+          message.error("!Ooops something went wrong");
+        }
       });
   }, []);
   return (
     <section>
       <div className="container py-5">
-        <div className="row justify-content-center mb-3">
-          <div className="col-md-12 col-xl-10">
-            <div className="card shadow-0 border rounded-3">
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0 mt-4">
-                    <div className="d-flex flex-row justify-content-evenly">
-                      <div>
-                        <p>
-                          <b>Name:</b> obj.firstName obj.lastName
-                        </p>
-                      </div>
-                    </div>
-                    <div className="d-flex flex-row justify-content-evenly">
-                      <div>
-                        <p>
-                          <b>Mobile:</b> obj.mobile
-                        </p>
-                      </div>
-                    </div>
-                    <div className="d-flex flex-row justify-content-evenly">
-                      <div>
-                        <p>
-                          <b>Email:</b> obj.email
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6 col-lg-6 col-xl-6">
-                    <h6>Address</h6>
-                    <div className="d-flex flex-row justify-content-evenly mt-3">
-                      <div>
-                        <p>
-                          <b>House Name:</b> obj.houseName
-                        </p>
-                      </div>
-                      <div>
-                        <p>
-                          <b>Street Name:</b> obj.streetName
-                        </p>
-                      </div>
-                    </div>
-                    <div className="d-flex flex-row justify-content-evenly">
-                      <div>
-                        <p>
-                          <b>City:</b> obj.city
-                        </p>
-                      </div>
-                      <div>
-                        <p>
-                          <b>State:</b> obj.state
-                        </p>
-                      </div>
-                    </div>
-                    <div className="d-flex flex-row justify-content-evenly">
-                      <div>
-                        <p>
-                          <b>Country:</b> obj.country
-                        </p>
-                      </div>
-                      <div>
-                        <p>
-                          <b>Pincode:</b> obj.pincode
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
-                    <div className="d-flex flex-row align-items-center mb-1">
-                      <h6 className="mb-1 me-1">Pet Details</h6>
-                    </div>
-                    <div className="d-flex flex-row">
-                      <div>
-                        <p>
-                          <b>Pet Name:</b> obj.petName
-                        </p>
-                      </div>
-                    </div>
-                    <div className="d-flex flex-column mt-4">
-                      <Button
-                        style={{
-                          backgroundColor: "#354b60",
-                          color: "#fff",
-                        }}
-                        onClick={handleShow}
-                      >
-                        Current Pet Details
-                      </Button>
+        {applications.length > 0 &&
+          applications.map((obj) => {
+            return (
+              <div className="row justify-content-center mb-3" key={obj._id}>
+                <div className="col-md-12 col-xl-10">
+                  <div className="card shadow-0 border rounded-3">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0 mt-4">
+                          <div className="d-flex flex-row justify-content-evenly">
+                            <div>
+                              <p>
+                                <b>Name:</b>{" "}
+                                {obj.firstName + " " + obj.lastName}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="d-flex flex-row justify-content-evenly">
+                            <div>
+                              <p>
+                                <b>Mobile:</b> {obj.mobile}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="d-flex flex-row justify-content-evenly">
+                            <div>
+                              <p>
+                                <b>Email:</b> {obj.email}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-6 col-lg-6 col-xl-6">
+                          <h6>Address</h6>
+                          <div className="d-flex flex-row justify-content-evenly mt-3">
+                            <div>
+                              <p>
+                                <b>House Name:</b> {obj.houseName}
+                              </p>
+                            </div>
+                            <div>
+                              <p>
+                                <b>Street Name:</b> {obj.streetName}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="d-flex flex-row justify-content-evenly">
+                            <div>
+                              <p>
+                                <b>City:</b> {obj.city}
+                              </p>
+                            </div>
+                            <div>
+                              <p>
+                                <b>State:</b> {obj.state}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="d-flex flex-row justify-content-evenly">
+                            <div>
+                              <p>
+                                <b>Country:</b> {obj.country}
+                              </p>
+                            </div>
+                            <div>
+                              <p>
+                                <b>Pincode:</b> {obj.pincode}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+                          <div className="d-flex flex-row align-items-center mb-1">
+                            <h6 className="mb-1 me-1">Pet Details</h6>
+                          </div>
+                          <div className="d-flex flex-row">
+                            <div>
+                              <p>
+                                <b>Pet Name:</b> {obj.petName}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="d-flex flex-column mt-4">
+                            <Button
+                              style={{
+                                backgroundColor: "#354b60",
+                                color: "#fff",
+                              }}
+                              onClick={handleShow}
+                            >
+                              Current Pet Details
+                            </Button>
 
-                      <Modal show={show} onHide={handleClose}>
-                        <Modal.Header closeButton>
-                          <Modal.Title>Current Pet Details</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <div className="d-flex flex-row">
-                            <div>
-                              <p>
-                                <b>Name:</b> obj.pet
-                              </p>
-                            </div>
-                          </div>
-                          <div className="d-flex flex-row">
-                            <div>
-                              <p>
-                                <b>Breed:</b> obj.breed
-                              </p>
-                            </div>
-                          </div>
-                          <div className="d-flex flex-row">
-                            <div>
-                              <p>
-                                <b>Description:</b>
-                                obj.description
-                              </p>
-                            </div>
-                          </div>
-                        </Modal.Body>
-                        <Modal.Footer>
-                          <Button variant="secondary" onClick={handleClose}>
-                            Close
-                          </Button>
-                          {/* <Button variant="primary" onClick={handleClose}>
+                            <Modal show={show} onHide={handleClose}>
+                              <Modal.Header closeButton>
+                                <Modal.Title>Current Pet Details</Modal.Title>
+                              </Modal.Header>
+                              <Modal.Body>
+                                <div className="d-flex flex-row">
+                                  <div>
+                                    <p>
+                                      <b>Name:</b> {obj.pet}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="d-flex flex-row">
+                                  <div>
+                                    <p>
+                                      <b>Breed:</b> {obj.breed}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="d-flex flex-row">
+                                  <div>
+                                    <p>
+                                      <b>Description:</b>
+                                      {obj.description}
+                                    </p>
+                                  </div>
+                                </div>
+                              </Modal.Body>
+                              <Modal.Footer>
+                                <Button
+                                  variant="secondary"
+                                  onClick={handleClose}
+                                >
+                                  Close
+                                </Button>
+                                {/* <Button variant="primary" onClick={handleClose}>
                             Save Changes
                           </Button> */}
-                        </Modal.Footer>
-                      </Modal>
-                      <button
-                        className="btn btn-sm mt-2"
-                        id="applicationButton"
-                        type="button"
-                      >
-                        Proceed
-                      </button>
+                              </Modal.Footer>
+                            </Modal>
+                            <button
+                              className="btn btn-sm mt-2"
+                              id="applicationButton"
+                              type="button"
+                            >
+                              Proceed
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        {/* {applications.length <= 0 && (
+            );
+          })}
+        {applications.length <= 0 && (
           <div className="d-flex align-items-center justify-content-center">
             <div className="text-center mt-5">
               <h6 className="display-6 fw-bold">No Data to Show</h6>
@@ -186,7 +204,7 @@ function ApplicationStatus() {
               </Link>
             </div>
           </div>
-        )} */}
+        )}
       </div>
     </section>
   );

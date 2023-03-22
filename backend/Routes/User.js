@@ -52,4 +52,9 @@ router.post(
   upload.single('image'),
   userController.editDonatedPet
 );
+router.get(
+  '/applicationStatus',
+  verify.verify,
+  userController.applicationStatus
+);
 module.exports = router;

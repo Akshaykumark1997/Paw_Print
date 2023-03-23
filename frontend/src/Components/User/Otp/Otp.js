@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import { actionCreaters } from "../../../State/Index";
 import Spinner from "../../Spinner/Spinner";
 
 function Otp() {
+  const token = localStorage.getItem("token");
   const spinner = useSelector((state) => state);
   const dispatch = useDispatch();
   const { startSpinner, stopSpinner } = bindActionCreators(
@@ -107,6 +108,19 @@ function Otp() {
       clearInterval(interval);
     };
   }, [seconds]);
+  useLayoutEffect(() => {
+    axios
+      .get("/validateLogin", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        if (response.data.token) {
+          navigate("/");
+        }
+      });
+  }, []);
   return (
     <div>
       {spinner.spinner.spinner && <Spinner />}

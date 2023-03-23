@@ -47,6 +47,19 @@ module.exports = {
       return res.status(400).json(errors);
     }
   },
+  validate: (req, res) => {
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
+    if (decoded) {
+      res.json({
+        token: true,
+      });
+    } else {
+      res.json({
+        token: false,
+      });
+    }
+  },
   addEmployee: (req, res) => {
     const { errors, isValid } = validateEmployee(req.body);
     if (!isValid) {
@@ -340,7 +353,6 @@ module.exports = {
     }
   },
   deleteAdoption: (req, res) => {
-    console.log(req.params.id);
     Donation.deleteOne({ _id: req.params.id })
       .then(() => {
         res.json({

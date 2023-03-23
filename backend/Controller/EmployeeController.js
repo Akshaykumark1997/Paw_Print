@@ -58,7 +58,6 @@ module.exports = {
     Appointment.find({ employee: decoded.id })
       .sort({ _id: -1 })
       .then((appointments) => {
-        console.log(appointments);
         if (!appointments) {
           res.status(400).json({
             success: false,

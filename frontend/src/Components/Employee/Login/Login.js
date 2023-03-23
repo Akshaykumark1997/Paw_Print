@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import axois from "../../../Axios/Axios";
+import React, { useState, useLayoutEffect } from "react";
+import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const token = localStorage.getItem("employeeToken");
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
@@ -16,10 +17,9 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formValues);
-    axois
+    axios
       .post("/employee/login", formValues)
       .then((response) => {
-        console.log(response);
         localStorage.setItem("employeeToken", response.data.token);
         navigate("/employee/appointments");
       })
@@ -27,6 +27,19 @@ function Login() {
         setErrors(error.response.data);
       });
   };
+  useLayoutEffect(() => {
+    axios
+      .get("/validateLogin", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        if (response.data.token) {
+          navigate("/employee/appointments");
+        }
+      });
+  }, []);
   return (
     <section className="vh-100">
       <div className="container py-5 h-100">

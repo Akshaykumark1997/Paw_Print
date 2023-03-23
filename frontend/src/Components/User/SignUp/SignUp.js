@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import axios from "../../../Axios/Axios";
 import "./SignUp.css";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { actionCreaters } from "../../../State/Index";
 import Spinner from "../../Spinner/Spinner";
 
 function SignUp() {
+  const token = localStorage.getItem("token");
   const spinner = useSelector((state) => state);
   const dispatch = useDispatch();
   const { startSpinner, stopSpinner } = bindActionCreators(
@@ -102,6 +103,19 @@ function SignUp() {
 
     return errors;
   };
+  useLayoutEffect(() => {
+    axios
+      .get("/validateLogin", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        if (response.data.token) {
+          navigate("/");
+        }
+      });
+  }, []);
   return (
     <div>
       {spinner.spinner.spinner && <Spinner />}

@@ -1,7 +1,10 @@
 import axios from "../../../Axios/Axios";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
@@ -21,12 +24,25 @@ export default function Login() {
       })
       .then((response) => {
         localStorage.setItem("token", response.data.token);
-        window.location = "/";
+        navigate("/");
       })
       .catch((error) => {
         setErrors(error.response.data);
       });
   };
+  useLayoutEffect(() => {
+    axios
+      .get("/validateLogin", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        if (response.data.token) {
+          navigate("/");
+        }
+      });
+  }, []);
   return (
     <div>
       <section>

@@ -59,7 +59,6 @@ module.exports = {
                     mailDetails,
                     (errs, responses) => {
                       if (errs) {
-                        console.log('errorr');
                         res.status(400).json({
                           status: 'Failed',
                           message: errs.message,
@@ -125,7 +124,6 @@ module.exports = {
         .then((otpData) => {
           sendOtp.mailTransporter.sendMail(mailDetails, (errs, responses) => {
             if (errs) {
-              console.log('errorr');
               res.status(400).json({
                 status: 'Failed',
                 message: errs.message,
@@ -243,6 +241,19 @@ module.exports = {
       });
     });
   },
+  validate: (req, res) => {
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
+    if (decoded) {
+      res.json({
+        token: true,
+      });
+    } else {
+      res.json({
+        token: false,
+      });
+    }
+  },
   appointment: (req, res) => {
     const { errors, isValid } = validateAppointment(req.body);
     if (!isValid) {
@@ -269,7 +280,6 @@ module.exports = {
         };
         instance.orders.create(options, (err, order) => {
           if (err) {
-            console.log(err);
             res.status(400).json({
               success: false,
               err,
@@ -472,7 +482,6 @@ module.exports = {
   },
   editUser: (req, res) => {
     User.findOne({ _id: req.body._id }).then((user) => {
-      console.log(user);
       if (user.email === req.body.email) {
         User.updateOne(
           { _id: req.body._id },
@@ -521,7 +530,6 @@ module.exports = {
                     mailDetails,
                     (errs, responses) => {
                       if (errs) {
-                        console.log('errorr');
                         res.status(400).json({
                           status: 'Failed',
                           message: errs.message,
@@ -542,7 +550,6 @@ module.exports = {
                             if (er)
                               console.error('There is some error in token', er);
                             else {
-                              console.log('success');
                               res.status(200).json({
                                 status: 'Pending',
                                 success: true,
@@ -587,10 +594,8 @@ module.exports = {
       });
   },
   cancelAppointment: (req, res) => {
-    console.log(req.body);
     Appointment.findOne({ _id: req.body.id })
       .then((appointment) => {
-        console.log(appointment.paymentId);
         instance.payments
           .refund(appointment.paymentId, {
             amount: '100',

@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.post('/register', userController.signUp);
 router.post('/login', userController.login);
+router.get('/validateLogin', userController.validate);
 router.post('/verifyOtp', userController.verifyOtp);
 // router.get('/deleteOtp/:id', userController.deleteOtp);
 router.post('/resendOtp', userController.resendOtp);

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const token = localStorage.getItem("adminToken");
   const navigate = useNavigate();
   const initialValues = {
     email: "",
@@ -26,6 +27,22 @@ function Login() {
         setErrors(error.response.data);
       });
   };
+  useLayoutEffect(() => {
+    axios
+      .get("/admin/check", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        if (response.data.token) {
+          navigate("/admin/employees");
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }, []);
   return (
     <div>
       <section className="bg-light">

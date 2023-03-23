@@ -11,6 +11,7 @@ const upload = multer({ storage });
 const router = express.Router();
 
 router.post('/', adminController.login);
+router.get('/check', adminController.validate);
 router.post(
   '/addEmployee',
   validate.verify,

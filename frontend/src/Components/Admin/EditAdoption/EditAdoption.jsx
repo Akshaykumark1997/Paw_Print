@@ -4,8 +4,19 @@ import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 import validate from "./Validation";
 import { message } from "antd";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreaters } from "../../../State/Index";
+import Spinner from "../../Spinner/Spinner";
 
 function EditAdoption() {
+  const spinner = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { startSpinner, stopSpinner } = bindActionCreators(
+    actionCreaters,
+    dispatch
+  );
   const location = useLocation();
   const navigate = useNavigate();
   const token = localStorage.getItem("adminToken");
@@ -42,6 +53,7 @@ function EditAdoption() {
     if (Object.keys(errors).length != 0) {
       setError(errors);
     } else {
+      startSpinner(true);
       axios
         .post("/admin/editAdoption", data, {
           headers: {
@@ -49,10 +61,12 @@ function EditAdoption() {
           },
         })
         .then((response) => {
+          stopSpinner(false);
           message.success(response.data.message);
           navigate("/admin/adoption");
         })
         .catch((error) => {
+          stopSpinner(false);
           if (!error.response.data.token) {
             navigate("/admin");
           }
@@ -77,6 +91,7 @@ function EditAdoption() {
   }, []);
   return (
     <div>
+      {spinner.spinner.spinner && <Spinner />}
       <section className="gradient-custom">
         <div className="container py-5 h-100">
           <div className="row justify-content-center align-items-center h-100">

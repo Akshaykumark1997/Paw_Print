@@ -2,8 +2,19 @@ import React, { useState } from "react";
 import validate from "./Validation";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreaters } from "../../../State/Index";
+import Spinner from "../../Spinner/Spinner";
 
 function AddGrooming() {
+  const spinner = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { startSpinner, stopSpinner } = bindActionCreators(
+    actionCreaters,
+    dispatch
+  );
   const initialValues = {
     name: "",
     standard: "",
@@ -39,7 +50,7 @@ function AddGrooming() {
       setError(errors);
       console.log(error);
     } else {
-      console.log("function called");
+      startSpinner(true);
       axios
         .post("/admin/addService", data, {
           headers: {
@@ -48,9 +59,11 @@ function AddGrooming() {
           },
         })
         .then(() => {
+          stopSpinner(false);
           navigate("/admin/grooming");
         })
         .catch((error) => {
+          stopSpinner(false);
           if (!error.response.data.token) {
             navigate("/admin");
           }
@@ -59,6 +72,7 @@ function AddGrooming() {
   };
   return (
     <div>
+      {spinner.spinner.spinner && <Spinner />}
       <section>
         <div className="container mt-5">
           <div className="row d-flex justify-content-center align-items-center">

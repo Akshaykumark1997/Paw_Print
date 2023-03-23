@@ -4,8 +4,19 @@ import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 import validate from "./Validation";
 import { message } from "antd";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreaters } from "../../../State/Index";
+import Spinner from "../../Spinner/Spinner";
 
 function EditGrooming() {
+  const spinner = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { startSpinner, stopSpinner } = bindActionCreators(
+    actionCreaters,
+    dispatch
+  );
   const location = useLocation();
   const navigate = useNavigate();
   const token = localStorage.getItem("adminToken");
@@ -41,6 +52,7 @@ function EditGrooming() {
     if (Object.keys(errors).length != 0) {
       setError(errors);
     } else {
+      startSpinner(true);
       axios
         .post("/admin/editService", data, {
           headers: {
@@ -49,10 +61,12 @@ function EditGrooming() {
           },
         })
         .then((response) => {
+          stopSpinner(false);
           message.success(response.data.message);
           navigate("/admin/grooming");
         })
         .catch((error) => {
+          stopSpinner(false);
           if (!error.response.data.token) {
             navigate("/admin");
           }
@@ -76,6 +90,7 @@ function EditGrooming() {
   }, []);
   return (
     <div>
+      {spinner.spinner.spinner && <Spinner />}
       <section>
         <div className="container mt-5">
           <div className="row d-flex justify-content-center align-items-center">

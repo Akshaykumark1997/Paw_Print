@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./AddEmployee.css";
 import axios from "../../../Axios/Axios";
 import validate from "./Validation";
@@ -17,12 +17,6 @@ function AddEmployee() {
     actionCreaters,
     dispatch
   );
-
-  useEffect(() => {
-    console.log(spinner);
-    // startSpinner(true);
-    // stopSpinner(false);
-  }, []);
 
   const token = localStorage.getItem("adminToken");
   const navigate = useNavigate();

@@ -4,8 +4,19 @@ import Validate from "./Validation";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../../Axios/Axios";
 import { message } from "antd";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreaters } from "../../../State/Index";
+import Spinner from "../../Spinner/Spinner";
 
 function AdoptionFrom() {
+  const spinner = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { startSpinner, stopSpinner } = bindActionCreators(
+    actionCreaters,
+    dispatch
+  );
   const location = useLocation();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -38,6 +49,7 @@ function AdoptionFrom() {
     if (Object.keys(errors).length != 0) {
       setError(errors);
     } else {
+      startSpinner(true);
       axios
         .post("/adoption", formValues, {
           headers: {
@@ -45,10 +57,12 @@ function AdoptionFrom() {
           },
         })
         .then(() => {
+          stopSpinner(false);
           navigate("/pets");
           message.success("Adoption form submitted successfully");
         })
         .catch((error) => {
+          stopSpinner(false);
           if (error.response.blocked) {
             navigate("/login");
             message.error("You have been Blocked");
@@ -62,6 +76,7 @@ function AdoptionFrom() {
   };
   return (
     <div>
+      {spinner.spinner.spinner && <Spinner />}
       <section className="gradient-custom">
         <div className="container py-5 h-100">
           <div className="row justify-content-center align-items-center h-100">

@@ -4,8 +4,19 @@ import validate from "./Validation";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreaters } from "../../../State/Index";
+import Spinner from "../../Spinner/Spinner";
 
 function Donate() {
+  const spinner = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { startSpinner, stopSpinner } = bindActionCreators(
+    actionCreaters,
+    dispatch
+  );
   const [formValues, setFormValues] = useState({
     petName: "",
     age: "",
@@ -40,6 +51,7 @@ function Donate() {
     if (Object.keys(errors).length != 0) {
       setError(errors);
     } else {
+      startSpinner(true);
       axios
         .post("/donate", data, {
           headers: {
@@ -47,9 +59,11 @@ function Donate() {
           },
         })
         .then(() => {
+          stopSpinner(false);
           navigate("/profile");
         })
         .catch((error) => {
+          stopSpinner(false);
           if (error.response.blocked) {
             navigate("/login");
             message.error("You have been Blocked");
@@ -63,6 +77,7 @@ function Donate() {
   };
   return (
     <div>
+      {spinner.spinner.spinner && <Spinner />}
       <section className="gradient-custom">
         <div className="container py-5 h-100">
           <div className="row justify-content-center align-items-center h-100">

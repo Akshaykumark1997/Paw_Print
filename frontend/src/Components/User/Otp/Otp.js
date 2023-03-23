@@ -3,8 +3,19 @@ import { useLocation } from "react-router-dom";
 import axios from "../../../Axios/Axios";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreaters } from "../../../State/Index";
+import Spinner from "../../Spinner/Spinner";
 
 function Otp() {
+  const spinner = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { startSpinner, stopSpinner } = bindActionCreators(
+    actionCreaters,
+    dispatch
+  );
   const location = useLocation();
   const [otp, setOtp] = useState("");
   const [minutes, setMinutes] = useState(1);
@@ -14,6 +25,7 @@ function Otp() {
   const otpSubmit = (e) => {
     const token = localStorage.getItem("otpToken");
     e.preventDefault();
+    startSpinner(true);
     axios
       .post(
         "/verifyOtp",
@@ -29,6 +41,7 @@ function Otp() {
         }
       )
       .then((response) => {
+        stopSpinner(false);
         if (response.data.success) {
           message.success("registered successfully");
           navigate("/login");
@@ -37,6 +50,7 @@ function Otp() {
         }
       })
       .catch((error) => {
+        stopSpinner(false);
         if (error.response.blocked) {
           navigate("/login");
           message.error("You have been Blocked");
@@ -50,16 +64,19 @@ function Otp() {
   const resendOTP = () => {
     setMinutes(1);
     setSeconds(30);
+    startSpinner(true);
     axios
       .post("/resendOtp", {
         userId: location.state.userId,
         email: location.state.email,
       })
       .then((response) => {
+        stopSpinner(false);
         console.log(response);
         localStorage.setItem("otpToken", response.data.data.token);
       })
       .catch((error) => {
+        stopSpinner(false);
         if (error.response.blocked) {
           navigate("/login");
           message.error("You have been Blocked");
@@ -92,6 +109,7 @@ function Otp() {
   }, [seconds]);
   return (
     <div>
+      {spinner.spinner.spinner && <Spinner />}
       <section className="wrapper mt-5">
         <div className="container">
           <div className="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3 text-center rounded bg-white shadow p-5">

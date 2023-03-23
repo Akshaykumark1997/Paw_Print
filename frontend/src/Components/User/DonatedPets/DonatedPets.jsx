@@ -4,12 +4,24 @@ import axios from "../../../Axios/Axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreaters } from "../../../State/Index";
+import Spinner from "../../Spinner/Spinner";
 
 function DonatedPets() {
+  const spinner = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { startSpinner, stopSpinner } = bindActionCreators(
+    actionCreaters,
+    dispatch
+  );
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [donations, setDonations] = useState([]);
   useEffect(() => {
+    startSpinner(true);
     axios
       .get(`/donatedPets`, {
         headers: {
@@ -17,9 +29,11 @@ function DonatedPets() {
         },
       })
       .then((response) => {
+        stopSpinner(false);
         setDonations(response.data.donatedPets);
       })
       .catch((error) => {
+        stopSpinner(false);
         if (error.response.blocked) {
           navigate("/login");
           message.error("You have been Blocked");
@@ -32,6 +46,7 @@ function DonatedPets() {
   }, []);
   return (
     <div className="container mt-5 mb-5" id="donatedPets">
+      {spinner.spinner.spinner && <Spinner />}
       <div className="row d-flex justify-content-center">
         {donations.map((obj) => {
           return (

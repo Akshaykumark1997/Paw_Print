@@ -2,8 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "../../../Axios/Axios";
 import "./SignUp.css";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreaters } from "../../../State/Index";
+import Spinner from "../../Spinner/Spinner";
 
 function SignUp() {
+  const spinner = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { startSpinner, stopSpinner } = bindActionCreators(
+    actionCreaters,
+    dispatch
+  );
   const initialValues = {
     userName: "",
     email: "",
@@ -27,6 +38,7 @@ function SignUp() {
 
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
+      startSpinner(true);
       axios
         .post("/register", {
           userName: formValues.userName,
@@ -36,6 +48,7 @@ function SignUp() {
           confirmPassword: formValues.confirmPassword,
         })
         .then(function (response) {
+          stopSpinner(false);
           if (response.data.success) {
             console.log("registerd");
             localStorage.setItem("otpToken", response.data.data.token);
@@ -49,6 +62,7 @@ function SignUp() {
           }
         })
         .catch(function (error) {
+          stopSpinner(false);
           setFormErrors(error.response.data);
         });
     }
@@ -90,6 +104,7 @@ function SignUp() {
   };
   return (
     <div>
+      {spinner.spinner.spinner && <Spinner />}
       <div>
         <section>
           <div className="container py-5 h-100">

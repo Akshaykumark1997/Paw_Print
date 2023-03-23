@@ -1,10 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AddEmployee.css";
 import axios from "../../../Axios/Axios";
 import validate from "./Validation";
 import { useNavigate } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreaters } from "../../../State/Index";
+import Spinner from "../../Spinner/Spinner";
+
 function AddEmployee() {
+  const spinner = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { startSpinner, stopSpinner } = bindActionCreators(
+    actionCreaters,
+    dispatch
+  );
+
+  useEffect(() => {
+    console.log(spinner);
+    // startSpinner(true);
+    // stopSpinner(false);
+  }, []);
+
   const token = localStorage.getItem("adminToken");
   const navigate = useNavigate();
   const initialValues = {
@@ -46,6 +65,7 @@ function AddEmployee() {
     if (Object.keys(errors).length != 0) {
       setErrors(errors);
     } else {
+      startSpinner(true);
       axios
         .post("/admin/addEmployee", data, {
           headers: {
@@ -54,6 +74,7 @@ function AddEmployee() {
           },
         })
         .then(() => {
+          stopSpinner(false);
           navigate("/admin/employees");
         })
         .catch((error) => {
@@ -65,6 +86,7 @@ function AddEmployee() {
   };
   return (
     <div>
+      {spinner.spinner.spinner && <Spinner />}
       <section className="gradient-custom">
         <div className="container py-5 h-100">
           <div className="row justify-content-center align-items-center h-100">

@@ -4,7 +4,7 @@ import "./Adoption.css";
 function Adoption() {
   return (
     <div
-      className="hero"
+      className="hero mt-3"
       style={{ backgroundImage: "url(../../../../../../Images/slide01.jpg)" }}
     >
       <div className="hero-left">

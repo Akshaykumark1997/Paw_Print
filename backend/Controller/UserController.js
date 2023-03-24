@@ -243,11 +243,17 @@ module.exports = {
   },
   validate: (req, res) => {
     const token = req.headers.authorization;
-    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
-    if (decoded) {
-      res.json({
-        token: true,
-      });
+    if (token) {
+      const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
+      if (decoded) {
+        res.json({
+          token: true,
+        });
+      } else {
+        res.json({
+          token: false,
+        });
+      }
     } else {
       res.json({
         token: false,

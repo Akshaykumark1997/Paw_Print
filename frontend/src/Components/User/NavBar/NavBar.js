@@ -1,16 +1,38 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../../../Axios/Axios";
+import { message } from "antd";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 function NavBar() {
-  const user = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location = "/login";
   };
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    axios
+      .get("/userDetails", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        setUser(response.data.user);
+      })
+      .catch((error) => {
+        if (error.response.blocked) {
+          navigate("/login");
+          message.error("You have been Blocked");
+        }
+      });
+  }, []);
   return (
     <div className="container">
       <Navbar expand="lg">
@@ -25,7 +47,7 @@ function NavBar() {
               <Nav.Link href="#action2" className="mx-4">
                 ABOUT
               </Nav.Link>
-              {user && (
+              {token && (
                 <NavDropdown
                   title="SERVICE"
                   id="navbarScrollingDropdown"
@@ -44,9 +66,9 @@ function NavBar() {
                 CONTACT
               </Nav.Link>
             </Nav>
-            {user ? (
+            {token ? (
               <NavDropdown
-                title="NAME"
+                title={user ? user.userName : ""}
                 id="navbarScrollingDropdown"
                 className="me-5"
               >

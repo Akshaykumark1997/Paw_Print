@@ -35,9 +35,9 @@ function NavBarAdmin() {
 
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
-            <NavLink to="/login">
+            {/* <NavLink to="/login">
               <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
-            </NavLink>
+            </NavLink> */}
             <NavLink to="/admin/grooming">
               <CDBSidebarMenuItem icon="table">Grooming</CDBSidebarMenuItem>
             </NavLink>

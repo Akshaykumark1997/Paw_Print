@@ -50,8 +50,8 @@ function App() {
           <Route path="/login" element={<SignIn />} />
           <Route path="/signup" element={<Registration />} />
           <Route path="/otp" element={<OtpVarification />} />
+          <Route path="/" element={<UserHome />} />
           <Route element={<UserAuthorization />}>
-            <Route path="/" element={<UserHome />} />
             <Route path="/grooming" element={<GroomingService />} />
             <Route path="/clinics" element={<ViewClinics />} />
             <Route path="/appointment" element={<AppointmentBooking />} />

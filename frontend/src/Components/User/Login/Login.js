@@ -1,6 +1,7 @@
+/* eslint-disable react/no-unescaped-entities */
 import axios from "../../../Axios/Axios";
 import React, { useLayoutEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const token = localStorage.getItem("token");
@@ -102,13 +103,15 @@ export default function Login() {
                     )}
                     <hr className="my-4" />
 
-                    {/* <button
-                    className="btn btn-lg btn-block"
-                    style={{ backgroundColor: "#354b60", color: "#fff" }}
-                    type="submit"
-                  >
-                    Sign in with google
-                  </button> */}
+                    <p className="btn btn-lg btn-block" type="submit">
+                      Don't have an Account?{" "}
+                      <Link
+                        to="/signup"
+                        className="text-decoration-none text-danger"
+                      >
+                        Sign up
+                      </Link>
+                    </p>
                   </div>
                 </div>
               </form>

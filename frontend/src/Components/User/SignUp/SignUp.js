@@ -1,7 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import axios from "../../../Axios/Axios";
 import "./SignUp.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -212,13 +213,15 @@ function SignUp() {
 
                       <hr className="my-4" />
 
-                      {/* <button
-                        className="btn btn-lg btn-block"
-                        style={{ backgroundColor: "#354b60", color: "#fff" }}
-                        type="submit"
-                      >
-                        Sign up with google
-                      </button> */}
+                      <p className="btn btn-lg btn-block" type="submit">
+                        Already have an Account?{" "}
+                        <Link
+                          to="/login"
+                          className="text-decoration-none text-danger"
+                        >
+                          Login
+                        </Link>
+                      </p>
                     </form>
                   </div>
                 </div>

@@ -15,9 +15,9 @@ app.use(bodyParser.json());
 dbconnect.dbconnect();
 // app.use(fileUpload());
 
-app.use('/', users);
-app.use('/admin', Admin);
-app.use('/employee', Employee);
+app.use('/api', users);
+app.use('/api/admin', Admin);
+app.use('/api/employee', Employee);
 
 app.listen(process.env.PORTNO, () => {
   console.log('server started listening to port');

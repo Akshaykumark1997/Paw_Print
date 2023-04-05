@@ -1,5 +1,6 @@
 import React from "react";
 import "./Appointment.css";
+import { Link } from "react-router-dom";
 
 function Appointment() {
   return (
@@ -20,14 +21,15 @@ function Appointment() {
             products for your pet, you ll find it all here.
           </p>
 
-          <button className="btn btn-primary" id="button">
-            Contact Us
-          </button>
+          <Link to="/about">
+            <button className="btn btn-primary" id="button">
+              Contact Us
+            </button>
+          </Link>
         </div>
       </div>
     </div>
   );
 }
-// src="../../../../Images/mission.png"
 
 export default Appointment;

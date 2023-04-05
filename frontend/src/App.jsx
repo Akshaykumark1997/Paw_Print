@@ -38,6 +38,7 @@ import JoinConsultation from "./Components/User/AppointmentDetails/JoinConsultat
 import ViewUsers from "./Pages/Admin/Users/ViewUsers";
 import EditDonatedPetDetails from "./Pages/User/EditDonatedPets/EditDonatedPetDetails";
 import ViewStatus from "./Pages/User/ApplicationStatus/ViewStatus";
+import AboutUs from "./Pages/User/AboutUs/AboutUs";
 
 function App() {
   // const user = localStorage.getItem("token");
@@ -47,6 +48,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Routes>
+          <Route path="/about" element={<AboutUs />} />
           <Route path="/login" element={<SignIn />} />
           <Route path="/signup" element={<Registration />} />
           <Route path="/otp" element={<OtpVarification />} />

@@ -44,7 +44,7 @@ function NavBar() {
               <Nav.Link href="/" className="mx-4">
                 HOME
               </Nav.Link>
-              <Nav.Link href="#action2" className="mx-4">
+              <Nav.Link href="/about" className="mx-4">
                 ABOUT
               </Nav.Link>
               {token && (
@@ -62,7 +62,7 @@ function NavBar() {
                   <NavDropdown.Item href="/clinics">Clinic</NavDropdown.Item>
                 </NavDropdown>
               )}
-              <Nav.Link href="#" className="mx-4">
+              <Nav.Link href="/about" className="mx-4">
                 CONTACT
               </Nav.Link>
             </Nav>

@@ -6,7 +6,7 @@ function ServicesCards() {
     <div className="mt-5">
       <div className="card-container">
         <div className="card-1">
-          <img src="../../../../Images/icon1.png" alt="Image1" />
+          <img src="../../../../Images/icon2.png" alt="Image1" />
           <div className="card-text">
             <h3>Grooming</h3>
             <p>

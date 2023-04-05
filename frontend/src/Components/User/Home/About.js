@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from "react";
 import "./About.css";
+import { Link } from "react-router-dom";
 
 function About() {
   return (
@@ -20,9 +21,11 @@ function About() {
             information on a specific breed, tips on training, or the best
             products for your pet, you'll find it all here.
           </p>
-          <button className="btn btn-primary" id="button">
-            About
-          </button>
+          <Link to="/about">
+            <button className="btn btn-primary" id="button">
+              About
+            </button>
+          </Link>
         </div>
       </div>
     </div>

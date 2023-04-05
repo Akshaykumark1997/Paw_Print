@@ -1,5 +1,6 @@
 import React from "react";
 import "./About.css";
+import { Link } from "react-router-dom";
 
 function About() {
   return (
@@ -59,15 +60,17 @@ function About() {
               advice and guidance from our veterinary professionals from the
               comfort of your own home.
             </p>
-            <button
-              className="btn mt-4"
-              style={{
-                backgroundColor: "#354b60",
-                color: "#fff",
-              }}
-            >
-              Read More
-            </button>
+            <Link to="/about">
+              <button
+                className="btn mt-4"
+                style={{
+                  backgroundColor: "#354b60",
+                  color: "#fff",
+                }}
+              >
+                Read More
+              </button>
+            </Link>
           </div>
         </div>
       </div>

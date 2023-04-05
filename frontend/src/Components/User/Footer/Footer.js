@@ -1,12 +1,14 @@
 /* eslint-disable prettier/prettier */
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Footer() {
+  const token = localStorage.getItem("token");
   return (
     <div>
       <footer
         className="text-center text-lg-start text-muted mt-4"
-        style={{ backgroundColor: "black"}}
+        style={{ backgroundColor: "black" }}
       >
         <div className="container p-4 pb-0">
           <section className="">
@@ -28,52 +30,35 @@ function Footer() {
                   Our Services
                 </h6>
                 <p>
-                  <a className="text-muted" style={{ textDecoration: "none"}}>
-                    Clinic
-                  </a>
+                  <Link
+                    className="text-decoration-none"
+                    to={token ? "/clinics" : "/login"}
+                  >
+                    <a className="text-muted text-decoration-none">Clinic</a>
+                  </Link>
                 </p>
                 <p>
-                  <a className="text-muted" style={{ textDecoration: "none"}}>
-                    Pet Grooming
-                  </a>
+                  <Link
+                    className="text-decoration-none"
+                    to={token ? "/grooming" : "/login"}
+                  >
+                    <a className="text-muted text-decoration-none">
+                      Pet Grooming
+                    </a>
+                  </Link>
                 </p>
                 <p>
-                  <a className="text-muted" style={{ textDecoration: "none"}}>
-                    Pet Adoption
-                  </a>
-                </p>
-                <p>
-                  <a className="text-muted" style={{ textDecoration: "none"}}>
-                    Pet Insurance
-                  </a>
-                </p>
-                <p>
-                  <a className="text-muted" style={{ textDecoration: "none"}}>
-                    Pet Lost and Found
-                  </a>
+                  <Link
+                    className="text-decoration-none"
+                    to={token ? "/pets" : "/login"}
+                  >
+                    <a className="text-muted text-decoration-none ">
+                      Pet Adoption
+                    </a>
+                  </Link>
                 </p>
               </div>
-
               <hr className="w-100 clearfix d-md-none" />
-
-              <hr className="w-100 clearfix d-md-none" />
-
-              <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h6 className="text-uppercase mb-4 font-weight-bold">
-                  My Account
-                </h6>
-                <p>
-                  <a className="text-muted" style={{ textDecoration: "none"}}>
-                    Login
-                  </a>
-                </p>
-                <p>
-                  <a className="text-muted" style={{ textDecoration: "none"}}>
-                    Log Out
-                  </a>
-                </p>
-              </div>
-
               <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
                 <h6 className="text-uppercase mb-4 font-weight-bold">
                   Follow us
@@ -89,7 +74,7 @@ function Footer() {
 
                 <a
                   className="btn btn-primary btn-floating m-1"
-                  style={{ backgroundColor: "#55acee"}}
+                  style={{ backgroundColor: "#55acee" }}
                   href="#!"
                   role="button"
                 >
@@ -98,7 +83,7 @@ function Footer() {
 
                 <a
                   className="btn btn-primary btn-floating m-1"
-                  style={{backgroundColor: "#ac2bac"}}
+                  style={{ backgroundColor: "#ac2bac" }}
                   href="#!"
                   role="button"
                 >
@@ -114,7 +99,7 @@ function Footer() {
           style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
         >
           © 2025 Copyright: <br />
-          <a className="text-muted" style={{ textDecoration: "none"}} href="">
+          <a className="text-muted" style={{ textDecoration: "none" }} href="">
             All Rights Reserved Terms and conditions Privacy Policy Shipping &
             Payment Info Report abuse
           </a>

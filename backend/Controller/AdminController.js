@@ -106,7 +106,7 @@ module.exports = {
     });
   },
   assignEmployee: (req, res) => {
-    Appointment.updateOne(
+    Appointment.findOneAndUpdate(
       { _id: req.params.id },
       {
         $set: {
@@ -114,10 +114,28 @@ module.exports = {
         },
       }
     )
-      .then(() => {
-        res.json({
-          sucess: true,
-          message: 'employee Assigned successfully',
+      .then((appointment) => {
+        Employee.updateOne(
+          { _id: req.params.eid },
+          {
+            $push: {
+              appointments: {
+                date: appointment.date,
+                time: appointment.time,
+              },
+            },
+          }
+        ).then(() => {
+          res.json({
+            sucess: true,
+            message: 'employee Assigned successfully',
+          });
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
         });
       })
       .catch((error) => {

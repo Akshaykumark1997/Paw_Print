@@ -39,6 +39,7 @@ const EmployeeSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  appointments: [{}],
 });
 
 const employee = mongoose.model('employee', EmployeeSchema);

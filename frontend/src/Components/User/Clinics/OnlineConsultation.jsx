@@ -117,7 +117,7 @@ function OnlineConsultation() {
           time: "",
           service: "",
         });
-        navigate("/appointment");
+        navigate("/clinics");
       })
       .catch(() => {
         message.error("Payment failed");
@@ -130,7 +130,7 @@ function OnlineConsultation() {
           time: "",
           service: "",
         });
-        navigate("/appointment");
+        navigate("/clinics");
       });
   };
   return (

@@ -5,6 +5,11 @@ const multer = require('multer');
 const adminController = require('../Controller/AdminController');
 const { storage } = require('../Middleware/Cloudinary.js');
 const validate = require('../Middleware/AdminVerification');
+const AppointmentController = require('../Controller/AppointmentController');
+const ServiceConstroller = require('../Controller/ServiceConstroller');
+const AdoptionController = require('../Controller/AdoptionController');
+const EmployeeController = require('../Controller/EmployeeController');
+const UserController = require('../Controller/UserController');
 
 const upload = multer({ storage });
 
@@ -16,53 +21,57 @@ router.post(
   '/addEmployee',
   validate.verify,
   upload.single('image'),
-  adminController.addEmployee
+  EmployeeController.addEmployee
 );
-router.get('/employees', validate.verify, adminController.employees);
+router.get('/employees', validate.verify, EmployeeController.employees);
 router.get(
   '/employeeAssign/:id/:eid',
   validate.verify,
-  adminController.assignEmployee
+  AppointmentController.assignEmployee
 );
 router.post(
   '/addService',
   validate.verify,
   upload.single('image'),
-  adminController.addService
+  ServiceConstroller.addService
 );
-router.get('/services', validate.verify, adminController.services);
-router.get('/editService/:id', validate.verify, adminController.editService);
+router.get('/services', validate.verify, ServiceConstroller.getServices);
+router.get('/editService/:id', validate.verify, ServiceConstroller.editService);
 router.post(
   '/editService',
   validate.verify,
   upload.single('image'),
-  adminController.editServicePost
+  ServiceConstroller.editServicePost
 );
 router.get(
   '/deleteService/:id',
   validate.verify,
-  adminController.deleteService
+  ServiceConstroller.deleteService
 );
-router.get('/appointments', validate.verify, adminController.getAppointments);
-router.get('/getAdoption', validate.verify, adminController.getAdoption);
+router.get(
+  '/appointments',
+  validate.verify,
+  AppointmentController.getAppointments
+);
+router.get('/getAdoption', validate.verify, AdoptionController.getAdoption);
 router.get(
   '/editAdoption/:id',
   validate.verify,
-  adminController.getEditAdoption
+  AdoptionController.getEditAdoption
 );
 router.post(
   '/editAdoption',
   validate.verify,
   upload.single('image'),
-  adminController.editAdoption
+  AdoptionController.editAdoption
 );
 router.get(
   '/deleteAdoption/:id',
   validate.verify,
-  adminController.deleteAdoption
+  AdoptionController.deleteAdoption
 );
-router.get('/users', validate.verify, adminController.users);
-router.get('/block/:id', validate.verify, adminController.block);
-router.get('/unBlock/:id', validate.verify, adminController.unBlock);
+router.get('/users', validate.verify, UserController.users);
+router.get('/block/:id', validate.verify, UserController.block);
+router.get('/unBlock/:id', validate.verify, UserController.unBlock);
 
 module.exports = router;

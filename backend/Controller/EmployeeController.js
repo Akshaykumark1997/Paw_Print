@@ -6,7 +6,7 @@ const validateLoginInput = require('../Validation/Login');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
-const Appointment = require('../Model/AppointmentSchema');
+const validateEmployee = require('../Validation/Employee');
 
 dotenv.config();
 
@@ -52,47 +52,6 @@ module.exports = {
       });
     });
   },
-  getAppointments: (req, res) => {
-    const token = req.headers.authorization;
-    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
-    Appointment.find({ employee: decoded.id })
-      .sort({ _id: -1 })
-      .then((appointments) => {
-        if (!appointments) {
-          res.status(400).json({
-            success: false,
-            message: 'No appointments available',
-          });
-        } else {
-          res.json({
-            success: true,
-            appointments,
-          });
-        }
-      });
-  },
-  changeStatus: (req, res) => {
-    Appointment.updateOne(
-      { _id: req.params.id },
-      {
-        $set: {
-          employeeStatus: req.params.value,
-        },
-      }
-    )
-      .then(() => {
-        res.json({
-          success: true,
-          message: 'updated successfully',
-        });
-      })
-      .catch((error) => {
-        res.status(400).json({
-          success: false,
-          error,
-        });
-      });
-  },
   getEmployee: (req, res) => {
     const token = req.headers.authorization;
     const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET);
@@ -109,5 +68,44 @@ module.exports = {
           error,
         });
       });
+  },
+  addEmployee: (req, res) => {
+    const { errors, isValid } = validateEmployee(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    bcrypt.hash(req.body.password, 10, (error, hash) => {
+      Employee.create({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        position: req.body.position,
+        genter: req.body.genter,
+        email: req.body.email,
+        password: hash,
+        image: {
+          name: req.file.filename,
+          path: req.file.path,
+        },
+      })
+        .then(() => {
+          res.json({
+            success: true,
+            message: 'Employee added successfully',
+          });
+        })
+        .catch(() => {
+          res.status(400).json({
+            error,
+          });
+        });
+    });
+  },
+  employees: (req, res) => {
+    Employee.find({}).then((employees) => {
+      res.json({
+        success: true,
+        employees,
+      });
+    });
   },
 };

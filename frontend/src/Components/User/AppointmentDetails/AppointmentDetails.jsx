@@ -214,7 +214,8 @@ export default function AppointmentDetails() {
                     </Button>
                   </Modal.Footer>
                 </Modal>
-                {obj.service === "Online Consultation" ? (
+                {obj.service === "Online Consultation" &&
+                obj.employeeStatus !== "Refund" ? (
                   <Button
                     className="mx-2"
                     style={{ backgroundColor: "#354b60", color: "#fff" }}

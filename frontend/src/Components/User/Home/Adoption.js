@@ -1,7 +1,9 @@
 import React from "react";
 import "./Adoption.css";
+import { Link } from "react-router-dom";
 
 function Adoption() {
+  const token = localStorage.getItem("token");
   return (
     <div
       className="hero mt-3"
@@ -16,9 +18,11 @@ function Adoption() {
           website also provides resources and support for pet owners, including
           information on pet care, nutrition, and training.
         </p>
-        <button className="btn btn-primary" id="button">
-          VIEW
-        </button>
+        <Link to={token ? "/pets" : "/login"}>
+          <button className="btn btn-primary" id="button">
+            VIEW
+          </button>
+        </Link>
       </div>
     </div>
   );

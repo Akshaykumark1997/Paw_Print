@@ -46,6 +46,7 @@ router.get(
   verify.verify,
   AppointmentController.appoitmentDetails
 );
+router.get('/timeSlot', verify.verify, AppointmentController.getTimeSlot);
 router.patch(
   '/cancelAppointment',
   verify.verify,

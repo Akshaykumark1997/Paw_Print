@@ -244,4 +244,61 @@ module.exports = {
         });
       });
   },
+  getTimeSlot: (req, res) => {
+    Employee.aggregate([
+      {
+        $match: {
+          position: 'Clinic Staff',
+        },
+      },
+      {
+        $facet: {
+          empCount: [{ $count: 'count' }],
+          dates: [
+            { $unwind: '$appointments' },
+            {
+              $group: {
+                _id: {
+                  date: '$appointments.date',
+                  time: '$appointments.time',
+                },
+                count: { $sum: 1 },
+              },
+            },
+          ],
+        },
+      },
+      {
+        $unwind: '$empCount',
+      },
+      {
+        $addFields: {
+          dates: {
+            $filter: {
+              input: '$dates',
+              as: 'date',
+              cond: { $eq: ['$$date.count', '$empCount.count'] },
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          dates: 1,
+        },
+      },
+    ])
+      .then((employee) => {
+        res.json({
+          success: true,
+          employee,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          success: false,
+          error,
+        });
+      });
+  },
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./OnlineConsultation.css";
 import validate from "./Validation";
 import axios from "../../../Axios/Axios";
@@ -133,6 +133,54 @@ function OnlineConsultation() {
         navigate("/clinics");
       });
   };
+  const initialTimes = [
+    "9:00 AM - 11:00 AM",
+    "10:00 AM - 12:00 PM",
+    "11:00 AM - 1:00 PM",
+    "2:00 PM - 4:00 PM",
+    "3:00 PM - 5:00 PM",
+  ];
+  const [employee, setEmployee] = useState([]);
+  const [availableAppointmentTimes, setAvailableAppointmentTimes] =
+    useState(initialTimes);
+  const onChangeHandleDate = (event) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value });
+    employee.some((item) => {
+      item.dates.some((date) => {
+        if (date._id.date === event.target.value) {
+          setAvailableAppointmentTimes(
+            availableAppointmentTimes.filter((item) => {
+              return item !== date._id.time;
+            })
+          );
+        } else {
+          setAvailableAppointmentTimes(initialTimes);
+        }
+      });
+    });
+  };
+  useEffect(() => {
+    axios
+      .get("/timeSlot", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        setEmployee(response.data.employee);
+      })
+      .catch((error) => {
+        if (error.response.blocked) {
+          navigate("/login");
+          message.error("You have been Blocked");
+        } else if (!error.response.data.token) {
+          navigate("/login");
+        } else if (!error.response.data.success) {
+          message.error("!Ooops something went wrong");
+        }
+      });
+  }, []);
   return (
     <div className="container mt-5 mb-5">
       <div className="row">
@@ -257,7 +305,7 @@ function OnlineConsultation() {
                       name="date"
                       min={minDate}
                       value={formValues.date}
-                      onChange={onChangeHandle}
+                      onChange={onChangeHandleDate}
                     />
                     <p className="error">{error.date}</p>
                   </div>
@@ -269,11 +317,9 @@ function OnlineConsultation() {
                       name="time"
                       onChange={onChangeHandle}
                     >
-                      <option>9:00 AM - 11:00 AM</option>
-                      <option>10:00 AM - 12:00 PM</option>
-                      <option>11:00 AM - 1:00 PM</option>
-                      <option>2:00 PM - 4:00 PM</option>
-                      <option>3:00 PM - 5:00 PM</option>
+                      {availableAppointmentTimes.map((time) => (
+                        <option key={time}>{time}</option>
+                      ))}
                     </select>
                     <p className="error">{error.time}</p>
                   </div>

@@ -323,11 +323,6 @@ function AppointmentForm() {
                           name="time"
                           onChange={onChangeHandle}
                         >
-                          {/* <option>9:00 AM - 11:00 AM</option>
-                          <option>10:00 AM - 12:00 PM</option>
-                          <option>11:00 AM - 1:00 PM</option>
-                          <option>2:00 PM - 4:00 PM</option>
-                          <option>3:00 PM - 5:00 PM</option> */}
                           {availableAppointmentTimes.map((time) => (
                             <option key={time}>{time}</option>
                           ))}

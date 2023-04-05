@@ -24,7 +24,7 @@ function Profile() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("/editUser", formValues, {
+      .put("/editUser", formValues, {
         headers: {
           Authorization: token,
         },

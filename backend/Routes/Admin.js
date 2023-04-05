@@ -37,13 +37,13 @@ router.post(
 );
 router.get('/services', validate.verify, ServiceConstroller.getServices);
 router.get('/editService/:id', validate.verify, ServiceConstroller.editService);
-router.post(
+router.put(
   '/editService',
   validate.verify,
   upload.single('image'),
   ServiceConstroller.editServicePost
 );
-router.get(
+router.delete(
   '/deleteService/:id',
   validate.verify,
   ServiceConstroller.deleteService
@@ -59,19 +59,19 @@ router.get(
   validate.verify,
   AdoptionController.getEditAdoption
 );
-router.post(
+router.put(
   '/editAdoption',
   validate.verify,
   upload.single('image'),
   AdoptionController.editAdoption
 );
-router.get(
+router.delete(
   '/deleteAdoption/:id',
   validate.verify,
   AdoptionController.deleteAdoption
 );
 router.get('/users', validate.verify, UserController.users);
-router.get('/block/:id', validate.verify, UserController.block);
-router.get('/unBlock/:id', validate.verify, UserController.unBlock);
+router.patch('/block/:id', validate.verify, UserController.block);
+router.patch('/unBlock/:id', validate.verify, UserController.unBlock);
 
 module.exports = router;

@@ -55,7 +55,7 @@ function EditAdoption() {
     } else {
       startSpinner(true);
       axios
-        .post("/admin/editAdoption", data, {
+        .put("/admin/editAdoption", data, {
           headers: {
             Authorization: token,
           },

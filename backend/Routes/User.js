@@ -40,13 +40,13 @@ router.get(
 );
 router.post('/adoption', verify.verify, AdoptionController.adoption);
 router.get('/userDetails', verify.verify, userController.userDetails);
-router.post('/editUser', verify.verify, userController.editUser);
+router.put('/editUser', verify.verify, userController.editUser);
 router.get(
   '/appointmentDetails',
   verify.verify,
   AppointmentController.appoitmentDetails
 );
-router.post(
+router.patch(
   '/cancelAppointment',
   verify.verify,
   AppointmentController.cancelAppointment
@@ -58,7 +58,7 @@ router.get(
   verify.verify,
   AdoptionController.editDonatedPetDetails
 );
-router.post(
+router.put(
   '/editDonatedPet',
   verify.verify,
   upload.single('image'),
@@ -69,7 +69,7 @@ router.get(
   verify.verify,
   ApplicationController.applicationStatus
 );
-router.get(
+router.patch(
   '/changeAdoptionStatus/:id',
   verify.verify,
   ApplicationController.changeAdoptionStatus

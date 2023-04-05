@@ -19,7 +19,7 @@ function Users() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .get(`/admin/block/${id}`, {
+          .patch(`/admin/block/${id}`, {
             headers: {
               Authorization: token,
             },
@@ -45,7 +45,7 @@ function Users() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .get(`/admin/unBlock/${id}`, {
+          .patch(`/admin/unBlock/${id}`, {
             headers: {
               Authorization: token,
             },

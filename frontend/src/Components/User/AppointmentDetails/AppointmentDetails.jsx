@@ -41,7 +41,7 @@ export default function AppointmentDetails() {
       setError(errors);
     } else {
       axios
-        .post(
+        .patch(
           "/cancelAppointment",
           { id: id },
           {

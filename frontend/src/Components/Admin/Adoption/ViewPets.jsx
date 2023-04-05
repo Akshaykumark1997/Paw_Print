@@ -21,7 +21,7 @@ function ViewPets() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .get(`/admin/deleteAdoption/${id}`, {
+          .delete(`/admin/deleteAdoption/${id}`, {
             headers: {
               Authorization: token,
             },

@@ -22,7 +22,7 @@ function ViewGrooming() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .get(`/admin/deleteService/${id}`, {
+          .delete(`/admin/deleteService/${id}`, {
             headers: {
               Authorization: token,
             },

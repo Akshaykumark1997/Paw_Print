@@ -27,7 +27,7 @@ function Applications() {
   };
   const handleProceed = (id) => {
     axios
-      .get(`/changeAdoptionStatus/${id}`, {
+      .patch(`/changeAdoptionStatus/${id}`, {
         headers: {
           Authorization: token,
         },

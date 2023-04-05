@@ -55,7 +55,7 @@ function EditDonatedPets() {
     } else {
       startSpinner(true);
       axios
-        .post("/editDonatedPet", data, {
+        .put("/editDonatedPet", data, {
           headers: {
             Authorization: token,
           },

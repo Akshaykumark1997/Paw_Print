@@ -54,7 +54,7 @@ function EditGrooming() {
     } else {
       startSpinner(true);
       axios
-        .post("/admin/editService", data, {
+        .put("/admin/editService", data, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: token,

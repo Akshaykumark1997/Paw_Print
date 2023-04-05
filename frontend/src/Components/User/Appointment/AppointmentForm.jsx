@@ -18,6 +18,7 @@ function AppointmentForm() {
   const navigate = useNavigate();
   const [error, setErrors] = useState({});
   const [allService, setAllService] = useState([]);
+  const [employee, setEmployee] = useState([]);
   const initialValues = {
     name: "",
     petName: "",
@@ -138,6 +139,32 @@ function AppointmentForm() {
         navigate("/appointment");
       });
   };
+  const initialTimes = [
+    "9:00 AM - 11:00 AM",
+    "10:00 AM - 12:00 PM",
+    "11:00 AM - 1:00 PM",
+    "2:00 PM - 4:00 PM",
+    "3:00 PM - 5:00 PM",
+  ];
+  const [availableAppointmentTimes, setAvailableAppointmentTimes] =
+    useState(initialTimes);
+  const onChangeHandleDate = (event) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value });
+    employee.some((item) => {
+      item.dates.some((date) => {
+        if (date._id.date === event.target.value) {
+          setAvailableAppointmentTimes(
+            availableAppointmentTimes.filter((item) => {
+              return item !== date._id.time;
+            })
+          );
+        } else {
+          setAvailableAppointmentTimes(initialTimes);
+        }
+      });
+    });
+  };
   useEffect(() => {
     console.log(location.state.id);
     axios
@@ -149,6 +176,7 @@ function AppointmentForm() {
       .then((response) => {
         setService(response.data.service);
         setImage(response.data.service.image.path);
+        setEmployee(response.data.employee);
       })
       .catch((error) => {
         if (error.response.blocked) {
@@ -170,6 +198,7 @@ function AppointmentForm() {
           },
         })
         .then((response) => {
+          console.log(employee);
           setAllService(response.data.services);
         })
         .catch((error) => {
@@ -241,11 +270,12 @@ function AppointmentForm() {
                         name="service"
                         onChange={onChangeHandle}
                       >
+                        <option>Select Service</option>
                         {allService.map((obj) => {
                           return <option key={obj._id}>{obj.name}</option>;
                         })}
                       </select>
-                      <p className="error">{error.name}</p>
+                      <p className="error">{error.service}</p>
                     </div>
                     <div className="form-group mb-3">
                       <label htmlFor="email">Email</label>
@@ -281,7 +311,7 @@ function AppointmentForm() {
                           name="date"
                           min={minDate}
                           value={formValues.date}
-                          onChange={onChangeHandle}
+                          onChange={onChangeHandleDate}
                         />
                         <p className="error">{error.date}</p>
                       </div>
@@ -293,11 +323,14 @@ function AppointmentForm() {
                           name="time"
                           onChange={onChangeHandle}
                         >
-                          <option>9:00 AM - 11:00 AM</option>
+                          {/* <option>9:00 AM - 11:00 AM</option>
                           <option>10:00 AM - 12:00 PM</option>
                           <option>11:00 AM - 1:00 PM</option>
                           <option>2:00 PM - 4:00 PM</option>
-                          <option>3:00 PM - 5:00 PM</option>
+                          <option>3:00 PM - 5:00 PM</option> */}
+                          {availableAppointmentTimes.map((time) => (
+                            <option key={time}>{time}</option>
+                          ))}
                         </select>
                         <p className="error">{error.time}</p>
                       </div>

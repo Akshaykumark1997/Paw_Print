@@ -69,62 +69,6 @@ function ViewAppointments() {
               <th className="text-center">Employee</th>
             </tr>
           </thead>
-          {/* <tbody>
-            {appointment.map((obj, index) => {
-              return (
-                <tr key={obj._id}>
-                  <td className="text-center">{index + 1}</td>
-                  <td className="text-center">{obj.name}</td>
-                  <td className="text-center">{obj.petName}</td>
-                  <td className="text-center">{obj.mobile}</td>
-                  <td className="text-center">{obj.date}</td>
-                  <td className="text-center">{obj.time}</td>
-                  <td className="text-center">{obj.service}</td>
-                  <td className="text-center">{obj.employeeStatus}</td>
-                  <td className="text-center">
-                    <select
-                      id="select"
-                      disabled={
-                        obj.employeeStatus === "Confirm" ||
-                        obj.employeeStatus === "Cancelled"
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => handleEmployee(e, obj._id)}
-                    >
-                      {obj.service === "Online Consultation"
-                        ? employee
-                            .filter((ele) => ele.position === "Doctor")
-                            .map((ele2) => (
-                              <option
-                                selected={
-                                  obj.employee == ele2._id ? true : false
-                                }
-                                value={ele2._id}
-                                key={ele2._id}
-                              >
-                                {ele2.firstName + ele2.lastName}
-                              </option>
-                            ))
-                        : employee
-                            .filter((ele) => ele.position !== "Doctor")
-                            .map((ele2) => (
-                              <option
-                                selected={
-                                  obj.employee == ele2._id ? true : false
-                                }
-                                value={ele2._id}
-                                key={ele2._id}
-                              >
-                                {ele2.firstName + ele2.lastName}
-                              </option>
-                            ))}
-                    </select>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody> */}
           <tbody>
             {appointment.map((obj, index) => {
               const isSameDateTime = (otherObj) =>

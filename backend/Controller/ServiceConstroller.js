@@ -1,4 +1,6 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
+const Employee = require('../Model/EmployeeSchema');
 const Service = require('../Model/ServiceSchema');
 const validateService = require('../Validation/Service');
 
@@ -21,10 +23,63 @@ module.exports = {
   serviceDetails: (req, res) => {
     Service.findOne({ _id: req.params.id })
       .then((service) => {
-        res.json({
-          success: true,
-          service,
-        });
+        Employee.aggregate([
+          {
+            $match: {
+              position: 'Clinic Staff',
+            },
+          },
+          {
+            $facet: {
+              empCount: [{ $count: 'count' }],
+              dates: [
+                { $unwind: '$appointments' },
+                {
+                  $group: {
+                    _id: {
+                      date: '$appointments.date',
+                      time: '$appointments.time',
+                    },
+                    count: { $sum: 1 },
+                  },
+                },
+              ],
+            },
+          },
+          {
+            $unwind: '$empCount',
+          },
+          {
+            $addFields: {
+              dates: {
+                $filter: {
+                  input: '$dates',
+                  as: 'date',
+                  cond: { $eq: ['$$date.count', '$empCount.count'] },
+                },
+              },
+            },
+          },
+          {
+            $project: {
+              dates: 1,
+            },
+          },
+        ])
+          .then((employee) => {
+            res.json({
+              success: true,
+              service,
+              employee,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+            res.status(400).json({
+              success: false,
+              error,
+            });
+          });
       })
       .catch((error) => {
         res.status(400).json({

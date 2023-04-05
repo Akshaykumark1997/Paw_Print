@@ -218,7 +218,7 @@ function OnlineConsultation() {
                     name="service"
                     onChange={onChangeHandle}
                   >
-                    <option></option>
+                    <option>Select Service</option>
                     <option>Online Consultation</option>
                   </select>
                   <p className="error">{error.service}</p>

@@ -191,7 +191,7 @@ module.exports = {
       });
   },
   getAppointments: (req, res) => {
-    Appointment.find({})
+    Appointment.find({ paymentStatus: 'Paid' })
       .sort({ _id: -1 })
       .then((appointments) => {
         Employee.find({}).then((employees) => {

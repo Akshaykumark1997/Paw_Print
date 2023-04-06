@@ -229,15 +229,15 @@ function AppointmentForm() {
       </div>
       <section className="appointment-section mt-5">
         <div className="container">
-          <div className="row align-items-center">
+          <div className="row align-items-center ms-2">
             <div className="col-md-6">
               <img src={image} alt="Left Image" className="img-fluid" />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-6 mt-4">
               <div className="row">
-                <h2 className="text-center mb-4">Make Appointment</h2>
+                <h2 className="text-center ">Make Appointment</h2>
                 <div className="col-lg-8 offset-lg-2">
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit} className="mx-auto">
                     <div className="form-group mb-3">
                       <label htmlFor="name">Name</label>
                       <input
@@ -301,8 +301,8 @@ function AppointmentForm() {
                       />
                     </div>
                     <p className="error">{error.mobile}</p>
-                    <div className="row mb-3">
-                      <div className="col-sm-6">
+                    <div className="row  mb-3 mx-auto">
+                      <div className="col-sm-6 form-group">
                         <label htmlFor="date">Date</label>
                         <input
                           type="date"
@@ -315,7 +315,7 @@ function AppointmentForm() {
                         />
                         <p className="error">{error.date}</p>
                       </div>
-                      <div className="col-sm-6">
+                      <div className="col-sm-6 form-group ">
                         <label htmlFor="time">Time</label>
                         <select
                           className="form-control"
@@ -346,7 +346,7 @@ function AppointmentForm() {
       </section>
       <div className="col-lg-10 offset-lg-1  my-5">
         <h1>About</h1>
-        <p className="lead text-center">{service.description}</p>
+        <p className="lead text-center container">{service.description}</p>
       </div>
     </div>
   );

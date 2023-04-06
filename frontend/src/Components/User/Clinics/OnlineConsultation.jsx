@@ -295,7 +295,7 @@ function OnlineConsultation() {
                   />
                 </div>
                 <p className="error">{error.mobile}</p>
-                <div className="row mb-3">
+                <div className="row mb-3 mx-auto">
                   <div className="col-sm-6">
                     <label htmlFor="date">Date</label>
                     <input

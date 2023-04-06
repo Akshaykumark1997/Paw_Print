@@ -40,7 +40,7 @@ export default function PetDetails() {
         className="container-fluid py-3"
         style={{ backgroundColor: "#354b60" }}
       >
-        <div className="container">
+        <div className="container ms-3">
           <div className="row">
             <div className="col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
               <h1 className="text-white">Pet Details</h1>
@@ -49,12 +49,12 @@ export default function PetDetails() {
         </div>
       </div>
       <section className="mt-5 mx-3">
-        <div className="container">
+        <div className="container ms-3">
           <div className="row align-items-center">
             <div className="col-md-6">
               <img src={image} alt="Left Image" className="img-fluid" />
             </div>
-            <div className="col-md-6 align-self-center">
+            <div className="col-md-6 align-self-center text-center">
               <div className="row">
                 <h2 className="text-center mb-4 mt-3">{petDetails.petName}</h2>
                 <div
@@ -84,7 +84,7 @@ export default function PetDetails() {
                   </p>
                 </div>
 
-                <div className="d-flex justify-content-start mx-3 mt-3">
+                <div className="d-flex  justify-content-start mx-3 mt-3">
                   <Link
                     to="/adoption"
                     state={{ id: petDetails._id, userId: petDetails.userId }}
@@ -101,7 +101,7 @@ export default function PetDetails() {
       </section>
       <div className="col-lg-10 offset-lg-1  my-5">
         <h1>About</h1>
-        <p className="lead text-center">{petDetails.description}</p>
+        <p className="lead text-center container">{petDetails.description}</p>
       </div>
     </div>
   );
